@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  
+  --primary: var(--primary-color);
+  --secondary: #FF9119;
+  --bg-main: var(--bg-color);
+  --card-main: var(--card-bg);
+  --text-primary: var(--text-main);
+  --text-secondary: var(--text-dim);
+  
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-4xl: 2.5rem;
+}
+
+:root {
+  --primary-color: #004AAD;
+  --bg-color: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --text-main: #1E293B;
+  --text-dim: #64748B;
+  --header-color: #090E1A;
+  --border-color: #f1f5f9;
+
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  overflow-x: hidden;
+  user-select: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dark {
+  --primary-color: #3D8BFF;
+  --bg-color: #050505;
+  --card-bg: #121212;
+  --text-main: #FFFFFF;
+  --text-dim: #94A3B8;
+  --header-color: #0a1128;
+  --border-color: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Base utility classes */
+.btn-primary {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary);
+  color: white;
+  font-weight: 600;
+  border-radius: var(--radius-2xl);
+  transition: all 0.3s;
+  box-shadow: var(--btn-shadow);
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+.card {
+  background-color: white;
+  border-radius: var(--radius-xl);
+  padding: 1rem;
+  box-shadow: var(--shadow-card);
+  border: 1px solid #f1f5f9;
+  transition: all 0.3s;
+}
+
+.glass {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
