@@ -20,13 +20,14 @@ import BookingList from '../pages/rental/BookingList';
 import Payments from '../pages/profile/Payments';
 import Wishlist from '../pages/ecommerce/Wishlist';
 import SupportCenter from '../pages/support/SupportCenter';
+import Repairs from '../pages/service/Repairs';
 import MobileHeader from '../components/common/MobileHeader';
 import BottomNav from '../components/common/BottomNav';
 
 const AppRoutes = () => {
   const location = useLocation();
   const authPaths = ['/login', '/otp', '/setup-profile', '/register'];
-  const fullScreenPaths = ['/', '/ecommerce', '/history', '/bookings', '/payments', '/wishlist', '/support'];
+  const fullScreenPaths = ['/', '/ecommerce', '/history', '/bookings', '/payments', '/wishlist', '/support', '/rentals'];
   const isAuth = authPaths.includes(location.pathname);
   const isFullScreen = fullScreenPaths.includes(location.pathname);
 
@@ -58,10 +59,11 @@ const AppRoutes = () => {
             <Route path="/profile/edit" element={<EditProfile />} />
             <Route path="/rentals" element={<RentalBooking />} />
             <Route path="/rentals/list" element={<BikeList />} />
+            <Route path="/repairs" element={<Repairs />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </main>
-        {!isAuth && <BottomNav />}
+        {!isAuth && !isFullScreen && <BottomNav />}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Settings, ShoppingBag, Bike, Wrench, 
   ArrowRight, Clock, ShieldCheck, Bell, Wallet,
-  Menu, Moon, Sun
+  Menu, Moon, Sun, Star, ChevronRight
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import VideoCarousel from '../components/home/VideoCarousel';
@@ -13,6 +13,7 @@ import Logo from '../components/common/Logo';
 import { twMerge } from 'tailwind-merge';
 import Sidebar from '../components/common/Sidebar';
 import { useTheme } from '../context/ThemeContext';
+import bulletImg from '../assets/bullet.jpg';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const Home = () => {
     { label: 'Service', icon: Wrench, active: false, path: '/services' },
     { label: 'Store', icon: ShoppingBag, active: false, path: '/ecommerce' },
     { label: 'Rentals', icon: Bike, active: false, path: '/rentals' },
-    { label: 'Repairs', icon: ShieldCheck, active: false, path: '/services' },
+    { label: 'Repairs', icon: ShieldCheck, active: false, path: '/repairs' },
   ];
 
   const offers = [
@@ -65,28 +66,25 @@ const Home = () => {
 
   const recommendations = [
     {
-      title: "TVS Racing Stealth-1",
-      price: "₹4,999",
+      title: "Royal Enfield Classic 350",
+      price: "₹1,499",
+      image: bulletImg,
+      tag: "Cruiser",
+      rating: "4.9"
+    },
+    {
+      title: "Yamaha R15 V4 Racing",
+      price: "₹999",
       image: "https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?q=80&w=800",
-      tag: "Helmets"
+      tag: "Sport",
+      rating: "4.8"
     },
     {
-      title: "Castrol Power-1 Ultimate",
-      price: "₹899",
+      title: "TVS Apache RTR 200",
+      price: "₹799",
       image: "https://images.unsplash.com/photo-1616432043562-3671ea2e5242?q=80&w=800",
-      tag: "Maintenance"
-    },
-    {
-      title: "HJG Dual Tone LED",
-      price: "₹1,599",
-      image: "https://images.unsplash.com/photo-1616422285623-13ff0167c95c?q=80&w=800",
-      tag: "Lighting"
-    },
-    {
-      title: "Rynox Stealth Evo 3",
-      price: "₹8,999",
-      image: "https://images.unsplash.com/photo-1558980335-8e0c25ad75de?q=80&w=800",
-      tag: "Riding Gear"
+      tag: "Naked",
+      rating: "4.7"
     }
   ];
 
@@ -105,10 +103,10 @@ const Home = () => {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: (!loading && onboardFinished) ? 1 : 0 }}
-        className="flex flex-col pb-24 bg-[var(--bg-color)] min-h-screen"
+        className="flex flex-col pb-24 bg-gradient-to-br from-[var(--bg-color)] via-blue-50/20 dark:via-blue-900/5 to-[var(--bg-color)] min-h-screen"
       >
         {/* Premium Unified Header Block with Teal Gradient */}
-        <div className="bg-gradient-to-br from-[#004AAD] via-[#004AAD] to-[#14b8a6] pt-4 pb-5 px-5 rounded-b-[2.5rem] shadow-2xl relative z-20 border-b border-white/10 mx-0">
+        <div className="bg-gradient-to-br from-[#0A0E17] via-[#1e1b4b] to-[#14b8a6] pt-4 pb-5 px-5 rounded-b-[2.5rem] shadow-2xl relative z-20 border-b border-white/10 mx-0">
           {/* Main Top Nav */}
           <div className="flex items-center justify-between mb-5">
             <button 
@@ -147,68 +145,83 @@ const Home = () => {
         </div>
         
         {/* Video Carousel */}
-        <div className="w-full mt-4">
+        <div className="w-full mt-2 px-0 relative z-10">
            <VideoCarousel />
         </div>
 
         {/* Hot Deals Section */}
         <div className="mt-6">
-          <div className="px-5 mb-4">
-            <h2 className="text-sm font-black text-[var(--text-main)] uppercase tracking-[0.2em] leading-none">Hot Deals</h2>
+          <div className="pl-0 pr-5 mb-4">
+            <h2 className="text-sm font-black text-[var(--text-main)] uppercase tracking-[0.2em] leading-none pl-4">Hot Deals</h2>
           </div>
           
-          <div className="flex gap-4 overflow-x-auto px-5 pb-4 no-scrollbar">
-            {[{
-              title: "Flat 20% Off", 
-              code: "SERVICE20", 
-              img: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=800",
-              color: "from-blue-600 to-indigo-600"
-            }, {
-              title: "Get ₹500 Off", 
-              code: "CLIQ500", 
-              img: "https://images.unsplash.com/photo-1440115637344-80fb36cd667a?q=80&w=800",
-              color: "from-orange-600 to-red-600"
-            }].map((deal, idx) => (
-              <div key={idx} className="relative w-64 h-36 rounded-3xl overflow-hidden shrink-0 shadow-xl border border-white/20 group">
-                <img src={deal.img} alt={deal.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className={`absolute inset-0 bg-gradient-to-t ${deal.color}/80 mix-blend-multiply opacity-60`} />
-                <div className="absolute inset-0 p-5 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/20 to-transparent">
-                  <div className="px-2.5 py-1 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 w-max mb-2">
-                    <span className="text-[7.5px] font-black text-white/90 uppercase tracking-widest">{deal.code}</span>
-                  </div>
-                  <div className="flex items-end justify-between gap-2">
-                    <div>
-                      <h4 className="text-base font-black text-white uppercase tracking-tight leading-none">{deal.title}</h4>
-                      <p className="text-[8px] font-bold text-white/60 uppercase tracking-widest mt-1">On your first booking</p>
+          <div className="relative w-full overflow-hidden pb-4">
+            <motion.div 
+              animate={{ x: [0, -600] }}
+              transition={{ 
+                duration: 25, 
+                repeat: Infinity, 
+                ease: "linear",
+                repeatType: "loop"
+              }}
+              className="flex gap-4 pl-0"
+            >
+              {[1, 2, 3].map((loop) => (
+                <React.Fragment key={loop}>
+                  {[{
+                    title: "Flat 20% Off", 
+                    code: "SERVICE20", 
+                    img: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=800",
+                    color: "from-blue-600 to-indigo-600"
+                  }, {
+                    title: "Get ₹500 Off", 
+                    code: "CLIQ500", 
+                    img: "https://images.unsplash.com/photo-1440115637344-80fb36cd667a?q=80&w=800",
+                    color: "from-orange-600 to-red-600"
+                  }].map((deal, idx) => (
+                    <div key={`${loop}-${idx}`} className="relative w-64 h-36 rounded-3xl overflow-hidden shrink-0 shadow-xl border border-white/20 group hover:shadow-blue-500/20 hover:border-blue-500/40 transition-all">
+                      <img src={deal.img} alt={deal.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                      <div className={`absolute inset-0 bg-gradient-to-t ${deal.color}/80 mix-blend-multiply opacity-60`} />
+                      <div className="absolute inset-0 p-5 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+                        <div className="px-2.5 py-1 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 w-max mb-2">
+                          <span className="text-[7.5px] font-black text-white/90 uppercase tracking-widest">{deal.code}</span>
+                        </div>
+                        <div className="flex items-end justify-between gap-2">
+                          <div>
+                            <h4 className="text-base font-black text-white uppercase tracking-tight leading-none">{deal.title}</h4>
+                            <p className="text-[8px] font-bold text-white/60 uppercase tracking-widest mt-1">On your first booking</p>
+                          </div>
+                          <button 
+                            onClick={() => navigate('/services')}
+                            className="h-7 px-4 bg-white text-[var(--primary-color)] rounded-xl text-[8px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all mb-0.5 border border-white/20"
+                          >
+                            Claim
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <button 
-                      onClick={() => navigate('/services')}
-                      className="h-7 px-4 bg-white text-[var(--primary-color)] rounded-xl text-[8px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all mb-0.5 border border-white/20"
-                    >
-                      Claim
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+                  ))}
+                </React.Fragment>
+              ))}
+            </motion.div>
           </div>
         </div>
 
         {/* Ultra-Compact Quick Actions Grid */}
-        <div className="px-5 grid grid-cols-2 gap-4 mt-8">
+        <div className="pl-4 pr-6 grid grid-cols-2 gap-4 mt-2">
             <button 
               onClick={() => navigate('/services')}
-              className="h-20 bg-[var(--card-bg)] rounded-[1.75rem] p-3 flex flex-col justify-center items-center group active:scale-95 transition-all shadow-xl border border-white/5 relative overflow-hidden"
+              className="h-20 bg-[var(--card-bg)] hover:bg-blue-50/50 dark:hover:bg-blue-500/10 rounded-[1.75rem] p-3 flex flex-col justify-center items-center group active:scale-95 transition-all shadow-xl border border-white/5 hover:border-blue-500/20 relative overflow-hidden"
             >
-               <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--primary-color)]/5 rounded-full blur-2xl -mr-8 -mt-8" />
+               <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-full blur-2xl -mr-8 -mt-8" />
                <Wrench size={18} className="text-[var(--primary-color)] mb-2 group-hover:scale-110 transition-transform" />
                <span className="text-[var(--text-main)] font-black text-[9px] uppercase tracking-wider text-center px-1">Book Maintenance</span>
             </button>
             <button 
               onClick={() => navigate('/profile')}
-              className="h-20 bg-[var(--card-bg)] rounded-[1.75rem] p-3 flex flex-col justify-center items-center group active:scale-95 transition-all shadow-xl border border-white/5 relative overflow-hidden"
+              className="h-20 bg-[var(--card-bg)] hover:bg-blue-50/50 dark:hover:bg-blue-500/10 rounded-[1.75rem] p-3 flex flex-col justify-center items-center group active:scale-95 transition-all shadow-xl border border-white/5 hover:border-blue-500/20 relative overflow-hidden"
             >
-               <div className="absolute top-0 right-0 w-16 h-16 bg-zinc-500/5 rounded-full blur-2xl -mr-8 -mt-8" />
+               <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-full blur-2xl -mr-8 -mt-8" />
                <Clock size={18} className="text-[var(--text-dim)] group-hover:text-[var(--primary-color)] mb-2 group-hover:scale-110 transition-transform" />
                <span className="text-[var(--text-main)] font-black text-[9px] uppercase tracking-wider text-center px-1">Live Tracking</span>
             </button>
@@ -230,23 +243,45 @@ const Home = () => {
             {recommendations.slice(0, 3).map((item, i) => (
               <motion.div 
                 key={i} 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="group relative w-full h-44 rounded-sm overflow-hidden bg-[var(--card-bg)] border border-white/5 shadow-xl"
+                className="group relative w-full overflow-hidden rounded-2xl shadow-xl border border-[#004AAD]/10 flex flex-col active:scale-[0.98] transition-all bg-[#F0F6FF]"
               >
-                <img src={item.image} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" alt={item.title} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
-                   <span className="text-[var(--primary-color)] text-[8px] font-black uppercase tracking-[0.3em] mb-2">{item.tag}</span>
-                   <h3 className="font-black text-xs uppercase tracking-widest leading-none mb-2">{item.title}</h3>
-                   <div className="flex items-center justify-between">
-                      <p className="text-white/60 font-bold text-[9px] uppercase tracking-widest">{item.price}</p>
-                      <button 
-                        onClick={() => navigate('/ecommerce')}
-                        className="h-7 px-4 bg-white text-[var(--primary-color)] rounded-none text-[8px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all"
-                      >
-                        View
-                      </button>
+                {/* Header (Dark Section) */}
+                <div className="bg-[#0A0E17] px-4 py-3 border-b border-[#0A0E17]">
+                   <div className="flex justify-between items-start">
+                      <div>
+                         <h3 className="font-black text-[11px] text-white uppercase tracking-widest leading-tight">{item.title}</h3>
+                         <div className="flex items-center gap-1.5 mt-1">
+                            <Star size={8} fill="#FF9119" className="text-[#FF9119]" />
+                            <span className="text-[8px] font-bold text-white/50 tracking-widest">{item.rating} (152 trips)</span>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+
+                {/* Body (Image + Info Section) - Light Blue */}
+                <div className="relative pt-6 pb-3 px-4 flex flex-col items-center">
+                   {/* Large Image with Blend Mode to remove white bg */}
+                   <div className="w-full h-32 flex items-center justify-center relative z-10 mb-2">
+                       <img 
+                         src={item.image} 
+                         className="w-[120%] h-[120%] max-w-none object-contain mix-blend-multiply drop-shadow-2xl group-hover:scale-110 transition-transform duration-700" 
+                         alt={item.title} 
+                       />
+                   </div>
+
+                   {/* Footer built into the body */}
+                   <div className="w-full flex items-center justify-between border-t border-[#004AAD]/10 pt-3 relative z-20">
+                      <div className="flex flex-col">
+                         <span className="text-[7.5px] font-black text-[#0A0E17]/50 uppercase tracking-widest mb-0.5">{item.tag}</span>
+                         <span className="text-[9px] font-black text-[#004AAD] uppercase tracking-widest">Available Now</span>
+                      </div>
+                      <div className="text-right flex items-baseline gap-1">
+                         <span className="text-lg font-black text-[#0A0E17]">{item.price}</span>
+                         <span className="text-[7.5px] font-bold text-[#0A0E17]/50 capitalize">/day</span>
+                      </div>
                    </div>
                 </div>
               </motion.div>

@@ -14,7 +14,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     { icon: User, label: 'Profile Settings', desc: 'Account & Identity', path: '/profile' },
     { icon: Package, label: 'Accessories Store', desc: 'Gear & parts', path: '/ecommerce' },
     { icon: History, label: 'Service History', desc: 'Past maintenance', path: '/history' },
-    { icon: Bike, label: 'My Rentals', desc: 'Active & past bookings', path: '/bookings' },
+    { icon: Bike, label: 'My Rentals', desc: 'Book your elite steed', path: '/rentals' },
     { icon: CreditCard, label: 'Payments', desc: 'Manage methods', path: '/payments' },
     { icon: Heart, label: 'Wishlist', desc: 'Your saved items', path: '/wishlist' },
     { icon: HelpCircle, label: 'Support center', desc: 'Help & feedback', path: '/support' },
@@ -43,7 +43,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           >
             <div className="flex flex-col h-full bg-[var(--bg-color)] shadow-2xl border-r border-white/5">
               {/* Profile Header */}
-              <div className="bg-gradient-to-br from-[#004AAD] via-[#004AAD] to-[#14b8a6] p-5 rounded-br-[2.5rem] relative overflow-hidden shadow-2xl border-b border-white/10">
+              <div className="bg-gradient-to-br from-[#0A0E17] via-[#1e1b4b] to-[#14b8a6] p-5 rounded-br-[2.5rem] relative overflow-hidden shadow-2xl border-b border-white/10">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl" />
                 
                 <div className="flex items-center gap-3 relative">

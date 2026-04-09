@@ -1,212 +1,179 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, Star, MapPin, Clock, Shield, ChevronRight, Zap, Car, Bike, LifeBuoy } from 'lucide-react';
-import Button from '../../components/common/Button';
-import InputField from '../../components/common/InputField';
+import { 
+  Search, Filter, Star, MapPin, Clock, 
+  Shield, ChevronRight, Zap, Car, Bike, 
+  LifeBuoy, Wrench, ArrowLeft, Settings,
+  CheckCircle2, Info, Droplets, Gauge, 
+  Battery, Wind, Snowflake, Scissors, 
+  History, ShieldAlert, AlertTriangle, PhoneCall
+} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 const ServiceList = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
+  const navigate = useNavigate();
+  const [vehicleType, setVehicleType] = useState('car'); // 'car' or 'bike'
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = [
-    { name: 'Bike', icon: Bike },
-    { name: 'Car', icon: Car },
-    { name: 'General', icon: Wrench },
-    { name: 'Emergency', icon: LifeBuoy },
-    { name: 'Maintenance', icon: Clock },
+  const carServices = [
+    { name: 'General Service', icon: Settings, desc: 'Full checkup' },
+    { name: 'Engine Repair', icon: Wrench, desc: 'Performance' },
+    { name: 'Oil Change', icon: Droplets, desc: 'Synthetic oil' },
+    { name: 'Brake Check', icon: Gauge, desc: 'Pads & fluid' },
+    { name: 'Battery', icon: Battery, desc: 'Health & replace' },
+    { name: 'AC Repair', icon: Snowflake, desc: 'Gas refill' },
+    { name: 'Alignment', icon: LifeBuoy, desc: 'Balancing' },
+    { name: 'Car Detailing', icon: Droplets, desc: 'Wash & wax' },
+    { name: 'Dent & Paint', icon: Scissors, desc: 'Body work' },
+    { name: 'Emergency', icon: ShieldAlert, desc: '24/7 Support' },
   ];
 
-  const mechanics = [
-    {
-      id: 1,
-      name: "Elite Auto Care",
-      type: "Car & Bike Specialist",
-      rating: 4.8,
-      reviews: 120,
-      priceRange: "₹499 - ₹2999",
-      distance: "2.4 km",
-      image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2672&auto=format&fit=crop",
-      services: ["Periodic Service", "Brakes", "Engine Oil", "Tires"],
-      isPremium: true
-    },
-    {
-      id: 2,
-      name: "ProBike Masters",
-      type: "Bike Only",
-      rating: 4.5,
-      reviews: 85,
-      priceRange: "₹299 - ₹1499",
-      distance: "1.8 km",
-      image: "https://images.unsplash.com/photo-1558981403-c5f91cbba527?q=80&w=2670&auto=format&fit=crop",
-      services: ["Chain Lube", "Air Filter", "Clutch Plate", "Tuning"],
-      isPremium: false
-    },
-    {
-      id: 3,
-      name: "Roadside Rescue",
-      type: "Emergency Service",
-      rating: 4.9,
-      reviews: 240,
-      priceRange: "₹999 onwards",
-      distance: "0.5 km",
-      image: "https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2574&auto=format&fit=crop",
-      services: ["Towing", "Battery Jumpstart", "Flat Tire", "Key Locked"],
-      isPremium: true,
-      emergency: true
-    },
-    {
-      id: 4,
-      name: "Royal Motors",
-      type: "Luxury Car Expert",
-      rating: 4.7,
-      reviews: 156,
-      priceRange: "₹1999 - ₹9999",
-      distance: "4.2 km",
-      image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2670&auto=format&fit=crop",
-      services: ["Full Detail", "Ceramic Coating", "Engine Scan", "AC Service"],
-      isPremium: true
-    }
+  const bikeServices = [
+    { name: 'General Service', icon: Settings, desc: 'Routine care' },
+    { name: 'Engine Tune-Up', icon: Zap, desc: 'Performance' },
+    { name: 'Oil Change', icon: Droplets, desc: 'Engine flush' },
+    { name: 'Brake Repair', icon: Gauge, desc: 'Drum & disc' },
+    { name: 'Chain Care', icon: History, desc: 'Lube & clean' },
+    { name: 'Tyre & Puncture', icon: LifeBuoy, desc: 'Nitrogen' },
+    { name: 'Battery', icon: Battery, desc: 'Replacement' },
+    { name: 'Bike Wash', icon: Droplets, desc: 'Foam cleaning' },
+    { name: 'Accident Repair', icon: AlertTriangle, desc: 'Claims help' },
+    { name: 'Emergency', icon: ShieldAlert, desc: 'Roadside' },
   ];
 
-  const filteredMechanics = mechanics.filter(m => {
-    const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         m.type.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = activeCategory === 'All' || m.type.includes(activeCategory);
-    return matchesSearch && matchesCategory;
-  });
+  const currentServices = vehicleType === 'car' ? carServices : bikeServices;
+
+  const handleServiceClick = (serviceName) => {
+    navigate('/services/1', { state: { vehicle: vehicleType, service: serviceName } });
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 md:px-12 py-8">
-      {/* Search and Filters */}
-      <div className="flex flex-col md:flex-row items-center gap-6 mb-12">
-        <div className="relative w-full flex-grow">
-          <div className="absolute left-6 top-1/2 -translate-y-1/2 text-dark-400">
-             <Search size={24} />
-          </div>
+    <div className="min-h-screen bg-[#F8FAFC] pb-40 font-['Outfit']">
+      {/* 🚀 Compact Streamlined Header */}
+      <div className="pt-8 pb-4 px-6 rounded-b-[2rem] shadow-2xl relative overflow-hidden bg-[#0A0E17] border-b border-[#004AAD]/40">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#004AAD]/20 rounded-full -mr-24 -mt-24 blur-[80px]" />
+        
+        <div className="flex items-center justify-between mb-4 relative z-20">
+           <button onClick={() => navigate('/')} className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-white border border-white/10 active:scale-95 transition-all">
+              <ArrowLeft size={14} />
+           </button>
+           <div className="text-center">
+              <span className="text-[#004AAD] text-[7px] font-bold uppercase tracking-[0.4em] block mb-0.5">Elite Solutions</span>
+              <h1 className="text-[9px] font-semibold text-white uppercase tracking-[0.3em]">Service Hub</h1>
+           </div>
+           <div className="w-8 h-8 bg-[#004AAD]/10 rounded-lg flex items-center justify-center text-[#004AAD] border border-[#004AAD]/20">
+              <Settings size={14} />
+           </div>
+        </div>
+
+        {/* Compressed & Professional Selection Area */}
+        <div className="relative z-20 flex justify-center gap-10">
+           {['car', 'bike'].map((type) => (
+             <motion.div 
+               key={type}
+               onClick={() => setVehicleType(type)}
+               whileTap={{ scale: 0.95 }}
+               className={twMerge(
+                  "flex flex-col items-center gap-2 cursor-pointer transition-all duration-500",
+                  vehicleType === type ? "scale-105" : "opacity-30 scale-90"
+               )}
+             >
+                <div className={twMerge(
+                  "w-11 h-11 rounded-full flex items-center justify-center border transition-all duration-500 shadow-xl",
+                  vehicleType === type ? "bg-white border-white" : "bg-white/5 border-white/10"
+                )}>
+                   {type === 'car' ? <Car size={16} className={vehicleType === 'car' ? "text-[#004AAD]" : "text-white"} /> : <Bike size={16} className={vehicleType === 'bike' ? "text-[#004AAD]" : "text-white"} />}
+                </div>
+                <span className={twMerge(
+                  "text-[6.5px] font-bold uppercase tracking-[0.3em]",
+                  vehicleType === type ? "text-white" : "text-white/40"
+                )}>For {type}</span>
+             </motion.div>
+           ))}
+        </div>
+      </div>
+
+      {/* 🔍 Professional Search */}
+      <div className="px-6 -mt-4 relative z-30">
+        <div className="bg-white/95 backdrop-blur-2xl rounded-xl shadow-2xl border border-white flex items-center px-4 h-10">
+          <Search size={14} className="text-slate-400 mr-2" />
           <input 
             type="text" 
-            placeholder="Search mechanics, services, or locations..."
-            className="w-full h-16 pl-16 pr-6 bg-white border-2 border-slate-100 rounded-[2rem] focus:border-primary-500 focus:outline-none focus:ring-0 shadow-sm transition-all text-dark-800 font-medium placeholder:text-dark-300"
+            placeholder={`SEARCH ${vehicleType.toUpperCase()} SERVICES...`}
+            className="flex-1 bg-transparent border-none focus:outline-none text-[8px] font-semibold text-slate-900 placeholder:text-slate-300 uppercase tracking-widest"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          <Filter size={14} className="text-[#004AAD]" />
         </div>
-        <button className="h-16 px-8 bg-white border-2 border-slate-100 rounded-[2rem] flex items-center gap-3 text-dark-800 font-bold hover:border-primary-500 transition-all shadow-sm">
-           <Filter size={20} /> Filters
-        </button>
       </div>
 
-      {/* Categories Scroller */}
-      <div className="flex items-center gap-4 mb-4 overflow-x-auto pb-4 no-scrollbar">
-        {categories.map(cat => (
-          <button
-            key={cat.name}
-            onClick={() => setActiveCategory(cat.name)}
-            className={twMerge(
-              "flex flex-col items-center gap-2 min-w-[70px] transition-all",
-              activeCategory === cat.name ? "scale-110" : "opacity-60"
-            )}
-          >
-             <div className={twMerge(
-               "w-14 h-14 rounded-2xl flex items-center justify-center border transition-all shadow-sm",
-               activeCategory === cat.name ? "bg-lavender-600 border-lavender-600 text-white" : "bg-white border-slate-100 text-dark-500"
-             )}>
-                <cat.icon size={20} dropShadow />
-             </div>
-             <span className="text-[10px] font-bold uppercase tracking-tight">{cat.name}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Main Listing */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
-        <AnimatePresence>
-          {filteredMechanics.map((mechanic, i) => (
-            <motion.div
-              layout
-              key={mechanic.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ delay: i * 0.1 }}
-              className="group flex flex-col md:flex-row bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-500"
-            >
-              {/* Image Section */}
-              <div className="w-full md:w-56 h-64 md:h-auto relative overflow-hidden shrink-0">
-                <img 
-                  src={mechanic.image} 
-                  alt={mechanic.name} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                {mechanic.emergency && (
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-red-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
-                    Emergency
-                  </div>
-                )}
-                {mechanic.isPremium && (
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-primary-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
-                    Premium
-                  </div>
-                )}
-              </div>
-
-              {/* Content Section */}
-              <div className="flex-grow p-8 flex flex-col gap-4">
-                <div className="flex items-start justify-between">
-                   <div>
-                     <h3 className="text-2xl font-black text-dark-900 tracking-tight leading-tight group-hover:text-primary-600 transition-colors uppercase">{mechanic.name}</h3>
-                     <p className="text-dark-400 text-sm font-bold tracking-widest uppercase mt-1">{mechanic.type}</p>
-                   </div>
-                   <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 rounded-xl">
-                      <Star size={16} fill="#f59e0b" className="text-amber-500" />
-                      <span className="text-sm font-black text-amber-700">{mechanic.rating}</span>
-                   </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2 py-2">
-                   {mechanic.services.map((s, idx) => (
-                     <span key={idx} className="px-3 py-1 bg-slate-50 text-dark-500 text-[10px] font-bold uppercase rounded-lg border border-slate-100">
-                        {s}
-                     </span>
-                   ))}
-                </div>
-
-                <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
-                   <div className="flex flex-col">
-                      <p className="text-xs text-dark-400 font-bold uppercase tracking-widest leading-none mb-1">Estimated Cost</p>
-                      <p className="text-xl font-black text-dark-900">{mechanic.priceRange}</p>
-                   </div>
-                   <div className="flex items-center gap-4 text-dark-400 text-sm font-medium">
-                      <div className="flex items-center gap-1.5">
-                        <MapPin size={16} className="text-primary-500" />
-                        <span>{mechanic.distance}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <Clock size={16} className="text-primary-500" />
-                        <span>20 min</span>
-                      </div>
-                   </div>
-                </div>
-
-                <div className="mt-2">
-                   <Button className="w-full h-14 rounded-2xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all">
-                      View details & Book <ChevronRight size={18} />
-                   </Button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-
-      {/* Empty State */}
-      {filteredMechanics.length === 0 && (
-         <div className="py-24 text-center">
-            <h3 className="text-3xl font-black text-dark-900 mb-4">No results found</h3>
-            <p className="text-dark-400 text-lg">Try adjusting your filters or search query.</p>
+      {/* 🏎️ Grid with Balanced Weight */}
+      <div className="mt-6 px-5">
+         <div className="flex items-center justify-between mb-4 px-1">
+            <h2 className="text-[8px] font-bold text-[#0A0E17]/40 uppercase tracking-[0.4em]">Available Support</h2>
+            <div className="h-px bg-[#004AAD]/10 flex-1 ml-4" />
          </div>
-      )}
+
+         <div className="grid grid-cols-2 gap-3">
+            <AnimatePresence mode="wait">
+               {currentServices.map((service, i) => (
+                 <motion.div
+                   key={`${vehicleType}-${service.name}`}
+                   initial={{ opacity: 0, scale: 0.95 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   transition={{ delay: i * 0.02 }}
+                   onClick={() => handleServiceClick(service.name)}
+                   className="bg-white p-3.5 rounded-[1.8rem] border border-white shadow-sm flex flex-col group active:scale-[0.96] transition-all hover:shadow-xl"
+                 >
+                    <div className="flex items-start justify-between mb-2">
+                        <div className="w-8 h-8 rounded-lg bg-[#F0F6FF] flex items-center justify-center text-[#004AAD] group-hover:bg-[#004AAD] group-hover:text-white transition-all duration-300">
+                           <service.icon size={16} />
+                        </div>
+                        <ChevronRight size={10} className="text-slate-200 group-hover:text-[#004AAD]" />
+                    </div>
+                    <h3 className="text-[8px] font-bold text-slate-900 uppercase tracking-[0.15em] leading-tight mb-0.5">{service.name}</h3>
+                    <p className="text-[7px] font-medium text-slate-400 uppercase tracking-tight line-clamp-1">{service.desc}</p>
+                 </motion.div>
+               ))}
+            </AnimatePresence>
+         </div>
+      </div>
+
+      {/* 🚨 Tighter Emergency SOS 🚨 */}
+      <div className="mt-8 px-5">
+         <div 
+           onClick={() => handleServiceClick('Emergency Rescue')}
+           className="bg-[#0A0E17] rounded-[1.8rem] p-4 text-white relative overflow-hidden flex items-center shadow-xl border border-white/5 group cursor-pointer active:scale-95 transition-all"
+         >
+            <div className="absolute top-0 right-0 w-24 h-24 bg-[#004AAD]/20 rounded-full -mr-12 -mt-12 blur-2xl" />
+            
+            <div className="relative z-10 flex-1 flex flex-col">
+               <div className="flex items-center gap-1.5 mb-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-ping" />
+                  <span className="text-[7px] font-bold uppercase tracking-[0.3em] text-white/50">Emergency Rescue</span>
+               </div>
+               <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] leading-none mb-1">Breakdown SOS</h3>
+               <p className="text-[7px] font-medium text-white/40 uppercase tracking-widest mb-3 italic">Arrival in <span className="text-white not-italic font-bold">20-25 Mins</span></p>
+               
+               <div className="flex gap-2">
+                  <button className="h-7 px-4 bg-white text-[#0A0E17] rounded-lg text-[7.5px] font-bold uppercase tracking-widest shadow-xl">
+                     Call Help
+                  </button>
+                  <div className="h-7 w-7 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center">
+                     <PhoneCall size={10} />
+                  </div>
+               </div>
+            </div>
+
+            <div className="relative z-10">
+               <div className="w-12 h-12 bg-[#004AAD]/10 rounded-xl border border-[#004AAD]/30 flex items-center justify-center backdrop-blur-md">
+                  <ShieldAlert size={24} className="text-[#004AAD]" />
+               </div>
+            </div>
+         </div>
+      </div>
     </div>
   );
 };

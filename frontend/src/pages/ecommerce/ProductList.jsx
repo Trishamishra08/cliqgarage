@@ -350,9 +350,9 @@ const AccessoriesStore = () => {
                  <div className="mt-auto pt-4 flex gap-3">
                     <button 
                       onClick={() => setSelectedProduct(null)}
-                      className="w-14 h-14 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl flex items-center justify-center text-[var(--text-dim)] active:scale-95 transition-all"
+                      className="w-11 h-11 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl flex items-center justify-center text-[var(--text-dim)] active:scale-95 transition-all"
                     >
-                       <X size={22} />
+                       <X size={20} />
                     </button>
                     <button 
                        onClick={() => {
@@ -360,10 +360,10 @@ const AccessoriesStore = () => {
                           setSelectedProduct(null);
                           setShowCart(true);
                        }}
-                       className="flex-1 h-14 bg-[var(--primary-color)] text-white rounded-xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 shadow-[0_10px_30px_rgba(144,172,175,0.3)] active:scale-95 transition-all"
+                       className="flex-1 h-11 bg-[var(--primary-color)] text-white rounded-xl font-black text-[9px] uppercase tracking-[0.3em] flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(144,172,175,0.2)] active:scale-95 transition-all"
                     >
                        Add To Basket
-                       <ArrowRight size={14} />
+                       <ArrowRight size={12} />
                     </button>
                  </div>
               </div>
@@ -505,10 +505,10 @@ const AccessoriesStore = () => {
                         navigate('/');
                       }, 2500);
                    }}
-                   className="w-full h-16 bg-[var(--primary-color)] text-white rounded-xl font-black text-[11px] uppercase tracking-[0.4em] shadow-[0_20px_50px_rgba(144,172,175,0.4)] active:scale-95 transition-all flex items-center justify-center gap-3"
+                   className="w-full h-12 bg-[var(--primary-color)] text-white rounded-xl font-black text-[10px] uppercase tracking-[0.3em] shadow-xl active:scale-95 transition-all flex items-center justify-center gap-3"
                 >
                    Finalize & Pay
-                   <ArrowRight size={16} />
+                   <ArrowRight size={14} />
                 </button>
                 <p className="text-center text-[7px] font-bold text-zinc-500 uppercase tracking-widest mt-4 opacity-50 flex items-center justify-center gap-1.5">
                    <ShieldCheck size={10} />
