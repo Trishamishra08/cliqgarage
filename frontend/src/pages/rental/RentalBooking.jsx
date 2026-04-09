@@ -117,36 +117,73 @@ const RentalBooking = () => {
                  <h2 className="text-2xl font-black text-slate-900 uppercase leading-none tracking-tight">The Collection</h2>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
-                 {[
-                   { type: 'bike', label: 'Motorcycles', img: vehicles.bike[0].image, desc: 'Sport / Gear / Adventure' },
-                   { type: 'car', label: 'Luxury Cars', img: vehicles.car[1].image, desc: 'Sedans / SUVs / Electric' }
-                 ].map((t) => (
-                   <motion.button
-                     key={t.type}
-                     whileTap={{ scale: 0.98 }}
-                     onClick={() => { setVehicleType(t.type); nextStep(); }}
-                     className={twMerge(
-                        "group relative h-40 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 border-2",
-                        vehicleType === t.type ? "border-[#004AAD] scale-[1.02]" : "border-transparent"
-                     )}
-                   >
-                     <img src={t.img} className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700" />
-                     <div className={twMerge(
-                        "absolute inset-0 transition-all duration-500 p-6 flex flex-col justify-end",
-                        vehicleType === t.type ? "bg-gradient-to-t from-[#004AAD]/90 via-[#004AAD]/20 to-transparent" : "bg-gradient-to-t from-black/80 via-transparent to-transparent"
-                     )}>
-                        <h3 className="text-2xl font-black text-white uppercase tracking-widest">{t.label}</h3>
-                        <p className="text-white/60 text-[8px] font-black uppercase tracking-widest mt-1">{t.desc}</p>
-                        {vehicleType === t.type && (
-                           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute top-4 right-4 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-lg">
-                              <CheckCircle2 size={14} className="text-[#004AAD]" />
-                           </motion.div>
-                        )}
-                     </div>
-                   </motion.button>
-                 ))}
-              </div>
+              <div className="grid grid-cols-1 gap-14 pt-8">
+                  {[
+                    { 
+                      type: 'bike', 
+                      label: 'Motorcycles', 
+                      img: 'media__1775731549419.png', 
+                      desc: 'FOR RIDERS - SPORT / GEAR',
+                      color: 'bg-[#004AAD]'
+                    },
+                    { 
+                      type: 'car', 
+                      label: 'Luxury Cars', 
+                      img: 'media__1775731549508.png', 
+                      desc: 'FOR DRIVERS - LUXURY / SUV',
+                      color: 'bg-[#14b8a6]'
+                    }
+                  ].map((t) => (
+                    <motion.div
+                      key={t.type}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => { setVehicleType(t.type); nextStep(); }}
+                      className="relative group cursor-pointer"
+                    >
+                      {/* Showroom Card Base */}
+                      <div className={twMerge(
+                        "w-full h-44 rounded-[2.5rem] shadow-2xl relative flex flex-col items-center justify-end pb-6 px-6 transition-all duration-500",
+                        t.color
+                      )}>
+                         {/* Overlapping Vehicle Image */}
+                         <motion.div 
+                           className="absolute -top-12 inset-x-0 flex justify-center pointer-events-none"
+                           initial={{ y: 20 }}
+                           animate={{ y: 0 }}
+                           transition={{ duration: 0.8 }}
+                         >
+                            <img 
+                              src={t.img} 
+                              className={twMerge(
+                                "w-[85%] object-contain drop-shadow-[0_25px_25px_rgba(0,0,0,0.3)] group-hover:scale-110 transition-transform duration-700",
+                                t.type === 'car' ? "max-h-48" : "max-h-44"
+                              )} 
+                              alt={t.label} 
+                            />
+                         </motion.div>
+
+                         {/* Content Section */}
+                         <div className="text-center w-full">
+                            <div className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full mb-3 border border-white/10">
+                               <p className="text-[7.5px] font-black text-white uppercase tracking-[0.3em] leading-none">{t.desc}</p>
+                            </div>
+                            
+                            <button className="w-full h-10 bg-slate-900/90 text-white rounded-xl flex items-center justify-center gap-2 group-hover:bg-slate-900 transition-colors">
+                               <span className="text-[9px] font-black uppercase tracking-[0.4em]">EXPLORE {t.label}</span>
+                               <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                            </button>
+                         </div>
+
+                         {/* Selection Indicator */}
+                         {vehicleType === t.type && (
+                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-2xl border-2 border-slate-50 z-20">
+                               <CheckCircle2 size={16} className="text-[#004AAD]" strokeWidth={3} />
+                            </motion.div>
+                         )}
+                      </div>
+                    </motion.div>
+                  ))}
+               </div>
             </motion.div>
           )}
 
