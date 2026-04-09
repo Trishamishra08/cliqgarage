@@ -1,75 +1,112 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CreditCard, Wallet, Smartphone, Plus, ArrowLeft, ShieldCheck, ChevronRight } from 'lucide-react';
+import { 
+  ChevronLeft, Plus, CreditCard, Wallet, 
+  Smartphone, ShieldCheck, ChevronRight, 
+  Trash2, Star, Zap, Lock
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
 
 const Payments = () => {
   const navigate = useNavigate();
 
-  const methods = [
-    { type: 'UPI', label: 'johan.das@upi', brand: 'PhonePe', primary: true, icon: Smartphone },
-    { type: 'Visa', label: '**** 9082', brand: 'HDFC Bank', primary: false, icon: CreditCard },
+  const savedMethods = [
+    { id: 1, type: 'UPI', label: 'GPay / cliq@okhdfc', icon: Smartphone, default: true },
+    { id: 2, type: 'Card', label: 'HDFC Bank •••• 8812', icon: CreditCard, expiry: '09/28' },
+    { id: 3, type: 'Wallet', label: 'Paytm Wallet', icon: Wallet }
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--bg-color)] pb-24">
-      <div 
-        style={{ backgroundColor: '#0A0E17' }}
-        className="pt-12 pb-8 px-6 rounded-b-[2.5rem] shadow-2xl relative overflow-hidden border-b border-white/5"
-      >
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-[80px]" />
-        
-        <button onClick={() => navigate(-1)} className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-white mb-6 border border-white/20"><ArrowLeft size={18} /></button>
-
-        <div className="flex items-end justify-between relative">
-          <div>
-            <span className="text-white/50 font-black text-[9px] uppercase tracking-[0.4em] mb-2 block">Finances</span>
-            <h1 className="text-2xl font-black text-white uppercase tracking-widest leading-none">Payments</h1>
+    <div className="min-h-screen bg-[#F8FAFC] pb-32 font-['Outfit']">
+      {/* 🚀 Compact Header */}
+      <div className="px-6 pt-10 pb-5 bg-white border-b border-slate-100 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl bg-white/80">
+          <button 
+             onClick={() => navigate(-1)}
+             className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-600 border border-slate-100"
+          >
+             <ChevronLeft size={16} />
+          </button>
+          <div className="text-center">
+             <span className="text-[7px] font-bold tracking-[0.3em] text-[#004AAD] uppercase block mb-0.5">Financial Hub</span>
+             <h2 className="text-[10px] font-semibold text-slate-900 uppercase tracking-widest leading-none">Payment Methods</h2>
           </div>
-          <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20">
-            <Wallet className="text-white" size={24} />
+          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#004AAD] border border-slate-100 shadow-sm">
+             <Zap size={14} fill="currentColor" />
           </div>
-        </div>
-      </div>
+       </div>
 
-      <div className="px-6 mt-8 space-y-6">
-        <div className="bg-gradient-to-br from-zinc-900 to-black p-6 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden h-44 flex flex-col justify-between">
-           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-[60px]" />
-           <div className="flex justify-between items-start relative z-10">
-              <span className="text-white/40 font-black text-[8px] uppercase tracking-widest">Active Balance</span>
-              <ShieldCheck size={20} className="text-[#FFD700]" />
-           </div>
-           <div className="relative z-10">
-              <h2 className="text-3xl font-black text-white tracking-widest mb-1 leading-none">₹8,450.00</h2>
-              <span className="text-white/40 font-bold text-[7px] uppercase tracking-widest mt-1.5 flex">CliqGarage Store Credits</span>
-           </div>
-        </div>
-
-        <div>
-           <h4 className="text-[8px] font-black text-[var(--text-dim)] uppercase tracking-widest mb-4 px-1">Saved Gateways</h4>
-           <div className="space-y-3">
-              {methods.map((method, i) => (
-                <div key={i} className="bg-[var(--card-bg)] p-4 rounded-xl border border-[var(--border-color)] flex items-center gap-4 active:scale-[0.98] transition-all">
-                   <div className="w-10 h-10 bg-white/5 border border-[var(--border-color)] rounded-lg flex items-center justify-center text-[#004AAD]">
-                      <method.icon size={20} />
-                   </div>
-                   <div className="flex-grow">
-                      <div className="flex items-center gap-2">
-                         <span className="text-[10px] font-black text-[var(--text-main)] uppercase tracking-widest">{method.label}</span>
-                         {method.primary && <span className="text-[6px] font-black text-[#004AAD] uppercase tracking-widest border border-[#004AAD]/30 px-1 rounded">Primary</span>}
-                      </div>
-                      <span className="text-[8px] font-bold text-[var(--text-dim)] uppercase tracking-widest">{method.brand}</span>
-                   </div>
-                   <ChevronRight size={14} className="text-zinc-300" />
+       <div className="px-5 py-6">
+          {/* Main Wallet Balance */}
+          <div className="bg-[#0A0E17] rounded-[2.2rem] p-7 text-white relative overflow-hidden mb-8 border border-white/5 shadow-2xl">
+             <div className="absolute top-0 right-0 w-40 h-40 bg-[#004AAD]/20 rounded-full -mr-20 -mt-20 blur-3xl opacity-60" />
+             <div className="relative z-10">
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#004AAD] mb-2 px-1">Active Balance</p>
+                <div className="flex items-baseline gap-2 mb-6">
+                   <h1 className="text-3xl font-bold tracking-tighter italic">₹4,250.00</h1>
+                   <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Available</span>
                 </div>
-              ))}
-              <button className="w-full h-14 bg-[var(--card-bg)] border border-dashed border-[#004AAD]/30 rounded-xl flex items-center justify-center gap-2 text-[#004AAD] active:scale-95 transition-all">
-                 <Plus size={16} />
-                 <span className="text-[9px] font-black uppercase tracking-widest">Add New Gateway</span>
-              </button>
-           </div>
-        </div>
-      </div>
+                <div className="flex gap-2">
+                   <button className="h-10 px-6 bg-white text-[#0A0E17] rounded-xl text-[9px] font-bold uppercase tracking-widest active:scale-95 transition-all shadow-xl">
+                      Add Credits
+                   </button>
+                   <button className="h-10 w-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center">
+                      <History size={14} />
+                   </button>
+                </div>
+             </div>
+          </div>
+
+          <div className="flex items-center justify-between mb-5 px-1">
+             <h3 className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Saved Channels</h3>
+             <button className="text-[8px] font-bold text-[#004AAD] uppercase flex items-center gap-1.5">
+                <Plus size={10} /> Add New
+             </button>
+          </div>
+
+          <div className="space-y-3">
+             {savedMethods.map((method) => (
+                <div 
+                   key={method.id}
+                   className="bg-white p-4 rounded-2xl border border-slate-50 flex items-center justify-between group active:scale-[0.98] transition-all"
+                >
+                   <div className="flex items-center gap-4">
+                      <div className="w-11 h-11 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 border border-slate-50 group-hover:bg-[#004AAD]/5 group-hover:text-[#004AAD] transition-all">
+                         <method.icon size={20} />
+                      </div>
+                      <div>
+                         <div className="flex items-center gap-2 mb-0.5">
+                            <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-tight">{method.label}</h4>
+                            {method.default && (
+                               <span className="px-1.5 py-0.5 bg-emerald-50 text-emerald-600 text-[6px] font-bold uppercase tracking-widest rounded-full border border-emerald-100">Primary</span>
+                            )}
+                         </div>
+                         <p className="text-[8px] font-semibold text-slate-400 uppercase tracking-widest">{method.type} {method.expiry && `• Exp ${method.expiry}`}</p>
+                      </div>
+                   </div>
+                   <button className="w-8 h-8 rounded-lg border border-slate-50 flex items-center justify-center text-slate-200 group-hover:text-slate-400 transition-colors">
+                      <ChevronRight size={14} />
+                   </button>
+                </div>
+             ))}
+          </div>
+
+          <div className="mt-10 p-6 rounded-[2rem] bg-white border border-slate-100 flex items-center gap-4 shadow-sm">
+             <div className="w-11 h-11 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
+                <ShieldCheck size={22} />
+             </div>
+             <div>
+                <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-tight mb-0.5">Secured Encryption</h4>
+                <p className="text-[8px] font-medium text-slate-400 uppercase tracking-widest leading-relaxed">Transactions are handled through bank-grade SSL certified gateways.</p>
+             </div>
+          </div>
+       </div>
+
+       {/* Footer Branding */}
+       <div className="mt-6 flex flex-col items-center gap-2 opacity-30">
+          <Lock size={12} className="text-slate-400" />
+          <p className="text-[7px] font-bold text-slate-400 uppercase tracking-[0.4em]">Powered by Stripe Connect</p>
+       </div>
     </div>
   );
 };
