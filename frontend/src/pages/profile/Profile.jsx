@@ -66,31 +66,31 @@ const Profile = () => {
 
       {/* High-Impact Profile Card */}
       <div className="px-5 py-6">
-        <div className="bg-gradient-to-br from-[#004AAD] to-[#0066FF] rounded-[2.2rem] p-7 flex items-center gap-6 relative overflow-hidden shadow-2xl shadow-[#004AAD]/20">
-           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-3xl" />
+        <div className="bg-gradient-to-br from-[#004AAD] to-[#0066FF] rounded-[4rem] p-7 flex items-center gap-6 relative overflow-hidden shadow-2xl shadow-[#004AAD]/20 border border-white/10">
+           <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl opacity-50" />
            
-           <div className="relative w-20 h-20 shrink-0">
-              <div className="w-full h-full bg-white/20 p-1.5 rounded-[1.8rem] backdrop-blur-md border border-white/20 shadow-2xl">
-                 <div className="w-full h-full bg-white rounded-2xl flex items-center justify-center overflow-hidden">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Johan" alt="avatar" />
+           <div className="relative w-22 h-22 shrink-0">
+              <div className="w-full h-full bg-white/15 p-1.5 rounded-full backdrop-blur-md border border-white/20 shadow-2xl">
+                 <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden border-2 border-white/10">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Johan" alt="avatar" className="scale-110" />
                  </div>
               </div>
-              <motion.div whileTap={{ scale: 0.9 }} className="absolute -bottom-1 -right-1 w-7 h-7 bg-white text-[#004AAD] rounded-lg flex items-center justify-center shadow-lg border border-[#004AAD]/10 cursor-pointer">
-                 <Edit3 size={12} />
+              <motion.div whileTap={{ scale: 0.9 }} className="absolute bottom-0 right-0 w-6 h-6 bg-white text-[#004AAD] rounded-full flex items-center justify-center shadow-lg border border-[#004AAD]/10 cursor-pointer">
+                 <Edit3 size={10} />
               </motion.div>
            </div>
 
            <div className="flex-grow">
-              <div className="flex items-center gap-2 mb-1">
-                 <h2 className="text-xl font-bold text-white leading-none tracking-tight">{user?.name || 'Johan Das'}</h2>
-                 <span className="w-4 h-4 bg-white/20 rounded-full flex items-center justify-center"><Star size={8} fill="white" className="text-white" /></span>
+              <div className="flex items-center gap-2 mb-1.5">
+                 <h2 className="text-xl font-black text-white leading-none tracking-tight uppercase italic">{user?.name || 'Johan Das'}</h2>
+                 <div className="w-3.5 h-3.5 bg-white/20 rounded-full flex items-center justify-center"><Star size={7} fill="white" className="text-white" /></div>
               </div>
-              <p className="text-[9px] font-bold text-white/50 uppercase tracking-[0.3em]">{user?.phone || 'Elite Pro Member'}</p>
+              <p className="text-[8px] font-black text-white/40 uppercase tracking-[0.4em] leading-none mb-4">{user?.phone || 'Elite Pilot'}</p>
               
-              <div className="mt-4 flex gap-2">
-                 <div className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-lg border border-white/10 flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    <span className="text-[7px] font-black text-white uppercase tracking-widest">Active Pilot</span>
+              <div className="flex gap-2">
+                 <div className="px-3 py-1 bg-emerald-500 text-white rounded-full flex items-center gap-2 shadow-lg shadow-emerald-500/20">
+                    <div className="w-1 h-1 bg-white rounded-full animate-pulse" />
+                    <span className="text-[6.5px] font-black uppercase tracking-widest">Active Pilot</span>
                  </div>
               </div>
            </div>

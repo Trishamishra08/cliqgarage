@@ -51,16 +51,16 @@ const ServiceList = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-40 font-['Outfit']">
       {/* 🚀 Compact Streamlined Header */}
-      <div className="pt-8 pb-4 px-6 rounded-b-[2rem] shadow-2xl relative overflow-hidden bg-[#0A0E17] border-b border-[#004AAD]/40">
+      <div className="pt-4 pb-2 px-6 rounded-b-[2rem] shadow-2xl relative overflow-hidden bg-[#0A0E17] border-b border-[#004AAD]/40">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#004AAD]/20 rounded-full -mr-24 -mt-24 blur-[80px]" />
         
-        <div className="flex items-center justify-between mb-4 relative z-20">
+        <div className="flex items-center justify-between mb-1 relative z-20">
            <button onClick={() => navigate('/')} className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-white border border-white/10 active:scale-95 transition-all">
               <ArrowLeft size={14} />
            </button>
            <div className="text-center">
               <span className="text-[#004AAD] text-[7px] font-bold uppercase tracking-[0.4em] block mb-0.5">Elite Solutions</span>
-              <h1 className="text-[9px] font-semibold text-white uppercase tracking-[0.3em]">Service Hub</h1>
+              <h1 className="text-[10px] font-bold text-white uppercase tracking-[0.3em]">Service Hub</h1>
            </div>
            <div className="w-8 h-8 bg-[#004AAD]/10 rounded-lg flex items-center justify-center text-[#004AAD] border border-[#004AAD]/20">
               <Settings size={14} />
@@ -68,27 +68,31 @@ const ServiceList = () => {
         </div>
 
         {/* Compressed & Professional Selection Area */}
-        <div className="relative z-20 flex justify-center gap-10">
+        <div className="relative z-20 flex justify-center gap-14 mt-1">
            {['car', 'bike'].map((type) => (
              <motion.div 
                key={type}
                onClick={() => setVehicleType(type)}
                whileTap={{ scale: 0.95 }}
                className={twMerge(
-                  "flex flex-col items-center gap-2 cursor-pointer transition-all duration-500",
-                  vehicleType === type ? "scale-105" : "opacity-30 scale-90"
+                  "flex flex-col items-center gap-2.5 cursor-pointer transition-all duration-500",
+                  vehicleType === type ? "scale-105 opacity-100" : "opacity-40 scale-90"
                )}
              >
                 <div className={twMerge(
-                  "w-11 h-11 rounded-full flex items-center justify-center border transition-all duration-500 shadow-xl",
-                  vehicleType === type ? "bg-white border-white" : "bg-white/5 border-white/10"
+                   "w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-500 shadow-2xl",
+                   vehicleType === type ? "bg-white border-[#004AAD]" : "bg-white/5 border-white/10"
                 )}>
-                   {type === 'car' ? <Car size={16} className={vehicleType === 'car' ? "text-[#004AAD]" : "text-white"} /> : <Bike size={16} className={vehicleType === 'bike' ? "text-[#004AAD]" : "text-white"} />}
+                   {type === 'car' ? (
+                     <Car size={18} className={vehicleType === 'car' ? "text-[#004AAD]" : "text-white/40"} />
+                   ) : (
+                     <Bike size={18} className={vehicleType === 'bike' ? "text-[#004AAD]" : "text-white/40"} />
+                   )}
                 </div>
                 <span className={twMerge(
-                  "text-[6.5px] font-bold uppercase tracking-[0.3em]",
+                  "text-[8px] font-black uppercase tracking-[0.2em] mb-4",
                   vehicleType === type ? "text-white" : "text-white/40"
-                )}>For {type}</span>
+                )}>FOR {type}</span>
              </motion.div>
            ))}
         </div>

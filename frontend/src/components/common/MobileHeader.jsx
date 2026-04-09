@@ -25,7 +25,7 @@ const MobileHeader = ({ showMenu = true }) => {
         </div>
 
         <div className="absolute left-[47%] -translate-x-1/2 w-max">
-          <Logo horizontal className="scale-[1.05]" />
+          <Logo horizontal className="scale-[1.05]" forceWhite />
         </div>
 
         <div className="flex items-center gap-3">

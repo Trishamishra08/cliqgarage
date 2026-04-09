@@ -94,15 +94,15 @@ const SupportCenter = () => {
              ))}
           </div>
 
-          <div className="bg-[#004AAD]/5 border border-[#004AAD]/10 p-5 rounded-[2rem] mb-8 relative overflow-hidden">
-             <div className="absolute top-0 right-0 w-24 h-24 bg-[#004AAD]/10 rounded-full -mr-12 -mt-12 blur-2xl" />
-             <div className="flex items-start gap-3 relative z-10">
-                <ShieldAlert size={18} className="text-[#004AAD]" />
-                <div>
-                   <h4 className="text-[10px] font-bold text-[#004AAD] uppercase tracking-tight mb-1">Emergency SOS Assistance</h4>
-                   <p className="text-[8px] font-semibold text-slate-500 uppercase tracking-widest leading-relaxed mb-4">Immediate roadside recovery for break-downs or accidents.</p>
-                   <button className="h-9 px-6 bg-[#004AAD] text-white rounded-xl text-[8px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-lg">Activate SOS</button>
+          <div className="bg-gradient-to-br from-[#004AAD] to-[#0066FF] border border-[#004AAD]/20 p-8 rounded-[3rem] mb-8 relative overflow-hidden shadow-2xl shadow-[#004AAD]/20">
+             <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
+             <div className="flex flex-col items-center text-center relative z-10">
+                <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 mb-6">
+                   <ShieldAlert size={40} className="text-white" />
                 </div>
+                <h4 className="text-[14px] font-black text-white uppercase tracking-[0.2em] mb-2">Emergency SOS Portal</h4>
+                <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest leading-relaxed mb-6 max-w-[200px]">Immediate elite recovery for break-downs or accidents.</p>
+                <button className="h-12 px-10 bg-white text-[#004AAD] rounded-full text-[10px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-xl">Activate SOS</button>
              </div>
           </div>
 

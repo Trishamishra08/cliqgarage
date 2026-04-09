@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   ChevronLeft, Plus, CreditCard, Wallet, 
   Smartphone, ShieldCheck, ChevronRight, 
-  Trash2, Star, Zap, Lock
+  Trash2, Star, Zap, Lock, History
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';

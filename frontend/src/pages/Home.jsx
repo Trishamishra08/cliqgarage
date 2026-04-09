@@ -179,24 +179,21 @@ const Home = () => {
                     img: "https://images.unsplash.com/photo-1440115637344-80fb36cd667a?q=80&w=800",
                     color: "from-orange-600 to-red-600"
                   }].map((deal, idx) => (
-                    <div key={`${loop}-${idx}`} className="relative w-64 h-36 rounded-3xl overflow-hidden shrink-0 shadow-xl border border-white/20 group hover:shadow-blue-500/20 hover:border-blue-500/40 transition-all">
-                      <img src={deal.img} alt={deal.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                      <div className={`absolute inset-0 bg-gradient-to-t ${deal.color}/80 mix-blend-multiply opacity-60`} />
-                      <div className="absolute inset-0 p-5 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/20 to-transparent">
-                        <div className="px-2.5 py-1 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 w-max mb-2">
-                          <span className="text-[7.5px] font-black text-white/90 uppercase tracking-widest">{deal.code}</span>
+                    <div key={`${loop}-${idx}`} className="relative w-52 h-32 rounded-[2.5rem] overflow-hidden shrink-0 shadow-2xl border border-white/20 group hover:shadow-blue-500/30 hover:border-blue-500/50 transition-all">
+                      <img src={deal.img} alt={deal.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-125" />
+                      <div className={`absolute inset-0 bg-gradient-to-t ${deal.color}/90 mix-blend-multiply opacity-50`} />
+                      <div className="absolute inset-0 p-4 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent">
+                        <div className="px-2 py-0.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20 w-max mb-1.5">
+                          <span className="text-[6.5px] font-black text-white/90 uppercase tracking-[0.2em]">{deal.code}</span>
                         </div>
-                        <div className="flex items-end justify-between gap-2">
-                          <div>
-                            <h4 className="text-base font-black text-white uppercase tracking-tight leading-none">{deal.title}</h4>
-                            <p className="text-[8px] font-bold text-white/60 uppercase tracking-widest mt-1">On your first booking</p>
-                          </div>
-                          <button 
-                            onClick={() => navigate('/services')}
-                            className="h-7 px-4 bg-white text-[var(--primary-color)] rounded-xl text-[8px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all mb-0.5 border border-white/20"
-                          >
-                            Claim
-                          </button>
+                        <div className="flex flex-col gap-1.5">
+                            <h4 className="text-[11px] font-black text-white uppercase tracking-tight leading-tight w-2/3">{deal.title}</h4>
+                            <button 
+                              onClick={() => navigate('/services')}
+                              className="h-6 px-3 bg-white text-[var(--primary-color)] rounded-full text-[7px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all w-max border border-white/20"
+                            >
+                              Claim
+                            </button>
                         </div>
                       </div>
                     </div>
@@ -239,49 +236,36 @@ const Home = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-6">
-            {recommendations.slice(0, 3).map((item, i) => (
+          <div className="grid grid-cols-2 gap-3.5">
+            {recommendations.slice(0, 4).map((item, i) => (
               <motion.div 
                 key={i} 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                className="group relative w-full overflow-hidden rounded-2xl shadow-xl border border-[#004AAD]/10 flex flex-col active:scale-[0.98] transition-all bg-[#F0F6FF]"
+                className="group relative h-48 overflow-hidden rounded-[2.4rem] shadow-xl border border-[#004AAD]/10 flex flex-col active:scale-[0.98] transition-all bg-[#F0F6FF]"
               >
-                {/* Header (Dark Section) */}
-                <div className="bg-[#0A0E17] px-4 py-3 border-b border-[#0A0E17]">
-                   <div className="flex justify-between items-start">
-                      <div>
-                         <h3 className="font-black text-[11px] text-white uppercase tracking-widest leading-tight">{item.title}</h3>
-                         <div className="flex items-center gap-1.5 mt-1">
-                            <Star size={8} fill="#FF9119" className="text-[#FF9119]" />
-                            <span className="text-[8px] font-bold text-white/50 tracking-widest">{item.rating} (152 trips)</span>
-                         </div>
-                      </div>
+                {/* Visual Section - Large Image */}
+                <div className="relative flex-1 flex items-center justify-center p-2 overflow-hidden bg-white/50">
+                   <img 
+                     src={item.image} 
+                     className="w-[140%] h-[140%] max-w-none object-contain mix-blend-multiply drop-shadow-xl group-hover:scale-110 transition-transform duration-700" 
+                     alt={item.title} 
+                   />
+                   
+                   {/* Floating Rating */}
+                   <div className="absolute top-3 left-3 px-1.5 py-0.5 bg-white/80 backdrop-blur-md rounded-full border border-[#004AAD]/10 flex items-center gap-1">
+                      <Star size={7} fill="#FF9119" className="text-[#FF9119]" />
+                      <span className="text-[7px] font-black text-[#0A0E17]">{item.rating}</span>
                    </div>
                 </div>
 
-                {/* Body (Image + Info Section) - Light Blue */}
-                <div className="relative pt-6 pb-3 px-4 flex flex-col items-center">
-                   {/* Large Image with Blend Mode to remove white bg */}
-                   <div className="w-full h-32 flex items-center justify-center relative z-10 mb-2">
-                       <img 
-                         src={item.image} 
-                         className="w-[120%] h-[120%] max-w-none object-contain mix-blend-multiply drop-shadow-2xl group-hover:scale-110 transition-transform duration-700" 
-                         alt={item.title} 
-                       />
-                   </div>
-
-                   {/* Footer built into the body */}
-                   <div className="w-full flex items-center justify-between border-t border-[#004AAD]/10 pt-3 relative z-20">
-                      <div className="flex flex-col">
-                         <span className="text-[7.5px] font-black text-[#0A0E17]/50 uppercase tracking-widest mb-0.5">{item.tag}</span>
-                         <span className="text-[9px] font-black text-[#004AAD] uppercase tracking-widest">Available Now</span>
-                      </div>
-                      <div className="text-right flex items-baseline gap-1">
-                         <span className="text-lg font-black text-[#0A0E17]">{item.price}</span>
-                         <span className="text-[7.5px] font-bold text-[#0A0E17]/50 capitalize">/day</span>
-                      </div>
+                {/* Footer Info - Semi-Circular Feel */}
+                <div className="bg-[#0A0E17] px-4 py-3 min-h-[50px] flex flex-col justify-center">
+                   <h3 className="font-black text-[8px] text-white uppercase tracking-widest leading-tight truncate mb-1">{item.title}</h3>
+                   <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-black text-[#14b8a6]">{item.price}</span>
+                      <ChevronRight size={10} className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all" />
                    </div>
                 </div>
               </motion.div>
