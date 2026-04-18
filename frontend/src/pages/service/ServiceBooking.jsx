@@ -97,10 +97,10 @@ const ServiceBooking = () => {
                    <motion.div 
                      animate={{ rotate: 360 }}
                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                     className="w-24 h-24 border-b-2 border-t-2 border-[#004AAD] rounded-full"
+                     className="w-24 h-24 border-b-2 border-t-2 border-[var(--primary-color)] rounded-full"
                    />
                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Lock size={32} className="text-[#004AAD] animate-pulse" />
+                      <Lock size={32} className="text-[var(--primary-color)] animate-pulse" />
                    </div>
                 </div>
                 
@@ -112,7 +112,7 @@ const ServiceBooking = () => {
                      initial={{ width: 0 }}
                      animate={{ width: "100%" }}
                      transition={{ duration: 3, ease: "easeInOut" }}
-                     className="h-full bg-[#004AAD]"
+                     className="h-full bg-[var(--primary-color)]"
                    />
                 </div>
              </motion.div>
@@ -128,7 +128,7 @@ const ServiceBooking = () => {
              <ChevronLeft size={16} />
           </button>
           <div className="text-center">
-             <span className="text-[7px] font-bold tracking-[0.3em] text-[#004AAD] uppercase block mb-0.5 italic">Hub Terminal</span>
+             <span className="text-[7px] font-bold tracking-[0.3em] text-[var(--primary-color)] uppercase block mb-0.5 italic">Hub Terminal</span>
              <h2 className="text-[9px] font-semibold text-slate-900 uppercase tracking-widest leading-none">Process {displayStep < 1 ? 1 : displayStep} / {totalSteps}</h2>
           </div>
           <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300 border border-slate-100">
@@ -143,7 +143,7 @@ const ServiceBooking = () => {
                    <h3 className="text-lg font-semibold text-slate-900 uppercase tracking-tight">Select Vehicle</h3>
                    <div className="grid gap-3">
                       {vehicles.map((v) => (
-                         <div key={v.id} onClick={() => setSelectedVehicle(v)} className={twMerge("p-3.5 rounded-2xl border transition-all flex items-center gap-4", selectedVehicle?.id === v.id ? "bg-white border-[#004AAD] shadow-lg" : "bg-white border-slate-100")}>
+                         <div key={v.id} onClick={() => setSelectedVehicle(v)} className={twMerge("p-3.5 rounded-2xl border transition-all flex items-center gap-4", selectedVehicle?.id === v.id ? "bg-white border-[var(--primary-color)] shadow-lg" : "bg-white border-slate-100")}>
                             <img src={v.image} className="w-12 h-12 rounded-lg object-cover" />
                             <div className="flex-1">
                                <h4 className="text-[11px] font-bold text-slate-900 uppercase">{v.name}</h4>
@@ -152,14 +152,14 @@ const ServiceBooking = () => {
                          </div>
                       ))}
                    </div>
-                   <button onClick={() => setStep(2)} className="w-full h-11 bg-[#004AAD] text-white rounded-xl font-bold uppercase tracking-widest text-[9px]">Continue</button>
+                   <button onClick={() => setStep(2)} className="w-full h-11 bg-[var(--primary-color)] text-white rounded-xl font-bold uppercase tracking-widest text-[9px]">Continue</button>
                 </motion.div>
              )}
 
              {step === 2 && (
                 <motion.div key="step2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-4">
                    {selectedVehicle && (
-                      <div className="bg-[#0A0E17] p-2.5 rounded-xl flex items-center justify-between">
+                      <div className="bg-[var(--header-color)] p-2.5 rounded-xl flex items-center justify-between">
                          <div className="flex items-center gap-3">
                             <img src={selectedVehicle.image} className="w-8 h-8 rounded-lg object-cover" />
                             <h4 className="text-[8px] font-semibold text-white uppercase tracking-widest">{selectedVehicle.name}</h4>
@@ -176,15 +176,15 @@ const ServiceBooking = () => {
                             onClick={() => toggleService(s)}
                             className={twMerge(
                               "p-3.5 rounded-2xl border transition-all flex items-center justify-between bg-white",
-                              isSelected ? "border-[#004AAD] shadow-md" : "border-slate-50"
+                              isSelected ? "border-[var(--primary-color)] shadow-md" : "border-slate-50"
                             )}
                           >
                              <div>
                                 <h4 className="text-[10px] font-bold uppercase text-slate-900">{s.name}</h4>
                                 <p className="text-[8px] font-medium text-slate-400">{s.desc}</p>
-                                <p className="text-[11px] font-bold text-[#004AAD] mt-1.5 font-['Outfit'] tracking-tight">₹{s.price}</p>
+                                <p className="text-[11px] font-bold text-[var(--primary-color)] mt-1.5 font-['Outfit'] tracking-tight">₹{s.price}</p>
                              </div>
-                             <div className={twMerge("w-7 h-7 rounded-lg flex items-center justify-center transition-all", isSelected ? "bg-[#004AAD] text-white" : "bg-slate-50 text-slate-200")}>
+                             <div className={twMerge("w-7 h-7 rounded-lg flex items-center justify-center transition-all", isSelected ? "bg-[var(--primary-color)] text-white" : "bg-slate-50 text-slate-200")}>
                                 {isSelected ? <X size={14} /> : <Plus size={14} />}
                              </div>
                           </div>
@@ -192,7 +192,7 @@ const ServiceBooking = () => {
                       })}
                    </div>
 
-                   <button disabled={selectedServices.length === 0} onClick={() => setStep(3)} className="w-full h-11 bg-[#004AAD] text-white rounded-xl font-bold uppercase tracking-widest text-[9px] shadow-lg">
+                   <button disabled={selectedServices.length === 0} onClick={() => setStep(3)} className="w-full h-11 bg-[var(--primary-color)] text-white rounded-xl font-bold uppercase tracking-widest text-[9px] shadow-lg">
                       Schedule Service <ChevronRight size={12} className="ml-1 inline" />
                    </button>
                 </motion.div>
@@ -208,13 +208,13 @@ const ServiceBooking = () => {
                       <h3 className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-4">Select Slot</h3>
                       <div className="grid grid-cols-2 gap-2">
                          {slots.map((s, i) => (
-                            <button key={i} onClick={() => setSelectedSlot(s)} className={twMerge("h-11 rounded-xl text-[9px] font-bold uppercase transition-all", selectedSlot === s ? "bg-[#004AAD] text-white shadow-lg" : "bg-slate-50 text-slate-400 border border-slate-50")}>
+                            <button key={i} onClick={() => setSelectedSlot(s)} className={twMerge("h-11 rounded-xl text-[9px] font-bold uppercase transition-all", selectedSlot === s ? "bg-[var(--primary-color)] text-white shadow-lg" : "bg-slate-50 text-slate-400 border border-slate-50")}>
                                {s}
                             </button>
                          ))}
                       </div>
                    </div>
-                   <button disabled={!selectedSlot} onClick={() => setStep(4)} className="w-full h-11 bg-[#004AAD] text-white rounded-xl font-bold uppercase tracking-widest text-[9px]">Review Order</button>
+                   <button disabled={!selectedSlot} onClick={() => setStep(4)} className="w-full h-11 bg-[var(--primary-color)] text-white rounded-xl font-bold uppercase tracking-widest text-[9px]">Review Order</button>
                 </motion.div>
              )}
 
@@ -237,25 +237,25 @@ const ServiceBooking = () => {
                          ))}
                          <div className="pt-4 mt-2 border-t border-slate-100 flex justify-between items-center px-1 font-bold">
                             <span className="text-[10px] uppercase text-slate-400">Total</span>
-                            <span className="text-2xl text-[#004AAD] font-['Outfit'] tracking-tighter">₹{totalAmount}</span>
+                            <span className="text-2xl text-[var(--primary-color)] font-['Outfit'] tracking-tighter">₹{totalAmount}</span>
                          </div>
                       </div>
                       <div className="p-4 bg-slate-50 rounded-2xl flex items-center justify-between">
                          <div className="flex items-center gap-3">
-                            <Calendar size={16} className="text-[#004AAD]" />
+                            <Calendar size={16} className="text-[var(--primary-color)]" />
                             <span className="text-[9px] font-bold text-slate-600 uppercase tracking-tight">{selectedDate} @ {selectedSlot}</span>
                          </div>
                       </div>
                    </div>
                    <button 
                       onClick={handlePayment}
-                      className="w-full h-12 bg-[#004AAD] text-white rounded-xl shadow-xl flex items-center justify-center gap-2 transition-all active:scale-95"
+                      className="w-full h-12 bg-[var(--primary-color)] text-white rounded-xl shadow-xl flex items-center justify-center gap-2 transition-all active:scale-95"
                    >
                       <CreditCard size={14} />
                       <span className="text-[9px] font-bold uppercase tracking-[0.2em]">Confirm & Pay Now</span>
                    </button>
                    <div className="flex items-center justify-center gap-2">
-                      <ShieldCheck size={12} className="text-[#004AAD]" />
+                      <ShieldCheck size={12} className="text-[var(--primary-color)]" />
                       <p className="text-[7.5px] font-bold text-slate-300 uppercase tracking-[0.2em] italic">Stripe Secure Encryption</p>
                    </div>
                 </motion.div>
@@ -269,13 +269,13 @@ const ServiceBooking = () => {
                    className="flex flex-col items-center pt-2"
                 >
                    <div className="w-full bg-white p-10 rounded-[3rem] shadow-2xl border border-slate-50 flex flex-col items-center text-center relative overflow-hidden">
-                      <div className="absolute top-0 inset-x-0 h-1.5 bg-[#004AAD]" />
+                      <div className="absolute top-0 inset-x-0 h-1.5 bg-[var(--primary-color)]" />
                       
                       <motion.div 
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", damping: 10, stiffness: 100 }}
-                        className="w-20 h-20 rounded-full bg-[#004AAD] flex items-center justify-center text-white mb-8 shadow-2xl shadow-[#004AAD]/30"
+                        className="w-20 h-20 rounded-full bg-[var(--primary-color)] flex items-center justify-center text-white mb-8 shadow-2xl shadow-[var(--primary-color)]/30"
                       >
                          <CheckCircle2 size={44} strokeWidth={2.5} />
                       </motion.div>
@@ -296,7 +296,7 @@ const ServiceBooking = () => {
                          </div>
                       </div>
 
-                      <button onClick={() => navigate('/')} className="w-full h-11 bg-[#0A0E17] text-white rounded-xl text-[9px] font-bold uppercase tracking-widest active:scale-95 transition-all">
+                      <button onClick={() => navigate('/')} className="w-full h-11 bg-[var(--header-color)] text-white rounded-xl text-[9px] font-bold uppercase tracking-widest active:scale-95 transition-all">
                          Back to Dashboard
                       </button>
                    </div>

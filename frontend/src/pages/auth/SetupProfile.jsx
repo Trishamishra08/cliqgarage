@@ -1,146 +1,234 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { User, Mail, Bike, Calendar, ArrowRight } from 'lucide-react';
+import { Camera, User, Mail, MapPin, Bike, Car, Calendar, ArrowRight, Check, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/common/Logo';
 
 const SetupProfile = () => {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
+  const [avatar, setAvatar] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    address: '',
     vehicleType: 'Bike',
     vehicleBrand: '',
     vehicleModel: '',
     vehicleYear: ''
   });
 
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate saving profile
+    localStorage.setItem('hasOnboarded', 'true');
     navigate('/');
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08, delayChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 12 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white flex flex-col px-6 pt-12 pb-12">
-      <div className="flex justify-center mb-8">
-        <Logo horizontal className="scale-110" />
-      </div>
+    <div className="min-h-screen bg-[#F1F5F9] flex flex-col font-['Roboto'] overflow-hidden overflow-y-hidden selection:bg-[#D4A017]/30">
+      {/* Premium Decorative Elements */}
+      <div className="absolute top-0 right-0 w-48 h-48 bg-[#D4A017]/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+      <div className="absolute bottom-40 left-0 w-32 h-32 bg-[#0F172A]/5 rounded-full blur-3xl -ml-16 pointer-events-none" />
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex-grow flex flex-col"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full h-full flex flex-col px-6 pt-4 pb-4 relative z-10"
       >
-        <div className="mb-8">
-          <h1 className="text-3xl font-black text-blue-950 tracking-tight leading-tight mb-2">
-            Complete <span className="text-orange-500 underline decoration-4 underline-offset-4">Profile</span>
-          </h1>
-          <p className="text-slate-500 font-medium">Add your vehicle details for better service</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* User Details */}
-          <div className="space-y-4">
-            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Personal Details</h3>
-            
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-0 pointer-events-none">
-                <User size={18} className="text-slate-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Full Name"
-                required
-                className="w-full h-12 bg-white border-b border-slate-200 text-sm font-bold focus:border-blue-950 transition-all outline-none pl-8"
-                value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
-              />
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-0 pointer-events-none">
-                <Mail size={18} className="text-slate-400" />
-              </div>
-              <input
-                type="email"
-                placeholder="Email Address"
-                required
-                className="w-full h-12 bg-white border-b border-slate-200 text-sm font-bold focus:border-blue-950 transition-all outline-none pl-8"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-              />
-            </div>
+        {/* Top Header - centered logo */}
+        <motion.div variants={itemVariants} className="relative flex items-center justify-center mb-12 h-10">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="absolute left-0 h-9 w-9 bg-white rounded-xl shadow-sm flex items-center justify-center text-[#0F172A] active:scale-95 transition-transform"
+          >
+            <ArrowLeft size={18} />
+          </button>
+          
+          <Logo horizontal={true} className="scale-100" forceDark={true} />
+          
+          <div className="absolute right-0 h-9 w-9 rounded-xl shadow-sm flex items-center justify-center bg-white text-[10px] font-black text-[#0F172A]">
+             2/2
           </div>
+        </motion.div>
 
-          {/* Vehicle Details */}
-          <div className="space-y-4 pt-4">
-            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Vehicle Details</h3>
-            
-            <div className="flex gap-4">
-               {['Bike', 'Car'].map((type) => (
-                 <button
-                   key={type}
-                   type="button"
-                   onClick={() => setFormData({...formData, vehicleType: type})}
-                   className={`flex-1 h-12 rounded-xl font-bold text-sm transition-all ${formData.vehicleType === type ? 'bg-blue-950 text-white shadow-lg' : 'bg-slate-50 text-slate-400'}`}
-                 >
-                   {type}
-                 </button>
-               ))}
+        {/* Title Section - Moved lower */}
+        <motion.div variants={itemVariants} className="mb-8">
+          <h1 className="text-xl font-black text-slate-900 leading-tight mb-0.5">
+            Complete <span className="text-[#D4A017]">Setup</span>
+          </h1>
+          <div className="flex items-center gap-2">
+             <div className="w-4 h-1 bg-[#D4A017] rounded-full" />
+             <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Help us personalize your garage</p>
+          </div>
+        </motion.div>
+
+        {/* Profile Identity - Functional Image Upload */}
+        <motion.div variants={itemVariants} className="flex justify-center mb-8">
+          <div className="relative group p-1 bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white">
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              className="hidden" 
+              accept="image/*" 
+              onChange={handleImageChange} 
+            />
+            <div 
+              onClick={handleImageClick}
+              className="w-18 h-18 sm:w-20 sm:h-20 rounded-[1.8rem] bg-slate-100 flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+            >
+               {avatar ? (
+                 <img src={avatar} alt="Avatar" className="w-full h-full object-cover" />
+               ) : (
+                 <User size={32} className="text-slate-300" />
+               )}
             </div>
+            <button 
+              type="button" 
+              onClick={handleImageClick}
+              className="absolute -bottom-1 -right-1 bg-[#0F172A] p-2 rounded-2xl text-white shadow-lg border-2 border-white active:scale-90 transition-transform cursor-pointer"
+            >
+               <Camera size={12} strokeWidth={2.5} />
+            </button>
+          </div>
+        </motion.div>
 
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-0 pointer-events-none">
-                <Bike size={18} className="text-slate-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Brand (e.g. Royal Enfield, Hyundai)"
-                required
-                className="w-full h-12 bg-white border-b border-slate-200 text-sm font-bold focus:border-blue-950 transition-all outline-none pl-8"
-                value={formData.vehicleBrand}
-                onChange={(e) => setFormData({...formData, vehicleBrand: e.target.value})}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="relative">
+        <form onSubmit={handleSubmit} className="flex-grow flex flex-col pt-2">
+          {/* Card Based Layout */}
+          <div className="bg-white rounded-[2rem] p-4 shadow-2xl shadow-slate-200/30 border border-white space-y-3.5">
+            {/* Field: Identity */}
+            <motion.div variants={itemVariants} className="space-y-1.5">
+              <label className="text-[9px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                 Personal Identity
+              </label>
+              <div className="grid grid-cols-2 gap-2.5">
                 <input
                   type="text"
-                  placeholder="Model Name"
+                  placeholder="Full Name"
                   required
-                  className="w-full h-12 bg-white border-b border-slate-200 text-sm font-bold focus:border-blue-950 transition-all outline-none"
+                  className="w-full bg-slate-50 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-900 outline-none border border-slate-100 focus:border-[#D4A017]/40 focus:bg-white transition-all placeholder:text-slate-300 shadow-inner"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  required
+                  className="w-full bg-slate-50 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-900 outline-none border border-slate-100 focus:border-[#D4A017]/40 focus:bg-white transition-all placeholder:text-slate-300 shadow-inner"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                />
+              </div>
+            </motion.div>
+
+            {/* Field: Address */}
+            <motion.div variants={itemVariants} className="space-y-1.5">
+              <label className="text-[9px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                 Pickup Address
+              </label>
+              <input
+                type="text"
+                placeholder="Where should we pick up your vehicle?"
+                required
+                className="w-full bg-slate-50 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-900 outline-none border border-slate-100 focus:border-[#D4A017]/40 focus:bg-white transition-all placeholder:text-slate-300 shadow-inner"
+                value={formData.address}
+                onChange={(e) => setFormData({...formData, address: e.target.value})}
+              />
+            </motion.div>
+
+            {/* Field: Vehicle Details */}
+            <motion.div variants={itemVariants} className="space-y-1.5">
+              <label className="text-[9px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                 Vehicle Details
+              </label>
+              <div className="grid grid-cols-6 gap-2">
+                 <div className="col-span-2 flex bg-slate-100 p-1 rounded-xl">
+                   {['Bike', 'Car'].map((type) => (
+                     <button
+                       key={type}
+                       type="button"
+                       onClick={() => setFormData({...formData, vehicleType: type})}
+                       className={`flex-1 flex items-center justify-center h-7 rounded-lg transition-all ${formData.vehicleType === type ? 'bg-white text-[#D4A017] shadow-sm' : 'text-slate-400'}`}
+                     >
+                       {type === 'Bike' ? <Bike size={14} /> : <Car size={14} />}
+                     </button>
+                   ))}
+                 </div>
+                 <input
+                  type="text"
+                  placeholder="Brand"
+                  className="col-span-4 bg-slate-50 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-900 outline-none border border-slate-100 focus:border-[#D4A017]/40 focus:bg-white transition-all placeholder:text-slate-300 shadow-inner"
+                  value={formData.vehicleBrand}
+                  onChange={(e) => setFormData({...formData, vehicleBrand: e.target.value})}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                 <input
+                  type="text"
+                  placeholder="Model Name"
+                  className="bg-slate-50 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-900 outline-none border border-slate-100 focus:border-[#D4A017]/40 focus:bg-white transition-all placeholder:text-slate-300 shadow-inner"
                   value={formData.vehicleModel}
                   onChange={(e) => setFormData({...formData, vehicleModel: e.target.value})}
                 />
-              </div>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-0 pointer-events-none">
-                  <Calendar size={18} className="text-slate-400" />
-                </div>
                 <input
                   type="tel"
                   placeholder="Year"
-                  required
                   maxLength={4}
-                  className="w-full h-12 bg-white border-b border-slate-200 text-sm font-bold focus:border-blue-950 transition-all outline-none pl-8"
+                  className="bg-slate-50 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-900 outline-none border border-slate-100 focus:border-[#D4A017]/40 focus:bg-white transition-all placeholder:text-slate-300 shadow-inner"
                   value={formData.vehicleYear}
                   onChange={(e) => setFormData({...formData, vehicleYear: e.target.value})}
                 />
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          <div className="pt-8">
-             <button 
-               type="submit"
-               className="w-full h-16 bg-blue-950 text-white rounded-2xl flex items-center justify-center gap-3 font-black text-lg shadow-xl shadow-blue-900/20 active:scale-95 transition-all group"
-             >
-               Complete Setup
-               <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
-             </button>
-          </div>
+          {/* Optimized Action Footer */}
+          <motion.div variants={itemVariants} className="mt-auto pt-3 flex flex-col items-center">
+            <button 
+              type="submit"
+              className="w-full h-12 bg-[#0F172A] text-white rounded-[1.2rem] flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-[0.2em] shadow-xl shadow-slate-200 active:scale-[0.98] transition-all group overflow-hidden relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <span className="relative z-10 flex items-center gap-2">
+                 Join the Garage <ArrowRight size={14} strokeWidth={3} className="group-hover:translate-x-1 transition-transform" />
+              </span>
+            </button>
+            <p className="mt-2.5 text-[7px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5 text-center">
+               <ShieldCheck size={10} className="text-[#D4A017]" /> Secure boutique registration
+            </p>
+          </motion.div>
         </form>
       </motion.div>
     </div>

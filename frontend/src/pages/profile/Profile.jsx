@@ -48,7 +48,7 @@ const Profile = () => {
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC] pb-24 font-['Outfit']">
       {/* 🚀 Premium Branding Header */}
-      <div className="px-6 pt-10 pb-5 bg-[#0A0E17] flex items-center justify-between sticky top-0 z-40 border-b border-white/5">
+      <div className="px-6 pt-10 pb-5 bg-[var(--header-color)] flex items-center justify-between sticky top-0 z-40 border-b border-white/5">
           <button 
              onClick={() => navigate(-1)}
              className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white border border-white/10"
@@ -56,17 +56,17 @@ const Profile = () => {
              <ChevronLeft size={16} />
           </button>
           <div className="text-center">
-             <span className="text-[7px] font-bold tracking-[0.3em] text-[#004AAD] uppercase block mb-0.5 italic">Pilot Terminal</span>
+             <span className="text-[7px] font-bold tracking-[0.3em] text-[var(--primary-color)] uppercase block mb-0.5 italic">Pilot Terminal</span>
              <h2 className="text-[10px] font-semibold text-white uppercase tracking-widest leading-none">Your Profile</h2>
           </div>
-          <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-[#004AAD] border border-white/10">
+          <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-[var(--primary-color)] border border-white/10">
              <ShieldCheck size={14} />
           </div>
        </div>
 
       {/* High-Impact Profile Card */}
       <div className="px-5 py-6">
-        <div className="bg-gradient-to-br from-[#004AAD] to-[#0066FF] rounded-[4rem] p-7 flex items-center gap-6 relative overflow-hidden shadow-2xl shadow-[#004AAD]/20 border border-white/10">
+        <div className="bg-gradient-to-br from-[var(--primary-color)] to-[#0066FF] rounded-[4rem] p-7 flex items-center gap-6 relative overflow-hidden shadow-2xl shadow-[var(--primary-color)]/20 border border-white/10">
            <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl opacity-50" />
            
            <div className="relative w-22 h-22 shrink-0">
@@ -75,7 +75,7 @@ const Profile = () => {
                     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Johan" alt="avatar" className="scale-110" />
                  </div>
               </div>
-              <motion.div whileTap={{ scale: 0.9 }} className="absolute bottom-0 right-0 w-6 h-6 bg-white text-[#004AAD] rounded-full flex items-center justify-center shadow-lg border border-[#004AAD]/10 cursor-pointer">
+              <motion.div whileTap={{ scale: 0.9 }} className="absolute bottom-0 right-0 w-6 h-6 bg-white text-[var(--primary-color)] rounded-full flex items-center justify-center shadow-lg border border-[var(--primary-color)]/10 cursor-pointer">
                  <Edit3 size={10} />
               </motion.div>
            </div>
@@ -110,11 +110,11 @@ const Profile = () => {
                      className="flex items-center justify-between p-3.5 bg-white border border-slate-50 rounded-2xl group active:scale-[0.98] transition-all shadow-sm"
                    >
                       <div className="flex items-center gap-4">
-                         <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 border border-slate-50 group-hover:bg-[#004AAD]/5 group-hover:text-[#004AAD] transition-all">
+                         <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 border border-slate-50 group-hover:bg-[var(--primary-color)]/5 group-hover:text-[var(--primary-color)] transition-all">
                             <item.icon size={18} />
                          </div>
                          <div className="text-left">
-                           <span className="text-[10px] font-bold text-slate-900 uppercase tracking-tight block leading-none mb-1">{item.label}</span>
+                           <span className="text-[10px] font-bold text-[var(--primary-color)] uppercase tracking-tight block leading-none mb-1">{item.label}</span>
                            <span className="text-[7.5px] font-semibold text-slate-400 uppercase tracking-widest leading-none">{item.desc}</span>
                          </div>
                       </div>
@@ -124,7 +124,7 @@ const Profile = () => {
                               {item.badge}
                            </span>
                          )}
-                         <ChevronRight size={14} className="text-slate-200 group-hover:text-[#004AAD] transition-colors" />
+                         <ChevronRight size={14} className="text-slate-200 group-hover:text-[var(--primary-color)] transition-colors" />
                       </div>
                    </motion.button>
                  ))}
@@ -137,7 +137,7 @@ const Profile = () => {
       <div className="mt-auto px-5 pt-8 pb-12">
          <button 
            onClick={handleLogout}
-           className="w-full h-12 flex items-center justify-center gap-4 bg-white border border-red-50 text-red-400 rounded-2xl hover:bg-red-50 transition-colors active:scale-95 group"
+           className="w-full h-12 flex items-center justify-center gap-4 bg-white border border-red-50 text-red-400 rounded-2xl hover:bg-red-50 transition-colors active:scale-[var(--primary-color)] group"
          >
             <LogOut size={16} className="group-hover:rotate-12 transition-transform" />
             <span className="text-[9px] font-black uppercase tracking-widest">De-authenticate Terminal</span>

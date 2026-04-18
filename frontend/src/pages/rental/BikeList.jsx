@@ -78,7 +78,7 @@ const BikeList = () => {
             className="min-h-screen flex flex-col px-6 pt-20"
           >
              <div className="mb-12">
-                <span className="text-[#004AAD] font-black text-[10px] uppercase tracking-[0.5em] mb-3 block">Premium Fleet</span>
+                <span className="text-[var(--primary-color)] font-black text-[10px] uppercase tracking-[0.5em] mb-3 block">Premium Fleet</span>
                 <h1 className="text-4xl font-black text-[var(--text-main)] uppercase tracking-tight leading-none mb-4">Choose Your<br/>Experience</h1>
                 <p className="text-[10px] font-bold text-[var(--text-dim)] uppercase tracking-widest leading-relaxed">Select vehicle tier to browse our<br/>exclusive boutique collection</p>
              </div>
@@ -123,8 +123,8 @@ const BikeList = () => {
             className="flex flex-col"
           >
             {/* Deep Navy Header */}
-            <div className="bg-[#0A0E17] pt-12 pb-8 px-6 rounded-b-[2.5rem] shadow-2xl relative overflow-hidden border-b border-white/5">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#004AAD]/10 rounded-full -mr-32 -mt-32 blur-[80px]" />
+            <div className="bg-[var(--header-color)] pt-12 pb-8 px-6 rounded-b-[2.5rem] shadow-2xl relative overflow-hidden border-b border-white/5">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--primary-color)]/10 rounded-full -mr-32 -mt-32 blur-[80px]" />
               <div className="flex items-center justify-between mb-8 relative z-10">
                  <button onClick={() => setView('select')} className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-white border border-white/10 active:scale-90 transition-all"><ArrowLeft size={18} /></button>
                  <h2 className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em]">Showroom Dashboard</h2>
@@ -133,12 +133,12 @@ const BikeList = () => {
 
               <div className="relative z-10 flex items-end justify-between">
                  <div>
-                    <span className="text-[#004AAD] font-black text-[9px] uppercase tracking-[0.4em] mb-2 block">{vehicleType} Collection</span>
+                    <span className="text-[var(--primary-color)] font-black text-[9px] uppercase tracking-[0.4em] mb-2 block">{vehicleType} Collection</span>
                     <h1 className="text-3xl font-black text-white uppercase tracking-widest leading-none mb-4">The Fleet</h1>
                  </div>
                  <div className="bg-white/5 p-1 rounded-xl border border-white/10 flex gap-1 mb-2">
-                    <button onClick={() => setVehicleType('Bike')} className={twMerge("px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest", vehicleType === 'Bike' ? "bg-white text-[#0A0E17]" : "text-white/40")}>Bike</button>
-                    <button onClick={() => setVehicleType('Car')} className={twMerge("px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest", vehicleType === 'Car' ? "bg-white text-[#0A0E17]" : "text-white/40")}>Car</button>
+                    <button onClick={() => setVehicleType('Bike')} className={twMerge("px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest", vehicleType === 'Bike' ? "bg-[var(--secondary-color)] text-white" : "text-white/40")}>Bike</button>
+                    <button onClick={() => setVehicleType('Car')} className={twMerge("px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest", vehicleType === 'Car' ? "bg-[var(--secondary-color)] text-white" : "text-white/40")}>Car</button>
                  </div>
               </div>
             </div>
@@ -158,9 +158,9 @@ const BikeList = () => {
                           <div className="absolute top-4 left-4">
                              <span className="px-3 py-1 bg-black/60 backdrop-blur-md rounded-lg text-[7px] font-black text-white uppercase tracking-widest border border-white/10">{v.category}</span>
                           </div>
-                          <div className="absolute bottom-4 right-4 flex items-center gap-1.5 px-2 py-1 bg-white rounded-lg border border-[#004AAD]/20">
-                             <Star size={9} fill="#004AAD" className="text-[#004AAD]" />
-                             <span className="text-[10px] font-black text-[#0A0E17]">{v.rating}</span>
+                          <div className="absolute bottom-4 right-4 flex items-center gap-1.5 px-2 py-1 bg-white rounded-lg border border-[var(--primary-color)]/20">
+                             <Star size={9} fill="#D4A017" className="text-[#D4A017]" />
+                             <span className="text-[10px] font-black text-[var(--header-color)]">{v.rating}</span>
                           </div>
                        </div>
 
@@ -169,13 +169,13 @@ const BikeList = () => {
                              <div>
                                 <h4 className="text-xl font-black text-[var(--text-main)] uppercase tracking-widest leading-none mb-2">{v.name}</h4>
                                 <div className="flex items-center gap-1.5 text-zinc-500">
-                                   <MapPin size={10} className="text-[#004AAD]" />
+                                   <MapPin size={10} className="text-[var(--primary-color)]" />
                                    <span className="text-[8px] font-black uppercase tracking-widest">Available @ Hub-04</span>
                                 </div>
                              </div>
                              <div className="text-right">
                                 <div className="flex items-baseline gap-1 leading-none">
-                                   <span className="text-xl font-black text-[#004AAD]">{v.price}</span>
+                                   <span className="text-xl font-black text-[var(--primary-color)]">{v.price}</span>
                                    <span className="text-[8px] font-bold text-zinc-400 capitalize">/hr</span>
                                 </div>
                              </div>
@@ -184,7 +184,7 @@ const BikeList = () => {
                           <div className="flex items-center gap-2 mb-6 pt-4 border-t border-dashed border-[var(--border-color)]">
                              {v.features.map((f, idx) => (
                                <div key={idx} className="flex items-center gap-1 opacity-70">
-                                  <Zap size={9} className="text-[#004AAD]" />
+                                  <Zap size={9} className="text-[var(--primary-color)]" />
                                   <span className="text-[8px] font-black text-zinc-500 uppercase tracking-tight">{f}</span>
                                </div>
                              ))}
@@ -192,7 +192,7 @@ const BikeList = () => {
 
                           <button 
                              onClick={() => navigate(`/rentals/${v.id}`)}
-                             className="w-full h-14 bg-[#0A0E17] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] flex items-center justify-center gap-3 shadow-2xl active:scale-95 transition-all"
+                             className="w-full h-14 bg-[var(--header-color)] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] flex items-center justify-center gap-3 shadow-2xl active:scale-95 transition-all"
                           >
                              Reserve Vehicle
                              <ArrowRight size={14} />

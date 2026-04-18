@@ -24,7 +24,7 @@ const EditProfile = () => {
       <div className="px-6 py-10 flex flex-col items-center">
         {/* Profile Avatar */}
         <div className="relative mb-10">
-          <div className="w-28 h-28 bg-blue-900 rounded-full flex items-center justify-center overflow-hidden border-4 border-slate-50">
+          <div className="w-28 h-28 bg-var(--primary-color) rounded-full flex items-center justify-center overflow-hidden border-4 border-slate-50">
              <UserLargeIcon />
           </div>
           <button className="absolute bottom-1 right-1 w-9 h-9 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-600 active:scale-90 transition-transform">
@@ -41,7 +41,7 @@ const EditProfile = () => {
                 <input 
                   type="text" 
                   defaultValue={field.value} 
-                  className="w-full text-lg font-black text-slate-900 py-2 border-b-2 border-slate-100 focus:border-blue-900 focus:outline-none transition-colors"
+                  className="w-full text-lg font-black text-slate-900 py-2 border-b-2 border-slate-100 focus:border-var(--primary-color) focus:outline-none transition-colors"
                 />
              </div>
            ))}
@@ -50,7 +50,7 @@ const EditProfile = () => {
            <div className="flex flex-col gap-6 pt-4">
               <div className="flex items-center justify-between">
                  <h3 className="text-[11px] font-black text-slate-400 tracking-[0.2em] uppercase">Address Details</h3>
-                 <button className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-900 rounded-lg text-[10px] font-black uppercase tracking-wider border border-blue-100 active:scale-95 transition-all">
+                 <button className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-var(--primary-color) rounded-lg text-[10px] font-black uppercase tracking-wider border border-blue-100 active:scale-95 transition-all">
                     <Navigation2 size={14} />
                     Auto-Detect
                  </button>
@@ -62,7 +62,7 @@ const EditProfile = () => {
                     <input 
                       type="text" 
                       placeholder="House No, Street, Area" 
-                      className="w-full text-lg font-black text-slate-900 py-2 border-b-2 border-slate-100 focus:border-blue-900 focus:outline-none transition-colors placeholder:text-slate-200"
+                      className="w-full text-lg font-black text-slate-900 py-2 border-b-2 border-slate-100 focus:border-var(--primary-color) focus:outline-none transition-colors placeholder:text-slate-200"
                     />
                  </div>
                  
@@ -72,7 +72,7 @@ const EditProfile = () => {
                        <input 
                          type="text" 
                          placeholder="City" 
-                         className="w-full text-lg font-black text-slate-900 py-2 border-b-2 border-slate-100 focus:border-blue-900 focus:outline-none transition-colors placeholder:text-slate-200"
+                         className="w-full text-lg font-black text-slate-900 py-2 border-b-2 border-slate-100 focus:border-var(--primary-color) focus:outline-none transition-colors placeholder:text-slate-200"
                        />
                     </div>
                     <div className="flex flex-col gap-2">
@@ -80,7 +80,7 @@ const EditProfile = () => {
                        <input 
                          type="text" 
                          placeholder="000000" 
-                         className="w-full text-lg font-black text-slate-900 py-2 border-b-2 border-slate-100 focus:border-blue-900 focus:outline-none transition-colors placeholder:text-slate-200"
+                         className="w-full text-lg font-black text-slate-900 py-2 border-b-2 border-slate-100 focus:border-var(--primary-color) focus:outline-none transition-colors placeholder:text-slate-200"
                        />
                     </div>
                  </div>
@@ -89,7 +89,7 @@ const EditProfile = () => {
         </div>
 
         {/* Submit Button */}
-        <button className="w-full h-16 bg-blue-950 text-white rounded-2xl text-[12px] font-black uppercase tracking-[0.2em] mt-16 shadow-xl shadow-blue-950/20 active:scale-[0.98] transition-all">
+        <button className="w-full h-16 bg-var(--primary-color) text-white rounded-2xl text-[12px] font-black uppercase tracking-[0.2em] mt-16 shadow-xl shadow-var(--primary-color)/20 active:scale-[0.98] transition-all">
            Save Changes
         </button>
       </div>

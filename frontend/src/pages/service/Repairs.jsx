@@ -94,10 +94,10 @@ const Repairs = () => {
                <motion.div 
                  animate={{ rotate: 360 }}
                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                 className="w-24 h-24 border-b-2 border-t-2 border-[#004AAD] rounded-full"
+                 className="w-24 h-24 border-b-2 border-t-2 border-[var(--primary-color)] rounded-full"
                />
                <div className="absolute inset-0 flex items-center justify-center">
-                  <Lock size={32} className="text-[#004AAD] animate-pulse" />
+                  <Lock size={32} className="text-[var(--primary-color)] animate-pulse" />
                </div>
             </div>
             
@@ -109,7 +109,7 @@ const Repairs = () => {
                  initial={{ width: 0 }}
                  animate={{ width: "100%" }}
                  transition={{ duration: 2.5, ease: "easeInOut" }}
-                 className="h-full bg-[#004AAD]"
+                 className="h-full bg-[var(--primary-color)]"
                />
             </div>
           </motion.div>
@@ -123,7 +123,7 @@ const Repairs = () => {
              <ArrowLeft size={18} strokeWidth={2.5} />
            </button>
            <div className="text-center">
-             <p className="text-[8px] font-black text-[#004AAD] uppercase tracking-[0.3em] mb-1 italic">CliqGarage</p>
+             <p className="text-[8px] font-black text-[var(--primary-color)] uppercase tracking-[0.3em] mb-1 italic">CliqGarage</p>
              <h2 className="text-xs font-black text-slate-900 uppercase tracking-widest leading-none">
                {view === 'home' ? 'Repair Centre' : view === 'emergency' ? 'SOS: Emergency' : view === 'details' ? 'Mechanic Profile' : view === 'payment' ? 'Secure Checkout' : 'Status'}
              </h2>
@@ -140,25 +140,25 @@ const Repairs = () => {
           {/* 1. HOME VIEW */}
           {view === 'home' && (
             <motion.div key="v-home" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-               <div className="bg-[#0A0E17] p-5 rounded-none shadow-2xl relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-transparent animate-pulse" />
+               <div className="bg-[#1e293b] p-5 rounded-none shadow-2xl relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#D4A017]/20 to-transparent animate-pulse" />
                   <div className="relative z-10">
                      <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
-                           <div className="w-10 h-10 rounded-none bg-red-600 flex items-center justify-center text-white animate-bounce shadow-lg shadow-red-600/30"><Siren size={20} /></div>
-                           <div><h3 className="text-sm font-black text-white uppercase tracking-widest leading-none mb-1">Breakdown?</h3><p className="text-[9px] font-bold text-red-500 uppercase tracking-[0.2em]">Emergency Assistance</p></div>
+                           <div className="w-10 h-10 rounded-none bg-[#D4A017] flex items-center justify-center text-white animate-bounce shadow-lg shadow-[#D4A017]/30"><Siren size={20} /></div>
+                           <div><h3 className="text-sm font-black text-white uppercase tracking-widest leading-none mb-1">Breakdown?</h3><p className="text-[9px] font-bold text-[#D4A017] uppercase tracking-[0.2em]">Emergency Assistance</p></div>
                         </div>
-                        <a href="tel:+919876543210" className="text-[10px] font-black text-white bg-red-600 px-3 py-1.5 rounded-none flex items-center gap-2 tracking-widest">CALL SOS</a>
+                        <a href="tel:+919876543210" className="text-[10px] font-black text-white bg-[#D4A017] px-3 py-1.5 rounded-none flex items-center gap-2 tracking-widest">CALL SOS</a>
                      </div>
                      <p className="text-[10px] text-slate-400 font-medium mb-5 leading-relaxed">Stranded on the road? Tap below to find nearby mechanics and get instant help sent to your location.</p>
                      <button onClick={() => setView('emergency')} className="w-full h-12 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-none font-black text-[10px] uppercase tracking-[0.4em] transition-all flex items-center justify-center gap-3">FIND NEARBY MECHANICS <ArrowRight size={14} /></button>
                   </div>
                </div>
-               <div className="px-1 text-left"><h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Premium Services</h3><div className="h-0.5 w-12 bg-[#004AAD] mt-1" /></div>
+               <div className="px-1 text-left"><h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Premium Services</h3><div className="h-0.5 w-12 bg-[#D4A017] mt-1" /></div>
                <div className="grid grid-cols-2 gap-2">
                   {repairCategories.map((cat) => (
-                     <div key={cat.label} onClick={() => alert(`${cat.label} Flow Coming Soon!`)} className="bg-white p-3 rounded-none border border-slate-100 shadow-sm group hover:border-[#004AAD]/50 transition-all cursor-pointer active:scale-95">
-                        <div className={twMerge("w-8 h-8 rounded-none flex items-center justify-center mb-3 transition-colors", cat.color === 'emerald' ? "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600" : cat.color === 'blue' ? "bg-blue-50 text-blue-600 group-hover:bg-blue-600" : cat.color === 'orange' ? "bg-orange-50 text-orange-600 group-hover:bg-orange-600" : "bg-purple-50 text-purple-600 group-hover:bg-purple-600")}>
+                     <div key={cat.label} onClick={() => alert(`${cat.label} Flow Coming Soon!`)} className="bg-white p-3 rounded-none border border-slate-100 shadow-sm group hover:border-[#D4A017]/50 transition-all cursor-pointer active:scale-95">
+                        <div className={twMerge("w-8 h-8 rounded-none flex items-center justify-center mb-3 transition-colors", cat.color === 'emerald' ? "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600" : cat.color === 'blue' ? "bg-[var(--secondary-color)]/20 text-[var(--secondary-color)] group-hover:bg-[var(--secondary-color)]" : cat.color === 'orange' ? "bg-orange-50 text-orange-600 group-hover:bg-orange-600" : "bg-purple-50 text-purple-600 group-hover:bg-purple-600")}>
                            <cat.icon size={16} className="group-hover:text-white" />
                         </div>
                         <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest mb-1">{cat.label}</h4>
@@ -173,8 +173,8 @@ const Repairs = () => {
           {view === 'emergency' && (
             <motion.div key="v-sos" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                <div className="bg-white p-4 rounded-none shadow-xl border border-slate-100 text-center relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-red-600" />
-                  <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity }} className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center text-red-600 mx-auto mb-3"><MapPin size={24} /></motion.div>
+                  <div className="absolute top-0 left-0 w-full h-1 bg-[#D4A017]" />
+                  <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity }} className="w-12 h-12 bg-[#D4A017]/10 rounded-full flex items-center justify-center text-[#D4A017] mx-auto mb-3"><MapPin size={24} /></motion.div>
                   <h3 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.2em] mb-1">Locating Nearby Experts</h3>
                   <div className="mt-2 flex items-center justify-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /><span className="text-[7px] font-black text-emerald-600 uppercase tracking-widest">GPS TRACKING ACTIVE</span></div>
                </div>
@@ -183,10 +183,10 @@ const Repairs = () => {
                      <div key={m.id} onClick={() => { setSelectedMechanic(m); setView('details'); }} className="bg-white p-4 rounded-none shadow-sm border border-slate-100 flex flex-col gap-4 group active:scale-[0.98] transition-all cursor-pointer">
                         <div className="flex justify-between items-start">
                            <div className="flex gap-3">
-                              <div className="w-12 h-12 bg-slate-50 flex items-center justify-center text-[#004AAD] rounded-none border border-slate-100"><Tool size={20} /></div>
+                              <div className="w-12 h-12 bg-slate-50 flex items-center justify-center text-[#D4A017] rounded-none border border-slate-100"><Tool size={20} /></div>
                               <div>
                                  <h4 className="text-[11px] font-black text-slate-900 uppercase">{m.name}</h4>
-                                 <p className="text-[9px] font-bold text-[#004AAD] mt-0.5">{m.phone}</p>
+                                 <p className="text-[9px] font-bold text-[#D4A017] mt-0.5">{m.phone}</p>
                                  <div className="flex items-center gap-2 mt-2">
                                     <span className="text-[8px] font-black text-emerald-600 uppercase bg-emerald-50 px-2 py-0.5">{m.distance}</span>
                                     <span className="text-[8px] font-black text-slate-400 uppercase italic">Shop: {m.shopName}</span>
@@ -194,7 +194,7 @@ const Repairs = () => {
                               </div>
                            </div>
                            <div className="text-right">
-                              <span className="text-[10px] font-black text-[#004AAD]">{m.rating} ★</span>
+                              <span className="text-[10px] font-black text-[#D4A017]">{m.rating} ★</span>
                               <p className="text-[7px] font-bold text-slate-400 uppercase mt-1.5">{m.arrival}</p>
                            </div>
                         </div>
@@ -208,7 +208,7 @@ const Repairs = () => {
           {view === 'details' && selectedMechanic && (
             <motion.div key="v-details" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4">
                <div className="bg-white p-5 rounded-none shadow-2xl border border-slate-100 text-center">
-                  <div className="w-20 h-20 bg-slate-50 border-2 border-slate-100 flex items-center justify-center text-[#004AAD] mx-auto mb-3 rounded-none shadow-inner"><Tool size={32} strokeWidth={1.5} /></div>
+                  <div className="w-20 h-20 bg-slate-50 border-2 border-slate-100 flex items-center justify-center text-[#D4A017] mx-auto mb-3 rounded-none shadow-inner"><Tool size={32} strokeWidth={1.5} /></div>
                   <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">{selectedMechanic.name}</h3>
                   <p className="text-[9px] font-bold text-[#004AAD] uppercase tracking-widest mb-3 italic">{selectedMechanic.specialty} Specialist</p>
                   <div className="flex justify-center gap-5 py-3 border-y border-slate-50">
@@ -233,7 +233,7 @@ const Repairs = () => {
                   <div className="space-y-3">
                      <div className="flex justify-between items-center"><span className="text-[9px] font-bold text-slate-500 uppercase">Visiting Charge</span><span className="text-xs font-black">₹299</span></div>
                      <div className="flex justify-between items-center"><span className="text-[9px] font-bold text-slate-500 uppercase">Labour (Estimated)</span><span className="text-[10px] font-black italic text-slate-400">TBD at site</span></div>
-                     <div className="flex justify-between items-center pt-3 border-t border-slate-100"><span className="text-[10px] font-black uppercase tracking-widest">Total Payable</span><span className="text-lg font-black text-[#004AAD]">₹299</span></div>
+                     <div className="flex justify-between items-center pt-3 border-t border-slate-100"><span className="text-[10px] font-black uppercase tracking-widest">Total Payable</span><span className="text-lg font-black text-[#D4A017]">₹299</span></div>
                   </div>
                </div>
 
@@ -257,7 +257,7 @@ const Repairs = () => {
                      setView('success');
                    }, 2500);
                  }} 
-                 className="w-full h-11 bg-[#004AAD] text-white rounded-none font-black text-[10px] uppercase tracking-[0.4em] shadow-xl active:scale-95 transition-all mt-2"
+                 className="w-full h-11 bg-[#D4A017] text-white rounded-none font-black text-[10px] uppercase tracking-[0.4em] shadow-xl active:scale-95 transition-all mt-2"
                >
                  CONFIRM BOOKING
                </button>
@@ -272,7 +272,7 @@ const Repairs = () => {
                <p className="text-[10px] font-medium text-slate-500 uppercase tracking-widest leading-relaxed mb-6 max-w-[200px]">{selectedMechanic.name} has been dispatched to your location.</p>
                <div className="bg-white p-5 rounded-none border border-slate-100 shadow-xl w-full">
                   <div className="flex items-center gap-4 mb-6">
-                     <div className="w-12 h-12 bg-slate-50 flex items-center justify-center text-[#004AAD]"><Phone size={20} /></div>
+                     <div className="w-12 h-12 bg-slate-50 flex items-center justify-center text-[#D4A017]"><Phone size={20} /></div>
                      <div className="text-left"><p className="text-[8px] font-bold text-slate-400 uppercase">Emergency Contact</p><p className="text-sm font-black text-slate-900">{selectedMechanic.phone}</p></div>
                   </div>
                   <button onClick={() => navigate('/')} className="w-full h-12 bg-slate-900 text-white rounded-none text-[10px] font-black uppercase tracking-widest">Back to Dashboard</button>

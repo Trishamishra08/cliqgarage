@@ -35,15 +35,15 @@ const Sidebar = ({ isOpen, onClose }) => {
 
           {/* Balanced Premium Sidebar Content */}
           <motion.div
-            initial={{ x: '-100%' }}
+            initial={{ x: '100%' }}
             animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
+            exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 left-0 bottom-0 w-[75%] z-[70]"
+            className="fixed top-0 right-0 bottom-0 w-[75%] z-[70]"
           >
-            <div className="flex flex-col h-full bg-[var(--bg-color)] shadow-2xl border-r border-white/5">
+            <div className="flex flex-col h-full bg-[var(--bg-color)] shadow-2xl border-l border-white/5">
               {/* Profile Header */}
-              <div className="bg-gradient-to-br from-[#0A0E17] via-[#1e1b4b] to-[#14b8a6] p-5 rounded-br-[2.5rem] relative overflow-hidden shadow-2xl border-b border-white/10">
+              <div className="bg-gradient-to-br from-[#001F3D] via-[#003B71] to-[#001F3D] p-5 rounded-br-[2.5rem] relative overflow-hidden shadow-2xl border-b border-white/10">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl" />
                 
                 <div className="flex items-center gap-3 relative">
@@ -77,9 +77,9 @@ const Sidebar = ({ isOpen, onClose }) => {
                         navigate(item.path);
                         onClose();
                       }}
-                      className="flex items-center gap-3.5 p-3 rounded-xl text-[var(--text-dim)] hover:text-[var(--primary-color)] hover:bg-[var(--primary-color)]/5 transition-all group active:scale-[0.98]"
+                      className="flex items-center gap-3.5 p-3 rounded-xl text-[var(--text-dim)] hover:text-[var(--secondary-color)] hover:bg-[var(--secondary-color)]/5 transition-all group active:scale-[0.98]"
                     >
-                      <div className="w-9 h-9 rounded-lg bg-zinc-100/50 dark:bg-white/5 flex items-center justify-center group-hover:bg-[var(--primary-color)] text-[var(--primary-color)] group-hover:text-white transition-all border border-black/5 dark:border-white/5 shadow-sm">
+                      <div className="w-9 h-9 rounded-lg bg-zinc-100/50 dark:bg-white/5 flex items-center justify-center group-hover:bg-[var(--secondary-color)] text-[var(--secondary-color)] group-hover:text-white transition-all border border-black/5 dark:border-white/5 shadow-sm">
                         <item.icon size={16} />
                       </div>
                       <div className="flex flex-col items-start leading-none">
@@ -87,7 +87,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                         <span className="text-[7.5px] font-bold uppercase text-zinc-400 dark:text-zinc-500 mt-1">{item.desc}</span>
                       </div>
                       <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ChevronRight size={13} className="text-[var(--primary-color)]" />
+                        <ChevronRight size={13} className="text-[var(--secondary-color)]" />
                       </div>
                     </button>
                   ))}
@@ -105,14 +105,21 @@ const Sidebar = ({ isOpen, onClose }) => {
                       <p className="text-white/30 text-[6px] font-bold uppercase tracking-widest leading-none">Emergency Roadside Assistance</p>
                     </div>
                     
-                    <button className="px-5 h-9 bg-gradient-to-r from-[#004AAD] to-[#0066FF] rounded-xl text-white text-[8px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all border border-white/10 shrink-0">
+                    <button className="px-5 h-9 bg-gradient-to-r from-[var(--secondary-color)] to-[#B45309] rounded-xl text-white text-[8px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all border border-white/10 shrink-0">
                       Connect
                     </button>
                   </div>
                 </div>
 
                 <div className="mt-4 border-t border-white/5 pt-4">
-                  <button className="flex items-center gap-3 p-3 w-full rounded-xl text-red-500/80 hover:bg-red-500/5 transition-all active:scale-95 group">
+                  <button 
+                    onClick={() => {
+                      localStorage.removeItem('hasOnboarded');
+                      navigate('/login');
+                      onClose();
+                    }}
+                    className="flex items-center gap-3 p-3 w-full rounded-xl text-red-500/80 hover:bg-red-500/5 transition-all active:scale-95 group"
+                  >
                     <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white transition-all border border-red-500/10">
                       <LogOut size={14} />
                     </div>

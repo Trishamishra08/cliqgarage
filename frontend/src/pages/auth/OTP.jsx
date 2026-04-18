@@ -1,111 +1,149 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, RefreshCcw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, ArrowLeft, Delete } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Logo from '../../components/common/Logo';
 
 const OTP = () => {
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const [counter, setCounter] = useState(30);
+  const [otp, setOtp] = useState([]);
+  const [counter, setCounter] = useState(110); // 01:50 formatted
   const location = useLocation();
   const navigate = useNavigate();
   const phone = location.state?.phone || '9887 654 321';
-  const inputRefs = useRef([]);
 
+  // Timer logic
   useEffect(() => {
     const timer = counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
     return () => clearInterval(timer);
   }, [counter]);
 
-  const handleChange = (index, value) => {
-    if (isNaN(value)) return;
-    const newOtp = [...otp];
-    newOtp[index] = value.substring(value.length - 1);
-    setOtp(newOtp);
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
-    if (value && index < 5) {
-      inputRefs.current[index + 1].focus();
+  const handleKeyPress = (num) => {
+    if (otp.length < 4) {
+      const newOtp = [...otp, num];
+      setOtp(newOtp);
+      if (newOtp.length === 4) {
+        // Auto-verify simulation
+        setTimeout(() => navigate('/setup-profile'), 500);
+      }
     }
   };
 
-  const handleKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      inputRefs.current[index - 1].focus();
+  const handleDelete = () => {
+    setOtp(otp.slice(0, -1));
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 }
     }
   };
 
-  const handleVerify = (e) => {
-    e.preventDefault();
-    if (otp.join('').length < 6) return;
-    // Mock Verify and go to Setup Profile as requested
-    navigate('/setup-profile');
+  const itemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+    }
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col px-6 pt-12">
-      <button 
-        onClick={() => navigate(-1)}
-        className="w-10 h-10 flex items-center justify-center text-slate-400 mb-6 active:scale-90"
-      >
-        <ArrowLeft size={24} />
-      </button>
-
-      <div className="flex justify-center mb-12">
-        <Logo className="scale-125" />
+    <div className="min-h-screen bg-white flex flex-col items-center font-['Roboto'] overflow-hidden overflow-y-hidden">
+      {/* Header - More Compact */}
+      <div className="w-full px-6 pt-8 flex items-center">
+        <button onClick={() => navigate(-1)} className="text-[#0F172A] active:scale-95 transition-transform">
+          <ArrowLeft size={24} />
+        </button>
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex-grow flex flex-col"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full flex-grow flex flex-col items-center px-6"
       >
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-black text-blue-950 tracking-tight leading-tight mb-2">
-            Verify <span className="text-orange-500 underline decoration-4 underline-offset-4">Identity</span>
+        {/* Top Icon Circle - Smaller & Closer */}
+        <motion.div variants={itemVariants} className="mt-2">
+          <div className="w-24 h-24 bg-[#0F172A] rounded-full flex items-center justify-center shadow-xl shadow-slate-100">
+            <Mail size={40} className="text-[#10B981]" strokeWidth={1.5} />
+          </div>
+        </motion.div>
+
+        {/* Title Section - Tight Spacing */}
+        <motion.div variants={itemVariants} className="mt-6 text-center">
+          <h1 className="text-xl text-slate-800">
+            Verification <span className="font-black">Code</span>
           </h1>
-          <p className="text-slate-500 font-medium">OTP sent to +91 {phone}</p>
-        </div>
+          <p className="mt-2 text-slate-400 text-[10px] font-semibold leading-normal max-w-[180px] mx-auto">
+            Please type the verification code sent to <br/>
+            <span className="text-slate-800 font-bold tracking-tight">+91 {phone}</span>
+          </p>
+        </motion.div>
 
-        <form onSubmit={handleVerify} className="space-y-10">
-          <div className="flex justify-between gap-1">
-            {otp.map((digit, index) => (
-              <input
-                key={index}
-                ref={(el) => (inputRefs.current[index] = el)}
-                type="tel"
-                maxLength="1"
-                value={digit}
-                onChange={(e) => handleChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-16 bg-slate-50 border-b-2 border-slate-200 text-2xl font-black text-blue-950 text-center focus:border-blue-950 focus:bg-white outline-none transition-all"
-              />
-            ))}
-          </div>
+        {/* OTP Circles - Compact Gap */}
+        <motion.div variants={itemVariants} className="mt-8 flex gap-3">
+          {[0, 1, 2, 3].map((index) => (
+            <div 
+              key={index}
+              className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-300 ${
+                otp.length === index 
+                ? 'border-[#10B981] ring-4 ring-[#10B981]/5 bg-white' 
+                : otp[index] !== undefined 
+                  ? 'border-slate-100 bg-slate-50' 
+                  : 'border-slate-100 bg-white'
+              }`}
+            >
+              {otp[index] !== undefined && (
+                <span className="text-lg font-black text-[#0F172A]">{otp[index]}</span>
+              )}
+            </div>
+          ))}
+        </motion.div>
 
-          <div className="text-center">
-            {counter > 0 ? (
-               <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Resend OTP in <span className="text-blue-900">{counter}s</span></p>
-            ) : (
-              <button 
-                type="button"
-                className="inline-flex items-center gap-2 text-blue-900 font-black text-xs uppercase tracking-widest hover:underline"
-                onClick={() => setCounter(30)}
-              >
-                <RefreshCcw size={14} /> Resend OTP
-              </button>
-            )}
-          </div>
+        {/* Timer - Tight position */}
+        <motion.div variants={itemVariants} className="mt-4">
+          <p className="text-slate-400 font-bold text-xs tracking-widest">
+            {formatTime(counter)}
+          </p>
+        </motion.div>
 
-          <div className="pt-4">
-             <button 
-               type="submit"
-               className="w-full h-16 bg-blue-950 text-white rounded-2xl flex items-center justify-center gap-3 font-black text-lg shadow-xl shadow-blue-900/20 active:scale-95 transition-all group"
-             >
-               Verify OTP
-               <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
-             </button>
-          </div>
-        </form>
+        {/* Custom Dialpad - Compact Grid and Higher position */}
+        <motion.div 
+          variants={itemVariants} 
+          className="mt-6 w-full pb-6 grid grid-cols-3 gap-y-2 gap-x-8 max-w-[240px]"
+        >
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+            <button
+              key={num}
+              onClick={() => handleKeyPress(num)}
+              className="h-10 text-xl font-normal text-slate-800 active:bg-slate-50 rounded-full transition-colors"
+            >
+              {num}
+            </button>
+          ))}
+          <div /> 
+          <button
+            onClick={() => handleKeyPress(0)}
+            className="h-10 text-xl font-normal text-slate-800 active:bg-slate-50 rounded-full transition-colors"
+          >
+            0
+          </button>
+          <button
+            onClick={handleDelete}
+            className="h-10 flex items-center justify-center text-slate-800 active:bg-slate-50 rounded-full transition-colors"
+          >
+            <div className="w-7 h-7 bg-[#0F172A] rounded-full flex items-center justify-center">
+              <ArrowLeft size={14} className="text-white" />
+            </div>
+          </button>
+        </motion.div>
       </motion.div>
     </div>
   );

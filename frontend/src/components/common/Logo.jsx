@@ -1,20 +1,20 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-const Logo = ({ className = "", showText = true, horizontal = false, forceWhite = false }) => {
+const Logo = ({ className = "", showText = true, horizontal = false, forceWhite = false, forceDark = false }) => {
   return (
     <div className={`flex ${horizontal ? 'flex-row items-center gap-1.5' : 'flex-col items-center gap-1'} ${className}`}>
       {/* Visual Logo Mark */}
-      <div className="relative w-10 h-10 flex items-center justify-center shrink-0 translate-x-1">
+      <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
         <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-sm">
           {/* Main Pin Body */}
           <path 
             d="M50 110C20 80 10 60 10 40C10 20 28 5 50 5C72 5 90 20 90 40C90 60 80 80 50 110Z" 
-            fill="#004AAD" 
+            fill="#0F172A" 
           />
           <path 
             d="M50 110C80 80 90 60 90 40C90 20 72 5 50 5V110Z" 
-            fill="#FF9119" 
+            fill="#D4A017" 
           />
           
           {/* Gear Top elements */}
@@ -35,9 +35,9 @@ const Logo = ({ className = "", showText = true, horizontal = false, forceWhite 
           <div className="flex items-baseline font-black tracking-tight text-lg">
             <span className={twMerge(
               "transition-colors",
-              forceWhite ? "text-white" : "text-blue-950 dark:text-white"
+              forceWhite ? "text-white" : forceDark ? "text-[#0F172A]" : "text-[#0F172A] dark:text-white"
             )}>Cliq</span>
-            <span className="text-orange-500 px-0.5">Garage</span>
+            <span className="text-[#D4A017] dark:text-[#D4A017] px-0.5">Garage</span>
           </div>
           <div className="text-[5px] font-black uppercase tracking-[0.1em] text-slate-400 dark:text-zinc-500 mt-0.5 whitespace-nowrap transition-colors">
             PREMIUM BIKE SERVICES & SHOP

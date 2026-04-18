@@ -17,7 +17,7 @@ const SupportCenter = () => {
        icon: MessageSquare, 
        label: 'Chat Support', 
        desc: 'Typical response: 2 mins', 
-       color: 'bg-blue-50 text-blue-600 border-blue-100' 
+       color: 'bg-[var(--secondary-color)]/10 text-[var(--secondary-color)] border-[var(--secondary-color)]/20' 
     },
     { 
        icon: Phone, 
@@ -43,7 +43,7 @@ const SupportCenter = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-32 font-['Outfit']">
       {/* 🚀 Compact Header */}
-      <div className="px-6 pt-10 pb-5 bg-[#0A0E17] flex items-center justify-between sticky top-0 z-40 border-b border-white/5">
+      <div className="px-6 pt-10 pb-5 bg-[var(--header-color)] flex items-center justify-between sticky top-0 z-40 border-b border-white/5">
           <button 
              onClick={() => navigate(-1)}
              className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white border border-white/10"
@@ -51,10 +51,10 @@ const SupportCenter = () => {
              <ChevronLeft size={16} />
           </button>
           <div className="text-center">
-             <span className="text-[7px] font-bold tracking-[0.3em] text-[#004AAD] uppercase block mb-0.5">Control Tower</span>
+             <span className="text-[7px] font-bold tracking-[0.3em] text-[var(--primary-color)] uppercase block mb-0.5">Control Tower</span>
              <h2 className="text-[10px] font-semibold text-white uppercase tracking-widest leading-none">Support Center</h2>
           </div>
-          <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-[#004AAD] border border-white/10">
+          <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-[var(--primary-color)] border border-white/10">
              <LifeBuoy size={14} />
           </div>
        </div>
@@ -66,7 +66,7 @@ const SupportCenter = () => {
              <input 
                type="text" 
                placeholder="How can we help you today?" 
-               className="w-full h-12 bg-white rounded-2xl border border-slate-100 pl-11 pr-5 text-[9px] font-bold uppercase tracking-widest text-slate-700 placeholder:text-slate-300 shadow-sm focus:outline-none focus:border-[#004AAD]/30 transition-all"
+               className="w-full h-12 bg-white rounded-2xl border border-slate-100 pl-11 pr-5 text-[9px] font-bold uppercase tracking-widest text-slate-700 placeholder:text-slate-300 shadow-sm focus:outline-none focus:border-[var(--primary-color)]/30 transition-all"
              />
           </div>
 
@@ -94,7 +94,7 @@ const SupportCenter = () => {
              ))}
           </div>
 
-          <div className="bg-gradient-to-br from-[#004AAD] to-[#0066FF] border border-[#004AAD]/20 p-8 rounded-[3rem] mb-8 relative overflow-hidden shadow-2xl shadow-[#004AAD]/20">
+          <div className="bg-gradient-to-br from-[var(--primary-color)] to-[var(--primary-color)] border border-[var(--primary-color)]/20 p-8 rounded-[3rem] mb-8 relative overflow-hidden shadow-2xl shadow-[var(--primary-color)]/20">
              <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
              <div className="flex flex-col items-center text-center relative z-10">
                 <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 mb-6">
@@ -102,7 +102,7 @@ const SupportCenter = () => {
                 </div>
                 <h4 className="text-[14px] font-black text-white uppercase tracking-[0.2em] mb-2">Emergency SOS Portal</h4>
                 <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest leading-relaxed mb-6 max-w-[200px]">Immediate elite recovery for break-downs or accidents.</p>
-                <button className="h-12 px-10 bg-white text-[#004AAD] rounded-full text-[10px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-xl">Activate SOS</button>
+                <button className="h-12 px-10 bg-white text-[var(--primary-color)] rounded-full text-[10px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-xl">Activate SOS</button>
              </div>
           </div>
 
@@ -111,7 +111,7 @@ const SupportCenter = () => {
              {faqs.map((faq, i) => (
                 <button key={i} className="w-full p-4 flex items-center justify-between group active:bg-slate-50 transition-all text-left">
                    <div>
-                      <span className="text-[6.5px] font-bold text-[#004AAD] uppercase tracking-[0.2em] mb-1.5 block leading-none">{faq.cat}</span>
+                      <span className="text-[6.5px] font-bold text-[var(--primary-color)] uppercase tracking-[0.2em] mb-1.5 block leading-none">{faq.cat}</span>
                       <p className="text-[9px] font-bold text-slate-700 uppercase tracking-tight">{faq.q}</p>
                    </div>
                    <Plus size={14} className="text-slate-200 group-hover:text-slate-400 transition-colors" />

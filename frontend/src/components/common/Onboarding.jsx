@@ -18,13 +18,13 @@ const Onboarding = ({ onComplete }) => {
           className="w-full h-full object-cover brightness-[0.85]"
         />
         {/* Dynamic Blue Overlays */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-blue-950/60 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-blue-900/10 mix-blend-color" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#001F3D]/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[#003B71]/10 mix-blend-color" />
       </motion.div>
 
       {/* Aesthetic Accents */}
-      <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
-      <div className="absolute top-10 right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-[90px] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#003B71]/30 to-transparent" />
+      <div className="absolute top-10 right-10 w-32 h-32 bg-[#003B71]/20 rounded-full blur-[90px] pointer-events-none" />
 
       {/* Compact Circular CTA Area */}
       <div className="absolute bottom-12 right-10 flex items-center gap-6">
@@ -35,7 +35,7 @@ const Onboarding = ({ onComplete }) => {
            className="text-right"
         >
           <p className="text-[10px] font-black text-white leading-none tracking-widest uppercase">Experience</p>
-          <p className="text-[8px] font-bold text-blue-400 mt-1 tracking-[0.3em] uppercase">Elite Power</p>
+          <p className="text-[8px] font-bold text-[#D4A017] mt-1 tracking-[0.3em] uppercase">Elite Power</p>
         </motion.div>
 
         <motion.div 
@@ -48,7 +48,7 @@ const Onboarding = ({ onComplete }) => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onComplete}
-            className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-[0_0_40px_rgba(37,99,235,0.4)] border border-white/20 group relative overflow-hidden"
+            className="w-16 h-16 bg-[#D4A017] rounded-full flex items-center justify-center text-white shadow-[0_0_40px_rgba(212,160,23,0.4)] border border-white/20 group relative overflow-hidden"
           >
             {/* Glossy Overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -57,7 +57,7 @@ const Onboarding = ({ onComplete }) => {
             <motion.div 
               animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0.2, 0.6] }}
               transition={{ duration: 2.5, repeat: Infinity }}
-              className="absolute inset-1 rounded-full border border-blue-300/30"
+              className="absolute inset-1 rounded-full border border-white/30"
             />
             
             <ArrowRight size={24} strokeWidth={3} className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" />

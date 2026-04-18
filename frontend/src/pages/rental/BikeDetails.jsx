@@ -50,14 +50,14 @@ const BikeDetails = () => {
 
       {/* Content */}
       <div className="px-6 -mt-10 relative z-10">
-        <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl shadow-lavender-100/30 border border-slate-50">
+        <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl shadow-[var(--primary-color)]/30 border border-slate-50">
           <div className="flex justify-between items-start mb-6">
             <div>
-              <span className="text-[10px] font-black tracking-widest text-lavender-600 uppercase mb-2 block">{bike.type}</span>
+              <span className="text-[10px] font-black tracking-widest text-[var(--primary-color)] uppercase mb-2 block">{bike.type}</span>
               <h1 className="text-3xl font-black text-dark-950 uppercase tracking-tighter leading-none">{bike.name}</h1>
             </div>
             <div className="flex items-center gap-1 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-100">
-              <Star size={14} className="text-amber-500 fill-amber-500" />
+              <Star size={14} className="text-var(--secondary-color) fill-var(--secondary-color)" />
               <span className="text-sm font-black text-amber-800">{bike.rating}</span>
             </div>
           </div>
@@ -76,7 +76,7 @@ const BikeDetails = () => {
           <div className="flex flex-col gap-4 mb-8">
              <div className="flex items-center justify-between">
                 <h3 className="text-sm font-black uppercase tracking-widest text-dark-400">Duration</h3>
-                <span className="text-sm font-black text-lavender-600">{duration} Hours</span>
+                <span className="text-sm font-black text-[var(--primary-color)]">{duration} Hours</span>
              </div>
              <input 
                type="range" 
@@ -85,7 +85,7 @@ const BikeDetails = () => {
                step="1"
                value={duration}
                onChange={(e) => setDuration(parseInt(e.target.value))}
-               className="w-full accent-lavender-600 h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer"
+               className="w-full accent-[var(--primary-color)] h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer"
              />
              <div className="flex items-center justify-between text-[8px] font-black text-dark-300 uppercase tracking-[0.3em]">
                 <span>1 HR</span>
@@ -95,9 +95,9 @@ const BikeDetails = () => {
           </div>
 
           {/* Total Fare */}
-          <div className="bg-lavender-50 p-6 rounded-3xl border border-lavender-100 flex items-center justify-between mb-8 transition-all">
+          <div className="bg-[var(--primary-color)]/5 border-[var(--primary-color)]/10 flex items-center justify-between mb-8 transition-all">
              <div>
-                <p className="text-[10px] font-black text-lavender-600 uppercase tracking-widest leading-none mb-1">Total Fare</p>
+                <p className="text-[10px] font-black text-[var(--primary-color)] uppercase tracking-widest leading-none mb-1">Total Fare</p>
                 <p className="text-3xl font-black text-dark-950 tracking-tighter">₹{calculateFare()}</p>
              </div>
              <div className="text-right">
@@ -114,7 +114,7 @@ const BikeDetails = () => {
                { icon: MapPin, text: 'Anywhere Pickup' }
              ].map((feat, i) => (
                <div key={i} className="flex items-center gap-3 text-dark-600">
-                  <feat.icon size={16} className="text-lavender-600" />
+                  <feat.icon size={16} className="text-[var(--primary-color)]" />
                   <span className="text-[11px] font-bold uppercase tracking-tight">{feat.text}</span>
                </div>
              ))}

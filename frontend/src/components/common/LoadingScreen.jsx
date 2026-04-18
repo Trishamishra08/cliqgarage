@@ -1,89 +1,94 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Bike } from 'lucide-react';
+import Logo from './Logo';
 
 const LoadingScreen = () => {
   return (
-    <div className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center">
-      <div className="relative w-32 h-32 flex items-center justify-center">
-        {/* Radiating Rings */}
+    <div className="fixed inset-0 z-[100] bg-[#F1F5F9] flex flex-col items-center justify-center">
+      <div className="relative w-48 h-48 flex items-center justify-center">
+        {/* Soft Background Pulse */}
         <motion.div 
-          animate={{ scale: [1, 1.5, 1], opacity: [0.1, 0.5, 0.1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0 bg-blue-100 rounded-full blur-2xl"
+          animate={{ scale: [1, 1.4, 1], opacity: [0.1, 0.3, 0.1] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 bg-[#003B71]/10 rounded-full blur-3xl"
         />
         
-        {/* Circular Dashed Path (Royal Enfield Style) */}
-        <svg className="absolute inset-0 w-full h-full rotate-[-90deg]">
+        {/* Circular Dashed Path */}
+        <svg className="absolute inset-0 w-full h-full rotate-[-90deg]" viewBox="0 0 192 192">
           <motion.circle
-            cx="64"
-            cy="64"
-            r="48"
+            cx="96"
+            cy="96"
+            r="75"
             fill="none"
-            stroke="#1e3a8a" // Blue 950
-            strokeWidth="1.5"
-            strokeDasharray="4 6"
+            stroke="#003B71"
+            strokeWidth="2"
+            strokeDasharray="6 10"
             strokeLinecap="round"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1, rotate: 360 }}
             transition={{ 
               pathLength: { duration: 2, repeat: Infinity, ease: "linear" },
-              rotate: { duration: 10, repeat: Infinity, ease: "linear" }
+              rotate: { duration: 15, repeat: Infinity, ease: "linear" }
             }}
+            className="opacity-40"
           />
         </svg>
 
-        {/* Central Bike Icon */}
+        {/* Central Logo - Now Perfectly Centered */}
         <motion.div
           animate={{ 
             y: [0, -4, 0],
-            scale: [1, 1.05, 1]
+            scale: [1, 1.03, 1]
           }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="relative z-10 w-16 h-16 bg-blue-950 rounded-full flex items-center justify-center shadow-2xl shadow-blue-900/30 text-white border-2 border-white"
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          className="relative z-10 w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-[0_20px_50px_rgba(0,59,113,0.12)] border border-white"
         >
-          <Bike size={32} strokeWidth={2.5} />
+          <Logo showText={false} className="scale-[2.8]" />
         </motion.div>
 
-        {/* Trail Points */}
-        {[...Array(3)].map((_, i) => (
+        {/* Orbiting Accents */}
+        {[...Array(2)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1.5 h-1.5 bg-blue-950 rounded-full"
+            className="absolute w-2 h-2 bg-[#D4A017] rounded-full shadow-[0_0_10px_#D4A017]"
             animate={{ 
               rotate: 360,
               opacity: [0, 1, 0]
             }}
             transition={{ 
-              duration: 2, 
+              duration: 3, 
               repeat: Infinity, 
               ease: "linear",
-              delay: i * 0.2
+              delay: i * 1.5
             }}
             style={{ 
-              originX: "64px",
-              originY: "64px",
-              top: "16px",
-              left: "64px"
+              originX: "96px",
+              originY: "96px",
+              top: "21px",
+              left: "96px"
             }}
           />
         ))}
       </div>
       
       <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="mt-8 text-center"
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 1 }}
+        className="mt-14 text-center"
       >
-        <p className="text-[10px] font-black text-blue-950 uppercase tracking-[0.5em] mb-1">CliqGarage</p>
-        <div className="flex gap-1 justify-center">
+        <div className="flex items-center justify-center gap-1.5 mb-2">
+          <span className="text-[14px] font-black text-[#003B71] uppercase tracking-[0.5em] ml-[0.5em]">Cliq</span>
+          <span className="text-[14px] font-black text-[#D4A017] uppercase tracking-[0.5em]">Garage</span>
+        </div>
+        <div className="flex gap-2.5 justify-center mt-4">
            {[...Array(3)].map((_, i) => (
               <motion.div 
                 key={i}
-                animate={{ opacity: [0.2, 1, 0.2] }}
+                animate={{ opacity: [0.3, 1, 0.3], y: [0, -3, 0] }}
                 transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
-                className="w-1.5 h-1.5 bg-blue-600 rounded-full"
+                className="w-2.5 h-1 bg-[#003B71]/20 rounded-full"
               />
            ))}
         </div>
