@@ -6,7 +6,8 @@ import {
   CheckCircle2, ArrowRight, Gauge, Clock,
   Search, ChevronRight, Info, Shield, Zap, 
   Banknote, Lock, Loader2, User, Phone, 
-  Home, Hash, AlertTriangle, ShieldAlert
+  Home, Hash, AlertTriangle, ShieldAlert, Star,
+  Fuel, Settings2
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
@@ -44,27 +45,36 @@ const RentalBooking = () => {
         name: "Kawasaki Ninja 400", 
         category: "Sport",
         price: 1499, 
-        stats: "45 BHP • 400cc", 
-        image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=800&auto=format&fit=crop",
-        unavailableDates: ['2026-04-12', '2026-04-20']
+        stats: "45 BHP • 400cc • Petrol", 
+        image: "https://images.unsplash.com/photo-1558981403-c59899a28bc?q=80&w=600&auto=format&fit=crop",
+        unavailableDates: ['2026-04-12'] // Removed current date to make it available
       },
       { 
         id: 2, 
         name: "RE Himalayan 450", 
         category: "Adventure",
         price: 999, 
-        stats: "40 BHP • 450cc", 
-        image: "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?q=80&w=800&auto=format&fit=crop",
-        unavailableDates: ['2026-04-10', '2026-04-11']
+        stats: "40 BHP • 450cc • Manual", 
+        image: "https://images.unsplash.com/photo-1594911772125-07fc7a2d8d9f?q=80&w=600&auto=format&fit=crop",
+        unavailableDates: ['2026-04-10']
       },
       {
         id: 5,
         name: "Harley Iron 883",
         category: "Cruiser",
         price: 2499,
-        stats: "50 BHP • 883cc",
+        stats: "50 BHP • 883cc • Petrol",
         image: "https://images.unsplash.com/photo-1558981403-c5f91cbba527?q=80&w=800&auto=format&fit=crop",
-        unavailableDates: ['2026-04-15']
+        unavailableDates: []
+      },
+      {
+        id: 15,
+        name: "Ducati Panigale V4",
+        category: "Sport",
+        price: 8999,
+        stats: "214 BHP • 1103cc • Desmo",
+        image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=800&auto=format&fit=crop",
+        unavailableDates: []
       }
     ],
     car: [
@@ -73,18 +83,27 @@ const RentalBooking = () => {
         name: "Thar 4x4 Luxury", 
         category: "SUV",
         price: 2499, 
-        stats: "Manual • Diesel", 
+        stats: "Manual • Diesel • 4x4", 
         image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=800&auto=format&fit=crop",
-        unavailableDates: ['2026-04-11', '2026-04-12']
+        unavailableDates: []
       },
       { 
         id: 4, 
         name: "BMW M3 Sedan", 
         category: "Sedan",
         price: 5499, 
-        stats: "Auto • Petrol", 
+        stats: "Auto • Petrol • Twin Turbo", 
         image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=800&auto=format&fit=crop",
-        unavailableDates: ['2026-04-25']
+        unavailableDates: []
+      },
+      { 
+        id: 13, 
+        name: "Porsche 911 GT3", 
+        category: "Luxury",
+        price: 15999, 
+        stats: "Manual • Petrol • Flat-6", 
+        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800&auto=format&fit=crop",
+        unavailableDates: []
       }
     ]
   };
@@ -148,7 +167,7 @@ const RentalBooking = () => {
           onClick={() => { setStartDate(dStr); setShowCalendar(false); }}
           className={twMerge(
             "h-8 w-8 rounded-lg text-[10px] font-bold transition-all flex items-center justify-center",
-            isS ? "bg-[var(--primary-color)] text-white shadow-lg" : isP ? "text-slate-100 cursor-not-allowed" : "text-slate-600 hover:bg-slate-50"
+            isS ? "bg-[#001F3D] text-white shadow-lg" : isP ? "text-slate-100 cursor-not-allowed" : "text-slate-600 hover:bg-slate-50"
           )}
         >
           {d}
@@ -167,15 +186,15 @@ const RentalBooking = () => {
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white"
           >
             <div className="relative mb-6">
-               <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="w-20 h-20 border-b-2 border-t-2 border-[var(--primary-color)] rounded-full" />
+               <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="w-20 h-20 border-b-2 border-t-2 border-[#001F3D] rounded-full" />
                <div className="absolute inset-0 flex items-center justify-center">
-                  <Lock size={28} className="text-[var(--primary-color)] animate-pulse" />
+                  <Lock size={28} className="text-[#D4A017] animate-pulse" />
                </div>
             </div>
             <h3 className="text-sm font-bold text-slate-900 mb-1 px-10 text-center">Securing Transaction</h3>
             <p className="text-[9px] font-medium text-slate-400 animate-pulse">Encryption sequence active...</p>
             <div className="mt-10 w-56 h-1 bg-slate-50 rounded-full overflow-hidden">
-               <motion.div initial={{ width: 0 }} animate={{ width: "100%" }} transition={{ duration: 2.5, ease: "easeInOut" }} className="h-full bg-[var(--primary-color)]" />
+               <motion.div initial={{ width: 0 }} animate={{ width: "100%" }} transition={{ duration: 2.5, ease: "easeInOut" }} className="h-full bg-[#001F3D]" />
             </div>
           </motion.div>
         )}
@@ -188,7 +207,7 @@ const RentalBooking = () => {
               <ChevronLeft size={16} strokeWidth={2.5} />
             </button>
             <div className="text-center">
-              <p className="text-[8px] font-bold text-[var(--primary-color)] mb-0.5 opacity-60">Step {step} of 6</p>
+              <p className="text-[8px] font-bold text-[#D4A017] mb-0.5 opacity-60">Step {step} of 6</p>
               <h2 className="text-xs font-bold text-slate-900 tracking-tight leading-none">
                 {step === 1 ? 'Choose Tier' : step === 2 ? 'Select Vehicle' : step === 3 ? 'Configurations' : step === 4 ? 'Verification' : step === 5 ? 'Checkout' : 'Success'}
               </h2>
@@ -196,7 +215,7 @@ const RentalBooking = () => {
             <div className="w-9 h-9 flex items-center justify-center text-slate-400 opacity-20"><Zap size={16} /></div>
          </div>
          <div className="w-full h-1 bg-slate-50 overflow-hidden">
-            <motion.div initial={{ width: 0 }} animate={{ width: `${(step/6) * 100}%` }} className="h-full bg-[var(--primary-color)]" />
+            <motion.div initial={{ width: 0 }} animate={{ width: `${(step/6) * 100}%` }} className="h-full bg-[#001F3D]" />
          </div>
       </div>
 
@@ -206,10 +225,10 @@ const RentalBooking = () => {
           {step === 1 && (
             <motion.div key="s1" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, x: -20 }} className="space-y-0 pt-0">
               <div className="text-center pt-2 pb-4">
-                 <span className="text-[var(--primary-color)] font-bold text-[9px] mb-1 block opacity-60">Premium Select</span>
-                 <h2 className="text-2xl font-bold text-slate-900 leading-none relative inline-block">
+                 <span className="text-[#D4A017] font-bold text-[9px] mb-1 block opacity-60 uppercase tracking-widest">Premium Fleet Portal</span>
+                 <h2 className="text-2xl font-black text-[#001F3D] leading-none relative inline-block uppercase tracking-tighter">
                     The Collection
-                    <div className="absolute -bottom-1 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--primary-color)] to-transparent rounded-full" />
+                    <div className="absolute -bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-[#D4A017] to-transparent rounded-full" />
                  </h2>
               </div>
               <div className="flex flex-col gap-0 pt-0">
@@ -233,49 +252,89 @@ const RentalBooking = () => {
 
           {step === 2 && (
             <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
+               {/* Showroom Navigation Console */}
                <div className="flex items-center gap-3 px-1">
-                  <div className="flex-1 bg-white h-12 rounded-full border border-slate-100 shadow-sm flex items-center px-4 gap-3">
-                     <div className="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center text-[var(--primary-color)]"><MapPin size={14} /></div>
+                  <div className="flex-1 bg-[#001F3D] h-12 rounded-2xl border border-[#D4A017]/20 shadow-lg flex items-center px-4 gap-3">
+                     <div className="w-7 h-7 rounded-full bg-white/5 flex items-center justify-center text-[#D4A017]"><MapPin size={14} /></div>
                      <div className="flex flex-col leading-none">
-                        <span className="text-[7px] font-bold text-slate-300 mb-0.5">Location</span>
-                        <p className="text-[10px] font-bold text-slate-900 truncate max-w-[90px]">{location}</p>
+                        <span className="text-[6px] font-black text-white/40 mb-1 uppercase tracking-widest leading-none">Location Terminal</span>
+                        <p className="text-[9px] font-black text-white uppercase truncate max-w-[90px]">{location}</p>
                      </div>
                   </div>
-                  <button onClick={() => setShowCalendar(true)} className="flex-1 bg-white h-12 rounded-full border border-slate-100 shadow-sm flex items-center px-4 gap-3 active:bg-slate-50 transition-all">
+                  <button onClick={() => setShowCalendar(true)} className="flex-1 bg-white h-12 rounded-2xl border border-slate-100 shadow-sm flex items-center px-4 gap-3 active:bg-slate-50 transition-all">
                      <div className="w-7 h-7 rounded-full bg-orange-50 flex items-center justify-center text-orange-600"><Calendar size={14} /></div>
-                     <div className="flex flex-col leading-none">
-                        <span className="text-[7px] font-bold text-slate-300 mb-0.5">Pickup Date</span>
-                        <p className="text-[10px] font-bold text-slate-900">{new Date(startDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</p>
+                     <div className="flex flex-col leading-none text-left">
+                        <span className="text-[6px] font-black text-slate-300 mb-1 uppercase tracking-widest leading-none">Pickup Protocol</span>
+                        <p className="text-[9px] font-black text-slate-900 uppercase">{new Date(startDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</p>
                      </div>
                   </button>
                </div>
 
                <div className="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
                   {['All', ...(vehicleType === 'bike' ? ['Sport', 'Adventure', 'Cruiser'] : ['Sedan', 'SUV', 'Luxury'])].map(cat => (
-                     <button key={cat} onClick={() => setSelectedCategory(cat)} className={twMerge("px-5 h-8 rounded-full text-[9px] font-bold transition-all", selectedCategory === cat ? "bg-[var(--primary-color)] text-white shadow-md" : "bg-white text-slate-400 border border-slate-100")}>{cat}</button>
+                     <button key={cat} onClick={() => setSelectedCategory(cat)} className={twMerge("px-6 h-9 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border shrink-0", selectedCategory === cat ? "bg-[#001F3D] text-white border-[#001F3D] shadow-lg shadow-blue-500/10" : "bg-white text-slate-300 border-slate-50")}>{cat}</button>
                   ))}
                </div>
 
-               <div className="grid grid-cols-1 gap-4">
+               {/* High-Density Precision Fleet */}
+               <div className="grid grid-cols-1 gap-2.5">
                   {availableVehicles.filter(v => selectedCategory === 'All' || v.category === selectedCategory).map((v) => (
-                    <div key={v.id} onClick={() => v.isAvailable && (setSelectedVehicle(v), nextStep())} className={twMerge("bg-white rounded-2xl border border-slate-50 overflow-hidden transition-all relative flex flex-col group shadow-md", v.isAvailable ? "active:scale-[0.99] cursor-pointer" : "opacity-30 grayscale cursor-not-allowed")}>
-                       {!v.isAvailable && (
-                         <div className="absolute top-2 right-2 z-10 bg-slate-900 text-white text-[7px] font-bold px-2 py-1 rounded-full flex items-center gap-1">Occupied</div>
-                       )}
-                       <div className="relative w-full h-[180px] overflow-hidden bg-slate-100">
-                          <img src={v.image} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt={v.name} />
-                          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-                          <div className="absolute top-3 left-3 px-2 py-1 bg-white/20 backdrop-blur-md rounded-lg text-[7px] font-bold text-white">{v.category}</div>
-                          <div className="absolute bottom-3 left-4 right-4">
-                             <h4 className="text-base font-bold text-white leading-none mb-1">{v.name}</h4>
-                             <p className="text-[8px] font-medium text-white/70">{v.stats}</p>
+                    <motion.div 
+                      key={v.id} 
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => v.isAvailable && (setSelectedVehicle(v), nextStep())} 
+                      className={twMerge(
+                        "bg-white rounded-2xl border p-2.5 flex gap-4 transition-all relative overflow-hidden",
+                        v.isAvailable ? "shadow-lg shadow-slate-200/40 border-white cursor-pointer" : "opacity-40 grayscale border-slate-100 cursor-not-allowed"
+                      )}
+                    >
+                       {/* Asset Hub */}
+                       <div className="w-28 h-24 rounded-xl overflow-hidden shrink-0 relative bg-slate-50">
+                          <img src={v.image} className="w-full h-full object-cover grayscale-[0.2]" alt={v.name} />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          <div className="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 bg-black/60 backdrop-blur-md rounded text-[6px] font-black text-white uppercase tracking-widest border border-white/10">
+                             {v.category}
                           </div>
                        </div>
-                       <div className="px-4 py-3 flex justify-between items-center bg-white">
-                          <div className="flex flex-col"><span className="text-[7px] font-medium text-slate-400 mb-0.5">Rental Premium</span><div className="flex items-baseline gap-1"><span className="text-lg font-bold text-slate-900 leading-none">₹{v.price}</span><span className="text-[9px] font-medium text-slate-400">/ Day</span></div></div>
-                          <div className={twMerge("w-8 h-8 rounded-full flex items-center justify-center transition-all", v.isAvailable ? "bg-[var(--primary-color)] text-white shadow-md" : "bg-slate-100 text-slate-300")}><ArrowRight size={16} /></div>
+
+                       {/* Data Terminal */}
+                       <div className="flex-grow flex flex-col justify-between py-0.5">
+                          <div className="flex justify-between items-start">
+                             <div>
+                                <h4 className="text-[11px] font-black text-[#001F3D] uppercase tracking-tighter leading-none mb-1.5">{v.name}</h4>
+                                <div className="flex gap-2.5">
+                                   <div className="flex items-center gap-0.5 text-[6px] font-black text-slate-400 uppercase tracking-widest">
+                                      <Zap size={7} className="text-[#D4A017]" /> {v.stats.split('•')[0]}
+                                   </div>
+                                   <div className="flex items-center gap-0.5 text-[6px] font-black text-slate-400 uppercase tracking-widest">
+                                      <Clock size={7} className="text-[#D4A017]" /> {v.stats.split('•')[1] || 'Auto'}
+                                   </div>
+                                </div>
+                             </div>
+                             <div className={twMerge("px-2 py-0.5 rounded text-[5px] font-black uppercase tracking-[0.2em]", v.isAvailable ? "bg-emerald-50/80 text-emerald-600" : "bg-slate-50 text-slate-400")}>
+                                {v.isAvailable ? 'Ready' : 'In-Use'}
+                             </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 mb-2 pt-2 border-t border-slate-50">
+                             <div className="flex items-center gap-0.5 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">
+                                <Star size={7} fill="#D4A017" className="text-[#D4A017]" />
+                                <span className="text-[7px] font-black text-[#001F3D]">5.0</span>
+                             </div>
+                             <span className="text-[6px] font-black text-slate-300 uppercase tracking-widest italic leading-none">Boutique Service Active</span>
+                          </div>
+
+                          <div className="flex items-center justify-between">
+                             <div className="flex items-baseline gap-0.5 leading-none">
+                                <span className="text-sm font-black text-[#001F3D]">₹{v.price}</span>
+                                <span className="text-[8px] font-bold text-slate-300 uppercase">/Protcl</span>
+                             </div>
+                             <div className="w-7 h-7 bg-[#001F3D] rounded-full flex items-center justify-center text-[#D4A017] shadow-lg">
+                                <ArrowRight size={14} />
+                             </div>
+                          </div>
                        </div>
-                    </div>
+                    </motion.div>
                   ))}
                </div>
             </motion.div>
@@ -293,14 +352,14 @@ const RentalBooking = () => {
                </div>
                <div className="grid gap-3">
                   <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
-                     <div className="flex items-center gap-4"><div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[var(--primary-color)]"><Clock size={18} /></div><div><p className="text-[8px] font-bold text-slate-300 mb-0.5">Rental Duration</p><p className="text-sm font-bold text-slate-900">{rentalDays} Day{rentalDays > 1 ? 's' : ''}</p></div></div>
-                     <div className="flex gap-2"><button onClick={() => setRentalDays(Math.max(1, rentalDays - 1))} className="w-10 h-10 rounded-xl border border-slate-100 bg-slate-50 font-bold text-slate-600">-</button><button onClick={() => setRentalDays(rentalDays + 1)} className="w-10 h-10 rounded-xl bg-[var(--primary-color)] text-white font-bold shadow-md shadow-blue-500/20">+</button></div>
+                     <div className="flex items-center gap-4"><div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-#001F3D"><Clock size={18} /></div><div><p className="text-[8px] font-bold text-slate-300 mb-0.5">Rental Duration</p><p className="text-sm font-bold text-slate-900">{rentalDays} Day{rentalDays > 1 ? 's' : ''}</p></div></div>
+                     <div className="flex gap-2"><button onClick={() => setRentalDays(Math.max(1, rentalDays - 1))} className="w-10 h-10 rounded-xl border border-slate-100 bg-slate-50 font-bold text-slate-600">-</button><button onClick={() => setRentalDays(rentalDays + 1)} className="w-10 h-10 rounded-xl bg-#001F3D text-white font-bold shadow-md shadow-blue-500/20">+</button></div>
                   </div>
                   <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                     <p className="text-[9px] font-bold text-slate-900 border-l-2 border-[var(--primary-color)] pl-3">Mileage Package</p>
+                     <p className="text-[9px] font-bold text-slate-900 border-l-2 border-#001F3D pl-3">Mileage Package</p>
                      <div className="grid grid-cols-3 gap-3">
                         {kmOptions.map(opt => (
-                           <button key={opt.label} onClick={() => setSelectedKM(opt.label)} className={twMerge("p-3 rounded-xl border-2 flex flex-col items-center transition-all", selectedKM === opt.label ? "border-[var(--primary-color)] bg-blue-50/30" : "border-slate-50 opacity-40")}>
+                           <button key={opt.label} onClick={() => setSelectedKM(opt.label)} className={twMerge("p-3 rounded-xl border-2 flex flex-col items-center transition-all", selectedKM === opt.label ? "border-#001F3D bg-blue-50/30" : "border-slate-50 opacity-40")}>
                               <span className="text-[8px] font-bold mb-1">{opt.label}</span>
                               <span className="text-sm font-bold text-slate-900">{opt.km}</span>
                            </button>
@@ -319,7 +378,7 @@ const RentalBooking = () => {
 
                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-lg space-y-5">
                   <div className="flex items-center gap-3 mb-1">
-                     <div className="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center text-[var(--primary-color)]"><User size={14} /></div>
+                     <div className="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center text-#001F3D"><User size={14} /></div>
                      <h3 className="text-[10px] font-bold text-slate-900">Personal Information</h3>
                   </div>
                   
@@ -332,8 +391,8 @@ const RentalBooking = () => {
                      ].map(field => (
                         <div key={field.key} className="space-y-1.5">
                            <label className="text-[8px] font-bold text-slate-400 block ml-0.5">{field.label}</label>
-                           <div className="flex items-center bg-slate-50/50 border border-slate-100 rounded-xl px-4 h-12 group focus-within:border-[var(--primary-color)] transition-all">
-                              <field.icon size={14} className="text-slate-300 mr-3 group-focus-within:text-[var(--primary-color)]" />
+                           <div className="flex items-center bg-slate-50/50 border border-slate-100 rounded-xl px-4 h-12 group focus-within:border-#001F3D transition-all">
+                              <field.icon size={14} className="text-slate-300 mr-3 group-focus-within:text-#001F3D" />
                               <input 
                                 type="text" 
                                 placeholder={field.ph}
@@ -374,20 +433,20 @@ const RentalBooking = () => {
           {step === 5 && selectedVehicle && (
             <motion.div key="s5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
                 <div className="bg-slate-900 p-6 rounded-3xl shadow-xl relative overflow-hidden text-white border border-white/5">
-                   <div className="absolute bottom-0 right-0 w-40 h-40 bg-[var(--primary-color)]/20 rounded-full blur-3xl opacity-50" />
-                   <h3 className="text-[10px] font-bold text-[var(--primary-color)] mb-6 relative z-10">Checkout Summary</h3>
+                   <div className="absolute bottom-0 right-0 w-40 h-40 bg-#001F3D/20 rounded-full blur-3xl opacity-50" />
+                   <h3 className="text-[10px] font-bold text-#001F3D mb-6 relative z-10">Checkout Summary</h3>
                    <div className="space-y-4 relative z-10">
                       <div className="flex justify-between items-center text-slate-400"><span className="text-[9px] font-medium tracking-tight">Rental Duration ({rentalDays}d)</span><span className="text-sm font-bold text-white">₹{selectedVehicle.price * rentalDays}</span></div>
                       <div className="flex justify-between items-center text-slate-400"><span className="text-[9px] font-medium tracking-tight">Package ({selectedKM})</span><span className="text-sm font-bold text-white">₹{kmOptions.find(o => o.label === selectedKM)?.extra || 0}</span></div>
                       <div className="flex justify-between items-center text-slate-400"><span className="text-[9px] font-medium tracking-tight">Taxes (GST 18%)</span><span className="text-sm font-bold text-white">₹{Math.round(calculateTotal() * 0.18)}</span></div>
-                      <div className="pt-6 mt-2 border-t border-white/10 flex justify-between items-end"><span className="text-xs font-bold text-[var(--primary-color)]">Net Total</span><span className="text-3xl font-bold tracking-tight text-white leading-none">₹{Math.round(calculateTotal() * 1.18)}</span></div>
+                      <div className="pt-6 mt-2 border-t border-white/10 flex justify-between items-end"><span className="text-xs font-bold text-#001F3D">Net Total</span><span className="text-3xl font-bold tracking-tight text-white leading-none">₹{Math.round(calculateTotal() * 1.18)}</span></div>
                    </div>
                 </div>
                 <div className="grid gap-2.5">
                    <p className="text-[9px] font-bold text-slate-400 ml-1">Payment Options</p>
-                   <button onClick={() => setPaymentMethod('online')} className={twMerge("w-full h-16 bg-white border border-slate-100 rounded-2xl flex items-center justify-between px-6 transition-all", paymentMethod === 'online' ? "border-[var(--primary-color)] bg-blue-50/30 shadow-md" : "opacity-60")}>
-                      <div className="flex items-center gap-4 text-[var(--primary-color)]"><CreditCard size={20} /><span className="text-[10px] font-bold">Pay Online</span></div>
-                      {paymentMethod === 'online' && <CheckCircle2 size={20} className="text-[var(--primary-color)]" />}
+                   <button onClick={() => setPaymentMethod('online')} className={twMerge("w-full h-16 bg-white border border-slate-100 rounded-2xl flex items-center justify-between px-6 transition-all", paymentMethod === 'online' ? "border-#001F3D bg-blue-50/30 shadow-md" : "opacity-60")}>
+                      <div className="flex items-center gap-4 text-#001F3D"><CreditCard size={20} /><span className="text-[10px] font-bold">Pay Online</span></div>
+                      {paymentMethod === 'online' && <CheckCircle2 size={20} className="text-#001F3D" />}
                    </button>
                    <button onClick={() => setPaymentMethod('cod')} className={twMerge("w-full h-16 bg-white border border-slate-100 rounded-2xl flex items-center justify-between px-6 transition-all", paymentMethod === 'cod' ? "border-emerald-500 bg-emerald-50/30 shadow-md" : "opacity-60")}>
                       <div className="flex items-center gap-4 text-emerald-600"><Banknote size={20} /><span className="text-[10px] font-bold">Pay At Delivery</span></div>
@@ -400,8 +459,8 @@ const RentalBooking = () => {
           {step === 6 && (
             <motion.div key="s6" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center text-center space-y-10 py-8">
                 <div className="relative">
-                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", damping: 12, stiffness: 120 }} className="w-24 h-24 bg-[var(--primary-color)] text-white rounded-3xl flex items-center justify-center shadow-xl relative z-10"><CheckCircle2 size={48} strokeWidth={2.5} /></motion.div>
-                   <div className="absolute inset-0 bg-[var(--primary-color)]/20 blur-3xl scale-125" />
+                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", damping: 12, stiffness: 120 }} className="w-24 h-24 bg-#001F3D text-white rounded-3xl flex items-center justify-center shadow-xl relative z-10"><CheckCircle2 size={48} strokeWidth={2.5} /></motion.div>
+                   <div className="absolute inset-0 bg-#001F3D/20 blur-3xl scale-125" />
                 </div>
                 <div className="space-y-4">
                    <h2 className="text-3xl font-bold text-slate-900 leading-none">Booking Confirmed</h2>
@@ -421,7 +480,7 @@ const RentalBooking = () => {
                {step >= 3 && (
                  <div className="flex flex-col pr-6 border-r border-slate-100 leading-none">
                     <span className="text-[7px] font-bold text-slate-300 mb-1.5">Amount</span>
-                    <span className="text-2xl font-bold text-[var(--primary-color)]">₹{Math.round(calculateTotal() * 1.18)}</span>
+                    <span className="text-2xl font-bold text-#001F3D">₹{Math.round(calculateTotal() * 1.18)}</span>
                  </div>
                )}
                <button 
@@ -431,7 +490,7 @@ const RentalBooking = () => {
                     "flex-1 h-14 rounded-2xl font-bold text-[10px] shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-all border border-white/10 font-['Outfit']",
                     (step === 4 && (!kycDocs.aadhar || !kycDocs.dl || !userDetails.fullName || !userDetails.phone || !userDetails.address || !userDetails.pincode)) 
                       ? "bg-slate-100 text-slate-400 cursor-not-allowed shadow-none border-slate-200" 
-                      : "bg-[var(--primary-color)] text-white shadow-blue-500/30"
+                      : "bg-#001F3D text-white shadow-blue-500/30"
                   )}
                >
                   {step === 1 ? 'Start Exploration' : step === 2 ? 'Reserve Vehicle' : step === 3 ? 'Finalize Details' : step === 4 ? 'Save & Continue' : step === 5 ? 'Confirm Booking' : 'Confirm'}

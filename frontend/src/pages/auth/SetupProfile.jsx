@@ -36,7 +36,7 @@ const SetupProfile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem('hasOnboarded', 'true');
-    navigate('/');
+    navigate('/home');
   };
 
   const containerVariants = {
@@ -57,7 +57,7 @@ const SetupProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F1F5F9] flex flex-col font-['Roboto'] overflow-hidden overflow-y-hidden selection:bg-[#D4A017]/30">
+    <div className="min-h-screen bg-[#F1F5F9] flex flex-col font-['Roboto'] overflow-x-hidden selection:bg-[#D4A017]/30 pb-10">
       {/* Premium Decorative Elements */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-[#D4A017]/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
       <div className="absolute bottom-40 left-0 w-32 h-32 bg-[#0F172A]/5 rounded-full blur-3xl -ml-16 pointer-events-none" />

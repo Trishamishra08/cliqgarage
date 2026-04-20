@@ -28,7 +28,14 @@ const OTP = () => {
       setOtp(newOtp);
       if (newOtp.length === 4) {
         // Auto-verify simulation
-        setTimeout(() => navigate('/setup-profile'), 500);
+        const isRegistering = location.state?.isRegistering;
+        setTimeout(() => {
+          if (isRegistering) {
+            navigate('/setup-profile');
+          } else {
+            navigate('/home');
+          }
+        }, 500);
       }
     }
   };
@@ -55,7 +62,7 @@ const OTP = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center font-['Roboto'] overflow-hidden overflow-y-hidden">
+    <div className="min-h-screen bg-white flex flex-col items-center font-['Roboto'] overflow-x-hidden pb-8">
       {/* Header - More Compact */}
       <div className="w-full px-6 pt-8 flex items-center">
         <button onClick={() => navigate(-1)} className="text-[#0F172A] active:scale-95 transition-transform">

@@ -20,7 +20,8 @@ const ServiceHistory = () => {
       mechanic: 'Elite Performance Hub',
       amount: '2,999',
       status: 'Completed',
-      vehicle: 'BMW M3 Competition'
+      vehicle: 'BMW M3 Competition',
+      hasInvoice: true
     },
     {
       id: 'CLQ-HUB-4402',
@@ -29,20 +30,32 @@ const ServiceHistory = () => {
       time: '02:00 PM',
       mechanic: 'Brembo Official Center',
       amount: '1,899',
-      status: 'Pending',
-      vehicle: 'BMW M3 Competition'
+      status: 'In-progress',
+      vehicle: 'BMW M3 Competition',
+      hasInvoice: false
     },
     {
       id: 'CLQ-HUB-2109',
       service: 'Bike General Service',
-      date: '20 Aug 2025',
+      date: '19 Apr 2026',
       time: '09:00 AM',
       mechanic: 'Enfield Care Specialist',
       amount: '1,299',
-      status: 'Completed',
-      vehicle: 'RE Bullet 350'
+      status: 'Accepted',
+      vehicle: 'RE Bullet 350',
+      hasInvoice: false
     }
   ];
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Completed': return "bg-emerald-50 border-emerald-100 text-emerald-600";
+      case 'In-progress': return "bg-blue-50 border-blue-100 text-blue-600";
+      case 'Accepted': return "bg-amber-50 border-amber-100 text-amber-600";
+      case 'Request Sent': return "bg-slate-50 border-slate-200 text-slate-400";
+      default: return "bg-slate-50 border-slate-100 text-slate-600";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-32 font-['Outfit']">
@@ -92,7 +105,7 @@ const ServiceHistory = () => {
                         <div className="flex items-center gap-2 mb-1">
                            <span className={twMerge(
                              "px-2 py-0.5 rounded-full text-[6.5px] font-bold uppercase tracking-widest border",
-                             order.status === 'Completed' ? "bg-emerald-50 border-emerald-100 text-emerald-600" : "bg-amber-50 border-amber-100 text-amber-600"
+                             getStatusColor(order.status)
                            )}>
                               {order.status}
                            </span>
@@ -126,13 +139,22 @@ const ServiceHistory = () => {
 
                   <div className="pt-3.5 flex items-center justify-between">
                      <div className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-[#004AAD]/5 flex items-center justify-center text-[#004AAD]">
-                           <Star size={8} fill="currentColor" />
-                        </div>
-                        <p className="text-[8px] font-bold text-slate-400 uppercase tracking-tight">{order.mechanic}</p>
+                        {order.status === 'Completed' ? (
+                          <div className="flex items-center gap-0.5">
+                             {[1,2,3,4,5].map(s => <Star key={s} size={6} fill={s <= 4 ? "#D4A017" : "none"} className={s <= 4 ? "text-[#D4A017]" : "text-slate-200"} />)}
+                             <span className="text-[6px] font-black text-slate-300 ml-1 uppercase">Reviewed</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                             <div className="w-5 h-5 rounded-full bg-[#004AAD]/5 flex items-center justify-center text-[#004AAD]">
+                                <Star size={8} fill="currentColor" />
+                             </div>
+                             <p className="text-[8px] font-bold text-slate-400 uppercase tracking-tight">{order.mechanic}</p>
+                          </div>
+                        )}
                      </div>
                      <button className="flex items-center gap-1.5 text-[8.5px] font-bold text-[#004AAD] uppercase group-hover:gap-2.5 transition-all">
-                        Details <ArrowRight size={12} />
+                        {order.hasInvoice ? 'View Invoice' : 'Track Order'} <ArrowRight size={12} />
                      </button>
                   </div>
                </motion.div>

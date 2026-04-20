@@ -37,7 +37,6 @@
   background-color: var(--bg-color);
   color: var(--text-main);
   overflow-x: hidden;
-  user-select: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

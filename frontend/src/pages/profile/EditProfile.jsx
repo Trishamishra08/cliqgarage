@@ -89,7 +89,10 @@ const EditProfile = () => {
         </div>
 
         {/* Submit Button */}
-        <button className="w-full h-16 bg-var(--primary-color) text-white rounded-2xl text-[12px] font-black uppercase tracking-[0.2em] mt-16 shadow-xl shadow-var(--primary-color)/20 active:scale-[0.98] transition-all">
+        <button 
+          onClick={() => navigate('/home')}
+          className="w-full h-16 bg-var(--primary-color) text-white rounded-2xl text-[12px] font-black uppercase tracking-[0.2em] mt-16 shadow-xl shadow-var(--primary-color)/20 active:scale-[0.98] transition-all"
+        >
            Save Changes
         </button>
       </div>

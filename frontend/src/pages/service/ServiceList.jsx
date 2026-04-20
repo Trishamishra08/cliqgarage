@@ -6,178 +6,167 @@ import {
   LifeBuoy, Wrench, ArrowLeft, Settings,
   CheckCircle2, Info, Droplets, Gauge, 
   Battery, Wind, Snowflake, Scissors, 
-  History, ShieldAlert, AlertTriangle, PhoneCall
+  History, ShieldAlert, AlertTriangle, PhoneCall, Heart
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
+import BottomNav from '../../components/common/BottomNav';
 
 const ServiceList = () => {
   const navigate = useNavigate();
-  const [vehicleType, setVehicleType] = useState('car'); // 'car' or 'bike'
+  const [activeCategory, setActiveCategory] = useState('car');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const carServices = [
-    { name: 'General Service', icon: Settings, desc: 'Full checkup' },
-    { name: 'Engine Repair', icon: Wrench, desc: 'Performance' },
-    { name: 'Oil Change', icon: Droplets, desc: 'Synthetic oil' },
-    { name: 'Brake Check', icon: Gauge, desc: 'Pads & fluid' },
-    { name: 'Battery', icon: Battery, desc: 'Health & replace' },
-    { name: 'AC Repair', icon: Snowflake, desc: 'Gas refill' },
-    { name: 'Alignment', icon: LifeBuoy, desc: 'Balancing' },
-    { name: 'Car Detailing', icon: Droplets, desc: 'Wash & wax' },
-    { name: 'Dent & Paint', icon: Scissors, desc: 'Body work' },
-    { name: 'Emergency', icon: ShieldAlert, desc: '24/7 Support' },
+  const categories = [
+    { id: 'general', name: 'General Service', icon: Wrench },
+    { id: 'periodic', name: 'Periodic Service', icon: Clock },
+    { id: 'engine', name: 'Engine Works', icon: Settings },
+    { id: 'body', name: 'Body Shop', icon: Scissors },
+    { id: 'oil', name: 'Oil Service', icon: Droplets },
+    { id: 'custom', name: 'Custom Tuning', icon: Gauge },
   ];
 
-  const bikeServices = [
-    { name: 'General Service', icon: Settings, desc: 'Routine care' },
-    { name: 'Engine Tune-Up', icon: Zap, desc: 'Performance' },
-    { name: 'Oil Change', icon: Droplets, desc: 'Engine flush' },
-    { name: 'Brake Repair', icon: Gauge, desc: 'Drum & disc' },
-    { name: 'Chain Care', icon: History, desc: 'Lube & clean' },
-    { name: 'Tyre & Puncture', icon: LifeBuoy, desc: 'Nitrogen' },
-    { name: 'Battery', icon: Battery, desc: 'Replacement' },
-    { name: 'Bike Wash', icon: Droplets, desc: 'Foam cleaning' },
-    { name: 'Accident Repair', icon: AlertTriangle, desc: 'Claims help' },
-    { name: 'Emergency', icon: ShieldAlert, desc: 'Roadside' },
+  const mechanics = [
+    {
+      id: 1,
+      name: "Elite Performance Hub",
+      rating: 4.9,
+      distance: "1.2 km",
+      location: "Industrial Area, New Delhi",
+      image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=400",
+      startingPrice: 999,
+      type: "Store"
+    },
+    {
+      id: 2,
+      name: "FastFix Auto Care",
+      rating: 4.7,
+      distance: "3.5 km",
+      location: "Sector 62, Gurgaon",
+      image: "https://images.unsplash.com/photo-1517524008436-bbdb53c57d59?q=80&w=400",
+      startingPrice: 299,
+      type: "Store"
+    },
+    {
+      id: 3,
+      name: "The Bike Smith",
+      rating: 4.8,
+      distance: "2.1 km",
+      location: "Majnu ka Tilla, Delhi",
+      image: "https://images.unsplash.com/photo-1558981403-c5f91cbba527?q=80&w=400",
+      startingPrice: 499,
+      type: "Store"
+    }
   ];
 
-  const currentServices = vehicleType === 'car' ? carServices : bikeServices;
-
-  const handleServiceClick = (serviceName) => {
-    navigate('/services/1', { state: { vehicle: vehicleType, service: serviceName } });
-  };
+  const filteredMechanics = mechanics.filter(m => 
+    m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    m.location.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-40 font-['Outfit']">
-      {/* 🚀 Compact Streamlined Header */}
-      <div className="pt-4 pb-2 px-6 rounded-b-[2rem] shadow-2xl relative overflow-hidden bg-[var(--header-color)] border-b border-[var(--primary-color)]/40">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--primary-color)]/20 rounded-full -mr-24 -mt-24 blur-[80px]" />
-        
-        <div className="flex items-center justify-between mb-1 relative z-20">
-           <button onClick={() => navigate('/')} className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-white border border-white/10 active:scale-95 transition-all">
-              <ArrowLeft size={14} />
-           </button>
-           <div className="text-center">
-              <span className="text-[var(--secondary-color)] text-[7px] font-bold uppercase tracking-[0.4em] block mb-0.5">Elite Solutions</span>
-              <h1 className="text-[10px] font-bold text-white uppercase tracking-[0.3em]">Service Hub</h1>
-           </div>
-           <div className="w-8 h-8 bg-[var(--secondary-color)]/10 rounded-lg flex items-center justify-center text-[var(--secondary-color)] border border-[var(--secondary-color)]/20">
-              <Settings size={14} />
-           </div>
-        </div>
+      {/* 🏗️ Branded Top Bar */}
+      <div className="bg-[#001F3D] pt-8 pb-12 px-6 rounded-b-[2.5rem] shadow-lg relative z-10">
+         <div className="flex items-center justify-between text-white">
+            <div className="w-10 h-10 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10" onClick={() => navigate(-1)}>
+               <ArrowLeft size={20} />
+            </div>
+            <div className="text-center">
+               <span className="text-[#D4A017] text-[7px] font-black uppercase tracking-[0.4rem] block mb-1">CliqGarage</span>
+               <h1 className="text-[14px] font-black uppercase tracking-widest">Service Hub</h1>
+            </div>
+            <div className="w-10 h-10 bg-[#D4A017] rounded-2xl flex items-center justify-center text-[#001F3D]">
+               <Settings size={20} />
+            </div>
+         </div>
+      </div>
 
-        {/* Compressed & Professional Selection Area */}
-        <div className="relative z-20 flex justify-center gap-14 mt-1">
-           {['car', 'bike'].map((type) => (
-             <motion.div 
-               key={type}
-               onClick={() => setVehicleType(type)}
-               whileTap={{ scale: 0.95 }}
+      {/* 🏷️ Minimalist Horizontal Category Pills (As per image) */}
+      <div className="px-5 -mt-6 relative z-20">
+         <div className="flex gap-2 overflow-x-auto no-scrollbar py-2">
+            <motion.button
+               onClick={() => setActiveCategory('all')}
                className={twMerge(
-                  "flex flex-col items-center gap-2.5 cursor-pointer transition-all duration-500",
-                  vehicleType === type ? "scale-105 opacity-100" : "opacity-40 scale-90"
+                  "whitespace-nowrap px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all",
+                  activeCategory === 'all' ? "bg-[#001F3D] text-white shadow-xl" : "bg-white text-slate-400 border border-slate-100 shadow-sm"
                )}
-             >
-                <div className={twMerge(
-                   "w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-500 shadow-2xl",
-                   vehicleType === type ? "bg-[var(--secondary-color)] border-[var(--secondary-color)]" : "bg-white/5 border-white/10"
-                )}>
-                   {type === 'car' ? (
-                     <Car size={18} className={vehicleType === 'car' ? "text-white" : "text-white/40"} />
-                   ) : (
-                     <Bike size={18} className={vehicleType === 'bike' ? "text-white" : "text-white/40"} />
-                   )}
-                </div>
-                <span className={twMerge(
-                  "text-[8px] font-black uppercase tracking-[0.2em] mb-4",
-                  vehicleType === type ? "text-white" : "text-white/40"
-                )}>FOR {type}</span>
-             </motion.div>
-           ))}
-        </div>
-      </div>
-
-      {/* 🔍 Professional Search */}
-      <div className="px-6 -mt-4 relative z-30">
-        <div className="bg-white/95 backdrop-blur-2xl rounded-xl shadow-2xl border border-white flex items-center px-4 h-10">
-          <Search size={14} className="text-slate-400 mr-2" />
-          <input 
-            type="text" 
-            placeholder={`SEARCH ${vehicleType.toUpperCase()} SERVICES...`}
-            className="flex-1 bg-transparent border-none focus:outline-none text-[8px] font-semibold text-slate-900 placeholder:text-slate-300 uppercase tracking-widest"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <Filter size={14} className="text-[var(--primary-color)]" />
-        </div>
-      </div>
-
-      {/* 🏎️ Grid with Balanced Weight */}
-      <div className="mt-6 px-5">
-         <div className="flex items-center justify-between mb-4 px-1">
-            <h2 className="text-[8px] font-bold text-[var(--header-color)]/40 uppercase tracking-[0.4em]">Available Support</h2>
-            <div className="h-px bg-[var(--primary-color)]/10 flex-1 ml-4" />
-         </div>
-
-         <div className="grid grid-cols-2 gap-3">
-            <AnimatePresence mode="wait">
-               {currentServices.map((service, i) => (
-                 <motion.div
-                   key={`${vehicleType}-${service.name}`}
-                   initial={{ opacity: 0, scale: 0.95 }}
-                   animate={{ opacity: 1, scale: 1 }}
-                   transition={{ delay: i * 0.02 }}
-                   onClick={() => handleServiceClick(service.name)}
-                   className="bg-white p-3.5 rounded-[1.8rem] border border-white shadow-sm flex flex-col group active:scale-[0.96] transition-all hover:shadow-xl"
-                 >
-                    <div className="flex items-start justify-between mb-2">
-                        <div className="w-8 h-8 rounded-lg bg-[#F0F6FF] flex items-center justify-center text-[var(--primary-color)] group-hover:bg-[var(--primary-color)] group-hover:text-white transition-all duration-300">
-                           <service.icon size={16} />
-                        </div>
-                        <ChevronRight size={10} className="text-slate-200 group-hover:text-[var(--primary-color)]" />
-                    </div>
-                    <h3 className="text-[8px] font-bold text-slate-900 uppercase tracking-[0.15em] leading-tight mb-0.5">{service.name}</h3>
-                    <p className="text-[7px] font-medium text-slate-400 uppercase tracking-tight line-clamp-1">{service.desc}</p>
-                 </motion.div>
-               ))}
-            </AnimatePresence>
+            >
+               All
+            </motion.button>
+            {categories.map((cat) => (
+               <motion.button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={twMerge(
+                     "whitespace-nowrap px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shadow-sm",
+                     activeCategory === cat.id ? "bg-[#001F3D] text-white shadow-xl" : "bg-white text-slate-400 border border-slate-100"
+                  )}
+               >
+                  {cat.name.split(' ')[0]}
+               </motion.button>
+            ))}
          </div>
       </div>
 
-      {/* 🚨 Tighter Emergency SOS 🚨 */}
-      <div className="mt-8 px-5">
-         <div 
-           onClick={() => handleServiceClick('Emergency Rescue')}
-           className="bg-[var(--header-color)] rounded-[1.8rem] p-4 text-white relative overflow-hidden flex items-center shadow-[var(--primary-color)]/10 border border-white/5 group cursor-pointer active:scale-95 transition-all"
-         >
-            <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--primary-color)]/20 rounded-full -mr-12 -mt-12 blur-2xl" />
-            
-            <div className="relative z-10 flex-1 flex flex-col">
-               <div className="flex items-center gap-1.5 mb-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-ping" />
-                  <span className="text-[7px] font-bold uppercase tracking-[0.3em] text-white/50">Emergency Rescue</span>
+      {/* 🛠️ Specialist Listing Hub */}
+      <div className="px-5 mt-10 space-y-4">
+         <div className="flex items-center justify-between mb-2">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.3rem] text-slate-300">Local Experts</h2>
+            <Filter size={14} className="text-[#D4A017]" />
+         </div>
+
+         {filteredMechanics.map((mech) => (
+            <motion.div 
+               key={mech.id}
+               initial={{ opacity: 0, y: 10 }}
+               animate={{ opacity: 1, y: 0 }}
+               onClick={() => navigate(`/services/${mech.id}`)}
+               className="bg-white rounded-[2rem] p-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-50 flex items-center gap-4 group active:scale-[0.98] transition-all relative"
+            >
+               {/* 📸 Compact Shop Image */}
+               <div className="w-20 h-20 rounded-[1.5rem] overflow-hidden bg-slate-50 shrink-0 shadow-inner">
+                  <img src={mech.image} className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 transition-all duration-700" alt={mech.name} />
                </div>
-               <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] leading-none mb-1">Breakdown SOS</h3>
-               <p className="text-[7px] font-medium text-white/40 uppercase tracking-widest mb-3 italic">Arrival in <span className="text-white not-italic font-bold">20-25 Mins</span></p>
                
-               <div className="flex gap-2">
-                  <button className="h-7 px-4 bg-white text-[var(--header-color)] rounded-lg text-[7.5px] font-bold uppercase tracking-widest shadow-xl">
-                     Call Help
-                  </button>
-                  <div className="h-7 w-7 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center">
-                     <PhoneCall size={10} />
+               {/* 📝 Intelligence Section */}
+               <div className="flex-1 min-w-0 pr-10">
+                  <div className="mb-2">
+                     <div className="flex items-center justify-between mb-0.5">
+                        <h3 className="text-[11px] font-black text-[#001F3D] uppercase tracking-tight truncate w-full">{mech.name}</h3>
+                     </div>
+                     <p className="text-[7.5px] font-bold text-slate-400 leading-tight line-clamp-1 italic uppercase tracking-wider opacity-60">
+                        {mech.id === 1 ? "Performance Overhaul Facility" : 
+                         mech.id === 2 ? "High-Speed Interval Specialists" :
+                         "Dedicated Performance Custom Hub"}
+                     </p>
+                  </div>
+                  
+                  <div className="flex items-baseline gap-1">
+                     <span className="text-[7px] font-bold text-slate-300 uppercase tracking-widest">Starts at</span>
+                     <span className="text-[14px] font-black text-[#001F3D] tracking-tighter">₹{mech.startingPrice}</span>
                   </div>
                </div>
-            </div>
 
-            <div className="relative z-10">
-               <div className="w-12 h-12 bg-[var(--secondary-color)]/10 rounded-xl border border-[var(--secondary-color)]/20 flex items-center justify-center backdrop-blur-md">
-                  <ShieldAlert size={24} className="text-[var(--primary-color)]" />
+               {/* 🏷️ Micro Badge (Top Right) */}
+               <div className="absolute top-3 right-4">
+                  <div className="flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                     <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+                     <span className="text-[6px] font-black text-emerald-600 uppercase tracking-widest leading-none">Ready</span>
+                  </div>
                </div>
-            </div>
-         </div>
+
+               {/* 🛒 Micro Action (Bottom Right) */}
+               <div className="absolute bottom-3 right-3">
+                  <button className="w-9 h-9 bg-[#001F3D] text-[#D4A017] rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-all group-hover:bg-[#D4A017] group-hover:text-[#001F3D]">
+                     <ChevronRight size={16} strokeWidth={4} />
+                  </button>
+               </div>
+            </motion.div>
+         ))}
       </div>
+
+      <BottomNav />
     </div>
   );
 };

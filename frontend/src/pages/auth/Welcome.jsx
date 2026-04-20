@@ -29,10 +29,10 @@ const Welcome = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="px-6 flex flex-col items-center pt-12"
+              className="px-6 flex flex-col items-center pt-16"
             >
               {/* Quick Actions Icons */}
-              <div className="flex gap-10 mb-6">
+              <div className="flex gap-10 mb-8">
                 {[
                   { icon: Settings, label: 'Service' },
                   { icon: Bike, label: 'Rental' },
@@ -57,7 +57,7 @@ const Welcome = () => {
           </motion.div>
 
           {/* Bottom CTA Section */}
-          <div className="mt-auto pb-12 px-8 w-full max-w-sm mx-auto">
+          <div className="mt-auto pb-24 px-8 w-full max-w-sm mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
