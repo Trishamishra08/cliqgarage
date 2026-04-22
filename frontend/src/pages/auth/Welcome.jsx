@@ -8,6 +8,13 @@ import Logo from '../../components/common/Logo';
 const Welcome = () => {
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (isLoggedIn) {
+      navigate('/home', { replace: true });
+    }
+  }, [navigate]);
+
   return (
     <div className="fixed inset-0 bg-[#0F172A] flex items-center justify-center overflow-hidden font-['Roboto']">
       <div className="relative w-full h-full flex flex-col pt-12">

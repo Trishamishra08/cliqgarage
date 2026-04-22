@@ -29,6 +29,7 @@ const OTP = () => {
       if (newOtp.length === 4) {
         // Auto-verify simulation
         const isRegistering = location.state?.isRegistering;
+        localStorage.setItem('isLoggedIn', 'true');
         setTimeout(() => {
           if (isRegistering) {
             navigate('/setup-profile');

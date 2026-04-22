@@ -1,72 +1,77 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Settings, Bike, ShoppingBag } from 'lucide-react';
+import welcomeImg from '../../assets/welcome_bg.jpg';
 
 const Onboarding = ({ onComplete }) => {
   return (
-    <div className="fixed inset-0 z-[100] bg-black overflow-hidden">
-      {/* Front Facing Premium Car Background */}
-      <motion.div 
-        initial={{ scale: 1.15, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2, ease: "easeOut" }}
-        className="absolute inset-0"
-      >
-        <img 
-          src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=2000" 
-          alt="Front Premium Car"
-          className="w-full h-full object-cover brightness-[0.85]"
-        />
-        {/* Dynamic Blue Overlays */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#001F3D]/60 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[#003B71]/10 mix-blend-color" />
-      </motion.div>
+    <div className="fixed inset-0 z-[100] bg-[#0F172A] overflow-hidden font-['Roboto']">
+      <div className="relative w-full h-full flex flex-col pt-12">
+        {/* Background Layer */}
+        <div className="absolute inset-0">
+          <img 
+            src={welcomeImg} 
+            alt="CLIQGARAGE Onboarding" 
+            className="w-full h-full object-cover lg:object-contain bg-[#1F4D4D]" 
+          />
+          {/* Subtle overlay for depth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
+        </div>
 
-      {/* Aesthetic Accents */}
-      <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#003B71]/30 to-transparent" />
-      <div className="absolute top-10 right-10 w-32 h-32 bg-[#003B71]/20 rounded-full blur-[90px] pointer-events-none" />
-
-      {/* Compact Circular CTA Area */}
-      <div className="absolute bottom-12 right-10 flex items-center gap-6">
-        <motion.div 
-           initial={{ opacity: 0, x: -20 }}
-           animate={{ opacity: 1, x: 0 }}
-           transition={{ delay: 1, duration: 0.8 }}
-           className="text-right"
-        >
-          <p className="text-[10px] font-black text-white leading-none tracking-widest uppercase">Experience</p>
-          <p className="text-[8px] font-bold text-[#D4A017] mt-1 tracking-[0.3em] uppercase">Elite Power</p>
-        </motion.div>
-
-        <motion.div 
-           initial={{ opacity: 0, scale: 0.8, x: 20 }}
-           animate={{ opacity: 1, scale: 1, x: 0 }}
-           transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
-        >
-          {/* Main Compact Button */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={onComplete}
-            className="w-16 h-16 bg-[#D4A017] rounded-full flex items-center justify-center text-white shadow-[0_0_40px_rgba(212,160,23,0.4)] border border-white/20 group relative overflow-hidden"
-          >
-            {/* Glossy Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
-            {/* Pulsing Core */}
+        {/* Content Container */}
+        <div className="relative z-20 flex-grow flex flex-col h-full">
+            {/* Top Header Section */}
             <motion.div 
-              animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0.2, 0.6] }}
-              transition={{ duration: 2.5, repeat: Infinity }}
-              className="absolute inset-1 rounded-full border border-white/30"
-            />
-            
-            <ArrowRight size={24} strokeWidth={3} className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
-          </motion.button>
-        </motion.div>
-      </div>
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="px-6 flex flex-col items-center pt-16"
+            >
+              {/* Quick Actions Icons */}
+              <div className="flex gap-10 mb-8">
+                {[
+                  { icon: Settings, label: 'Service' },
+                  { icon: Bike, label: 'Rental' },
+                  { icon: ShoppingBag, label: 'Store' }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex flex-col items-center gap-2">
+                    <div className="w-10 h-10 rounded-full bg-[#0F172A]/15 backdrop-blur-md border border-[#0F172A]/10 flex items-center justify-center shadow-sm">
+                      <item.icon size={14} className="text-[#0F172A]" />
+                    </div>
+                    <span className="text-[7px] font-black uppercase tracking-[0.2em] text-[#0F172A]/70">{item.label}</span>
+                  </div>
+                ))}
+              </div>
 
-      {/* Decorative Branding Frame */}
-      <div className="absolute inset-6 border border-white/5 pointer-events-none rounded-[2rem]" />
+            {/* Main Branding */}
+            <div className="text-center">
+              <h1 className="text-white text-4xl sm:text-6xl font-black uppercase tracking-tighter leading-none italic drop-shadow-2xl">
+                WELCOME TO <br />
+                <span className="text-[#0F172A] tracking-normal drop-shadow-none">CLIQGARAGE</span>
+              </h1>
+            </div>
+          </motion.div>
+
+          {/* Bottom CTA Section */}
+          <div className="mt-auto pb-24 px-8 w-full max-w-sm mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+            >
+              <button
+                onClick={onComplete}
+                className="w-full h-16 bg-[#0F172A] text-white border border-white/10 text-xs font-black uppercase tracking-[0.3em] rounded-full shadow-[0_20px_40px_rgba(0,0,0,0.5)] active:scale-95 transition-all flex items-center justify-center gap-4 group"
+              >
+                <span className="group-hover:text-[#D4A017] transition-colors">Get Started</span>
+                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#D4A017] group-hover:text-[#0F172A] transition-all">
+                  <ArrowRight size={14} />
+                </div>
+              </button>
+            </motion.div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

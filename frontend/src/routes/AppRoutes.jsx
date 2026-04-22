@@ -29,26 +29,39 @@ import Checkout from '../pages/ecommerce/Checkout';
 import OrderTracking from '../pages/ecommerce/OrderTracking';
 import OrderHistory from '../pages/ecommerce/OrderHistory';
 
+import UnifiedTracking from '../pages/tracking/UnifiedTracking';
+import MechanicLogin from '../pages/mechanic/MechanicLogin';
+import MechanicOTP from '../pages/mechanic/MechanicOTP';
+import MechanicDashboard from '../pages/mechanic/MechanicDashboard';
+import MechanicSetup from '../pages/mechanic/MechanicSetup';
+import ServiceManagement from '../pages/mechanic/ServiceManagement';
+import RentalLogin from '../pages/rental/RentalLogin';
+import RentalOTP from '../pages/rental/RentalOTP';
+import RentalDashboard from '../pages/rental/RentalDashboard';
+
 const AppRoutes = () => {
   const location = useLocation();
   const introPaths = ['/'];
-  const authPaths = ['/login', '/otp', '/setup-profile', '/register', ...introPaths];
+  const authPaths = ['/login', '/otp', '/setup-profile', '/register', '/mechanic', '/mechanic/login', '/mechanic/otp', '/rental', '/rental/login', '/rental/otp', ...introPaths];
   const fullScreenPaths = [
     '/home', '/ecommerce', '/history', '/bookings', '/payments', 
     '/wishlist', '/support', '/rentals', '/ecommerce/cart', 
-    '/ecommerce/checkout', '/order-history'
+    '/ecommerce/checkout', '/order-history', '/tracking',
+    '/mechanic', '/mechanic/login', '/mechanic/otp', '/mechanic/dashboard', '/mechanic/services',
+    '/rental', '/rental/login', '/rental/otp', '/rental/dashboard'
   ];
   const hideHeaderPaths = [...fullScreenPaths, '/services', '/order-tracking'];
   const hideBottomNavPaths = [...fullScreenPaths, '/order-tracking'];
   
-  const isAuth = authPaths.includes(location.pathname);
+  const isAuth = authPaths.includes(location.pathname) || location.pathname.startsWith('/mechanic');
   const isFullScreen = fullScreenPaths.includes(location.pathname);
   const shouldHideHeader = hideHeaderPaths.includes(location.pathname) || 
     location.pathname.startsWith('/services/') || 
     location.pathname.startsWith('/ecommerce/product/') ||
-    location.pathname.startsWith('/order-tracking/');
+    location.pathname.startsWith('/order-tracking/') ||
+    location.pathname.startsWith('/mechanic');
   const isBookingFlow = location.pathname.startsWith('/services/');
-  const shouldHideBottomNav = isBookingFlow;
+  const shouldHideBottomNav = isBookingFlow || location.pathname.startsWith('/mechanic');
 
   return (
     <div className="bg-[#f4f7ff] min-h-screen relative overflow-x-hidden">
@@ -89,6 +102,17 @@ const AppRoutes = () => {
             <Route path="/rentals" element={<RentalBooking />} />
             <Route path="/rentals/list" element={<BikeList />} />
             <Route path="/repairs" element={<Repairs />} />
+            <Route path="/tracking" element={<UnifiedTracking />} />
+            <Route path="/mechanic" element={<MechanicLogin />} />
+            <Route path="/mechanic/login" element={<MechanicLogin />} />
+            <Route path="/mechanic/otp" element={<MechanicOTP />} />
+            <Route path="/mechanic/setup" element={<MechanicSetup />} />
+            <Route path="/mechanic/dashboard" element={<MechanicDashboard />} />
+            <Route path="/mechanic/services" element={<ServiceManagement />} />
+            <Route path="/rental" element={<RentalLogin />} />
+            <Route path="/rental/login" element={<RentalLogin />} />
+            <Route path="/rental/otp" element={<RentalOTP />} />
+            <Route path="/rental/dashboard" element={<RentalDashboard />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
