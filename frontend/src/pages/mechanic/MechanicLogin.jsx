@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Phone, User, Wrench } from 'lucide-react';
+import { Phone, User, Wrench, CheckCircle2, X } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 import mechanicLogo from '../../assets/Screw_Driver_Spanner_And_Gear_Logo-removebg-preview.png';
 
 const Section = ({ children }) => (
@@ -41,7 +42,13 @@ const MechanicLogin = () => {
   const [phone, setPhone] = useState('');
   const [registerData, setRegisterData] = useState({ name: '', workshopName: '' });
   const [error, setError] = useState('');
+  const [toast, setToast] = useState(null);
   const navigate = useNavigate();
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 4000);
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -52,7 +59,10 @@ const MechanicLogin = () => {
   const handleRegister = (e) => {
     e.preventDefault();
     if (!registerData.name || phone.length !== 10) { setError('Fill all fields'); return; }
-    navigate('/mechanic/otp', { state: { phone, isRegister: true, registerData } });
+    showToast('Waiting for the admin approval');
+    setTimeout(() => {
+      navigate('/mechanic/otp', { state: { phone, isRegister: true, registerData } });
+    }, 2000);
   };
 
   return (
@@ -202,6 +212,33 @@ const MechanicLogin = () => {
           </motion.div>
         </Section>
       </motion.div>
+
+      {/* CUSTOM TOAST (Top Pop-up, Green, Sharp Corners) */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div 
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            className="fixed top-0 left-0 right-0 z-[500] px-0"
+          >
+            <div className="bg-[#10B981] text-white py-5 px-6 shadow-2xl flex items-center justify-between border-b-4 border-[#059669]">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-none bg-white/20 flex items-center justify-center border border-white/30">
+                  <CheckCircle2 size={20} className="text-white" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.25em] leading-none mb-1.5 opacity-80">Notification</p>
+                  <p className="text-xs font-black uppercase tracking-widest leading-tight">{toast}</p>
+                </div>
+              </div>
+              <button onClick={() => setToast(null)} className="w-8 h-8 rounded-none flex items-center justify-center hover:bg-black/10 transition-colors">
+                <X size={18} />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

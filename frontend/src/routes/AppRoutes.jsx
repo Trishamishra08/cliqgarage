@@ -39,6 +39,15 @@ import RentalLogin from '../pages/rental/RentalLogin';
 import RentalOTP from '../pages/rental/RentalOTP';
 import RentalDashboard from '../pages/rental/RentalDashboard';
 
+// Admin Module
+import AdminDashboard from '../pages/admin/AdminDashboard';
+import UserManagement from '../pages/admin/UserManagement';
+import AdminServiceManagement from '../pages/admin/ServiceManagement';
+import EcommerceManagement from '../pages/admin/EcommerceManagement';
+import RentalManagement from '../pages/admin/RentalManagement';
+import ReportsAnalytics from '../pages/admin/ReportsAnalytics';
+import AdminSettings from '../pages/admin/AdminSettings';
+
 const AppRoutes = () => {
   const location = useLocation();
   const pathname = location.pathname;
@@ -50,15 +59,16 @@ const AppRoutes = () => {
                      pathname.startsWith('/rental/login') ||
                      pathname.startsWith('/rental/otp');
 
-  const isDashboardPage = ['/home', '/mechanic/dashboard', '/rental/dashboard'].includes(pathname);
+  const isDashboardPage = ['/home', '/mechanic/dashboard', '/rental/dashboard'].includes(pathname) || pathname.startsWith('/admin');
   
   const isEcommercePage = pathname.startsWith('/ecommerce') || pathname === '/order-history';
   const isServicePage = pathname.startsWith('/services') || pathname === '/history' || pathname === '/repairs';
   const isRentalPage = pathname.startsWith('/rentals') || pathname === '/bookings';
   const isProfilePage = pathname.startsWith('/profile') || pathname === '/payments' || pathname === '/wishlist' || pathname === '/support';
+  const isAdminPage = pathname.startsWith('/admin');
 
-  const shouldHideHeader = isAuthPage || isDashboardPage || pathname.startsWith('/services/') || pathname.startsWith('/ecommerce/product/') || pathname.startsWith('/order-tracking/');
-  const shouldHideBottomNav = isAuthPage || isDashboardPage || pathname.startsWith('/services/');
+  const shouldHideHeader = isAuthPage || isDashboardPage || isAdminPage || pathname.startsWith('/services/') || pathname.startsWith('/ecommerce/product/') || pathname.startsWith('/order-tracking/');
+  const shouldHideBottomNav = isAuthPage || isDashboardPage || isAdminPage || pathname.startsWith('/services/');
 
   return (
     <div className="bg-[#f4f7ff] min-h-screen relative overflow-x-hidden">
@@ -127,6 +137,16 @@ const AppRoutes = () => {
             <Route path="/rental/login" element={<RentalLogin />} />
             <Route path="/rental/otp" element={<RentalOTP />} />
             <Route path="/rental/dashboard" element={<RentalDashboard />} />
+
+            {/* Admin Module */}
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/services" element={<AdminServiceManagement />} />
+            <Route path="/admin/ecommerce" element={<EcommerceManagement />} />
+            <Route path="/admin/rentals" element={<RentalManagement />} />
+            <Route path="/admin/reports" element={<ReportsAnalytics />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
 
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />

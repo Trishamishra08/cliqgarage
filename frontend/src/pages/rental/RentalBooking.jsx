@@ -231,8 +231,8 @@ const RentalBooking = () => {
           
           {step === 1 && (
             <motion.div key="s1" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, x: -20 }} className="space-y-0 pt-0">
-              <div className="text-center pt-2 pb-4">
-                 <span className="text-[var(--primary-color)] font-bold text-[9px] mb-1 block opacity-60">Premium Select</span>
+              <div className="text-center pt-0 pb-3">
+                 <span className="text-[var(--primary-color)] font-bold text-[9px] mb-0.5 block opacity-60">Premium Select</span>
                  <h2 className="text-2xl font-bold text-slate-900 leading-none relative inline-block">
                     The Collection
                     <div className="absolute -bottom-1 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--primary-color)] to-transparent rounded-full" />

@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Settings, ShoppingBag, Bike, Wrench, 
   ArrowRight, Clock, ShieldCheck, Bell, Wallet,
-  Menu, Moon, Sun, Star, ChevronRight, Search, MapPin, Navigation, Heart
+  Menu, Moon, Sun, Star, ChevronRight, Search, MapPin, Navigation, Heart,
+  Instagram, Twitter, Facebook
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import VideoCarousel from '../components/home/VideoCarousel';
@@ -12,6 +13,7 @@ import Onboarding from '../components/common/Onboarding';
 import Logo from '../components/common/Logo';
 import { twMerge } from 'tailwind-merge';
 import Sidebar from '../components/common/Sidebar';
+import BottomNav from '../components/common/BottomNav';
 import { useTheme } from '../context/ThemeContext';
 import bikeImg from '../assets/categories/bike.png';
 import deliveryImg from '../assets/categories/delivery.png';
@@ -52,6 +54,50 @@ const Home = () => {
       navigate('/login');
     }, 1500);
   };
+
+  const banners = [
+    {
+      title: "NEED <br/> <span className='text-[30px]'>Rental Bike?</span>",
+      desc: "Flexible Pickup Locations Across The City",
+      cta: "Rent Now",
+      bg: "#E11D48",
+      img: rentalImg,
+      path: "/rentals"
+    },
+    {
+      title: "EXPERT <br/> <span className='text-[30px]'>Mechanic?</span>",
+      desc: "Certified Doorstep Service Specialists",
+      cta: "Book Now",
+      bg: "#FBBF24",
+      img: repairsImg,
+      path: "/services"
+    },
+    {
+      title: "PREMIUM <br/> <span className='text-[30px]'>Service?</span>",
+      desc: "Complete Performance Tuning & Wash",
+      cta: "Explore",
+      bg: "#003B71",
+      img: bikeImg,
+      path: "/services"
+    },
+    {
+      title: "ROAD <br/> <span className='text-[30px]'>Assistance?</span>",
+      desc: "24/7 Breakdown Support & Rescue",
+      cta: "Get Help",
+      bg: "#10B981",
+      img: repairsImg,
+      path: "/support"
+    }
+  ];
+
+  const [currentBanner, setCurrentBanner] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentBanner((prev) => (prev + 1) % banners.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const categories = [
     { label: 'Rental', img: rentalImg, color: 'bg-blue-50', iconColor: 'bg-blue-100', path: '/rentals' },
@@ -109,10 +155,11 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--bg-color)] transition-colors duration-300 relative overflow-hidden">
-      {/* Absolute Gradient Blobs for Home Page */}
-      <div className="absolute top-[-5%] right-[-10%] w-[400px] h-[400px] bg-[#D4A017]/30 rounded-full blur-[120px] pointer-events-none z-0 mix-blend-multiply dark:mix-blend-lighten" />
-      <div className="absolute bottom-[10%] left-[-15%] w-[450px] h-[450px] bg-[#003B71]/25 rounded-full blur-[130px] pointer-events-none z-0 mix-blend-multiply dark:mix-blend-lighten" />
+    <div className="min-h-screen bg-[#0F172A] transition-colors duration-300 relative overflow-hidden">
+      <div className="bg-[var(--bg-color)] min-h-screen relative overflow-hidden">
+        {/* Absolute Gradient Blobs for Home Page */}
+        <div className="absolute top-[-5%] right-[-10%] w-[400px] h-[400px] bg-[#D4A017]/30 rounded-full blur-[120px] pointer-events-none z-0 mix-blend-multiply dark:mix-blend-lighten" />
+        <div className="absolute bottom-[10%] left-[-15%] w-[450px] h-[450px] bg-[#003B71]/25 rounded-full blur-[130px] pointer-events-none z-0 mix-blend-multiply dark:mix-blend-lighten" />
       <div className="absolute top-[40%] left-[10%] w-[250px] h-[250px] bg-[#D4A017]/20 rounded-full blur-[100px] pointer-events-none z-0 mix-blend-multiply dark:mix-blend-lighten" />
       
       <AnimatePresence>
@@ -224,9 +271,11 @@ const Home = () => {
           </div>
 
           {/* Hot Deals Section */}
-          <div className="mt-4 pb-2">
-          <div className="pl-0 pr-5 mb-4">
-            <h2 className="text-sm font-black text-[var(--text-main)] uppercase tracking-[0.2em] leading-none pl-4">Hot Deals</h2>
+          <div className="mt-2 pb-1">
+          <div className="pl-4 mt-2 mb-2">
+            <h3 className="text-[#8B98A7] font-[900] text-[9.5px] tracking-[0.25em] uppercase mb-1 leading-none">Deals</h3>
+            <h2 className="text-[18px] font-[900] text-[#0F172A] tracking-tight leading-none">Hot Deals</h2>
+            <p className="text-[#8B98A7] font-bold text-[10px] mt-1.5 leading-none">Limited time offers just for you</p>
           </div>
           
           <div className="relative w-full overflow-hidden pb-4">
@@ -261,7 +310,7 @@ const Home = () => {
                     btnText: "Claim Now",
                     iconColor: "text-[#D4A017]"
                   }].map((deal, idx) => (
-                    <div key={`${loop}-${idx}`} className={`relative w-[80vw] h-[135px] ${deal.bg} rounded-[1.1rem] overflow-hidden shrink-0 shadow-lg flex group transition-all border border-white/5`}>
+                    <div key={`${loop}-${idx}`} className={`relative w-[80vw] h-[120px] ${deal.bg} rounded-[1rem] overflow-hidden shrink-0 shadow-lg flex group transition-all border border-white/5`}>
                        {/* Left Content */}
                        <div className="w-[60%] px-4 py-3 flex flex-col justify-center z-10 relative">
                          {/* Badge */}
@@ -299,6 +348,11 @@ const Home = () => {
         </div>
 
         {/* New 3-Column Premium Action Cards */}
+        <div className="pl-4 mt-3 mb-2">
+          <h3 className="text-[#8B98A7] font-[900] text-[9.5px] tracking-[0.25em] uppercase mb-1 leading-none">Actions</h3>
+          <h2 className="text-[18px] font-[900] text-[#0F172A] tracking-tight leading-none">Quick Actions</h2>
+          <p className="text-[#8B98A7] font-bold text-[10px] mt-1.5 leading-none">One-tap access to core services</p>
+        </div>
         <div className="pl-2 pr-4 grid grid-cols-3 gap-2.5 mt-2">
           {[
             {
@@ -347,8 +401,84 @@ const Home = () => {
           ))}
         </div>
 
+        {/* Promotional Banner Carousel (Reference Match) */}
+        <div className="pl-4 mt-3 mb-2">
+          <h3 className="text-[#8B98A7] font-[900] text-[9.5px] tracking-[0.25em] uppercase mb-1 leading-none">Featured</h3>
+          <h2 className="text-[18px] font-[900] text-[#0F172A] tracking-tight leading-none">Premium Picks</h2>
+          <p className="text-[#8B98A7] font-bold text-[10px] mt-1.5 leading-none">Selection from our fleet</p>
+        </div>
+        <div className="mt-2 w-full h-[200px] relative overflow-hidden group">
+          <AnimatePresence mode="wait">
+             <motion.div 
+               key={currentBanner}
+               initial={{ opacity: 0, x: 50 }}
+               animate={{ opacity: 1, x: 0 }}
+               exit={{ opacity: 0, x: -50 }}
+               transition={{ duration: 0.4 }}
+               onClick={() => navigate(banners[currentBanner].path)}
+               className="absolute inset-0 flex flex-col justify-center cursor-pointer"
+               style={{ backgroundColor: banners[currentBanner].bg }}
+             >
+                {/* Background Texture Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-transparent pointer-events-none z-0" />
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
+                
+                {/* Full-Bleed Background Image */}
+                <div className="absolute inset-0 z-0">
+                   <img 
+                     src={banners[currentBanner].img} 
+                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms]" 
+                     alt="Promo" 
+                   />
+                   {/* High-Contrast Gradient Overlay */}
+                   <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent z-10" />
+                </div>
+
+                {/* Content on Top */}
+                <div className="p-7 flex flex-col justify-center h-full relative z-20 w-full">
+                   <div className="border-l-[6px] border-white pl-4 mb-2">
+                      <h2 
+                        className="text-white font-[900] text-[22px] leading-[1] tracking-tight italic uppercase drop-shadow-xl"
+                        dangerouslySetInnerHTML={{ __html: banners[currentBanner].title }}
+                      />
+                   </div>
+                   
+                   <div className="flex flex-col gap-1.5 mt-1.5 ml-1">
+                      <div className="flex items-center gap-2 text-white/95">
+                         <Clock size={11} className="text-white" strokeWidth={3.5} />
+                         <span className="text-[10px] font-black tracking-wide">000 - 1234 - 5678</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-white/95">
+                         <MapPin size={11} className="text-white" strokeWidth={3.5} />
+                         <span className="text-[10px] font-bold leading-tight">{banners[currentBanner].desc}</span>
+                      </div>
+                   </div>
+
+                   <button className="mt-4 bg-black text-white px-8 py-2.5 rounded-none text-[12px] font-black w-max uppercase tracking-[0.15em] active:scale-95 transition-transform shadow-[0_10px_25px_rgba(0,0,0,0.6)] border border-white/20">
+                     {banners[currentBanner].cta}
+                   </button>
+                </div>
+
+                {/* Progress Indicators */}
+                <div className="absolute bottom-4 left-7 flex gap-1.5 z-30">
+                   {banners.map((_, i) => (
+                      <div 
+                        key={i} 
+                        className={`h-[3px] transition-all duration-300 rounded-full ${currentBanner === i ? 'bg-white w-8' : 'bg-white/20 w-3'}`} 
+                      />
+                   ))}
+                </div>
+
+                {/* Logo Watermark */}
+                <div className="absolute top-4 right-4 z-20 opacity-20 hidden sm:block">
+                   <Logo color="#FFFFFF" className="scale-[0.6] origin-top-right" />
+                </div>
+             </motion.div>
+          </AnimatePresence>
+        </div>
+
         {/* Map Section */}
-        <div className="mt-8 mb-4">
+        <div className="mt-4 mb-3">
           <div className="px-5 mb-3 flex justify-between items-center">
             <div className="flex flex-col">
                <h3 className="text-[#8B98A7] font-[900] text-[9.5px] tracking-[0.25em] uppercase mb-1 leading-none">Map</h3>
@@ -397,13 +527,112 @@ const Home = () => {
           </div>
         </div>
 
+        {/* What do you need today? Section */}
+        <div className="px-5 mt-4 mb-2">
+          <h3 className="text-[#8B98A7] font-[900] text-[9.5px] tracking-[0.25em] uppercase mb-1 leading-none">Categories</h3>
+          <h2 className="text-[18px] font-[900] text-[#0F172A] tracking-tight leading-none">More Services</h2>
+          <p className="text-[#8B98A7] font-bold text-[10px] mt-1.5 leading-none">Explore our additional service hubs</p>
+          
+          <div className="flex overflow-x-auto gap-3.5 pb-2 -mx-5 px-5 scrollbar-hide mt-3">
+            {/* Services Card */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              onClick={() => navigate('/services')}
+              className="bg-white dark:bg-slate-900/40 rounded-[1.25rem] p-4 shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 flex flex-col relative overflow-hidden h-[115px] min-w-[155px] flex-shrink-0 cursor-pointer active:scale-[0.98] transition-all group"
+            >
+              <div className="absolute inset-0 z-0">
+                <img 
+                  src={repairsImg} 
+                  alt="Services" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/30 to-transparent dark:from-slate-900 dark:via-slate-900/60 z-10" />
+              </div>
+
+              <div className="relative z-20">
+                <h3 className="text-[17px] font-black text-[#001F3D] dark:text-white leading-tight">Services</h3>
+              </div>
+              
+              <button 
+                className="mt-auto bg-[#FFD1A9] text-white px-3.5 py-1.2 rounded-full text-[10px] font-black flex items-center gap-1.5 w-max shadow-md relative z-20 active:scale-95 transition-transform"
+              >
+                Book Now <ArrowRight size={12} strokeWidth={3.5} />
+              </button>
+            </motion.div>
+
+            {/* Rental Accessories Card */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              onClick={() => navigate('/rentals')}
+              className="bg-white dark:bg-slate-900/40 rounded-[1.25rem] p-4 shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 flex flex-col relative overflow-hidden h-[115px] min-w-[155px] flex-shrink-0 cursor-pointer active:scale-[0.98] transition-all group"
+            >
+              <div className="absolute inset-0 z-0">
+                <img 
+                  src={rentalImg} 
+                  alt="Rentals" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/30 to-transparent dark:from-slate-900 dark:via-slate-900/60 z-10" />
+              </div>
+
+              <div className="relative z-20">
+                <h3 className="text-[17px] font-black text-[#001F3D] dark:text-white leading-tight">Rentals</h3>
+              </div>
+              
+              <button 
+                className="mt-auto bg-[#C2C2FF] text-white px-3.5 py-1.2 rounded-full text-[10px] font-black flex items-center gap-1.5 w-max shadow-md relative z-20 active:scale-95 transition-transform"
+              >
+                Rent Now <ArrowRight size={12} strokeWidth={3.5} />
+              </button>
+            </motion.div>
+
+            {/* Accessories Card */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              onClick={() => navigate('/ecommerce')}
+              className="bg-white dark:bg-slate-900/40 rounded-[1.25rem] p-4 shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 flex flex-col relative overflow-hidden h-[115px] min-w-[155px] flex-shrink-0 cursor-pointer active:scale-[0.98] transition-all group"
+            >
+              <div className="absolute inset-0 z-0">
+                <img 
+                  src={deliveryImg} 
+                  alt="Accessories" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/30 to-transparent dark:from-slate-900 dark:via-slate-900/60 z-10" />
+              </div>
+
+              <div className="relative z-20">
+                <h3 className="text-[17px] font-black text-[#001F3D] dark:text-white leading-tight">Accessories</h3>
+              </div>
+              
+              <button 
+                className="mt-auto bg-[#C2FFD8] text-[#1E5128] px-3.5 py-1.2 rounded-full text-[10px] font-black flex items-center gap-1.5 w-max shadow-md relative z-20 active:scale-95 transition-transform"
+              >
+                Shop Now <ArrowRight size={12} strokeWidth={3.5} />
+              </button>
+            </motion.div>
+          </div>
+        </div>
+
         {/* Recommendations Section */}
         <div className="px-5 mt-10">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-black text-[var(--text-main)] uppercase tracking-[0.2em] leading-none">Recommendations</h2>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex flex-col">
+              <h3 className="text-[#8B98A7] font-[900] text-[9.5px] tracking-[0.25em] uppercase mb-1 leading-none">For You</h3>
+              <h2 className="text-[18px] font-[900] text-[#0F172A] tracking-tight leading-none">Recommendations</h2>
+              <p className="text-[#8B98A7] font-bold text-[10px] mt-1.5 leading-none">Based on your interests</p>
+            </div>
             <button 
               onClick={() => navigate('/ecommerce')}
-              className="text-[10px] font-black text-[var(--primary-color)] uppercase tracking-widest"
+              className="text-[10px] font-black text-[var(--primary-color)] uppercase tracking-widest self-start mt-1"
             >
               See All
             </button>
@@ -447,7 +676,54 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </motion.div>
+       </motion.div>
+      </div>
+
+      {/* Full-Bleed Compact Footer Section */}
+      <footer className="bg-[#0F172A] pt-6 pb-20 px-8 text-white">
+           <div className="flex flex-col items-center text-center mb-4">
+              <Logo color="#FFFFFF" className="mb-1.5 scale-75" />
+              <p className="text-slate-500 font-bold text-[10px] leading-relaxed max-w-[240px]">
+                The boutique destination for premium vehicle services, rentals, and lifestyle gear.
+              </p>
+           </div>
+           
+           <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="flex flex-col gap-1.5">
+                 <h4 className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-600 mb-0.5">Explore</h4>
+                 <button onClick={() => navigate('/services')} className="text-slate-400 font-bold text-[12px] text-left hover:text-white transition-colors">Services</button>
+                 <button onClick={() => navigate('/rentals')} className="text-slate-400 font-bold text-[12px] text-left hover:text-white transition-colors">Rentals</button>
+                 <button onClick={() => navigate('/ecommerce')} className="text-slate-400 font-bold text-[12px] text-left hover:text-white transition-colors">Accessories</button>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                 <h4 className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-600 mb-0.5">Support</h4>
+                 <button onClick={() => navigate('/support')} className="text-slate-400 font-bold text-[12px] text-left hover:text-white transition-colors">Help Center</button>
+                 <button onClick={() => navigate('/profile')} className="text-slate-400 font-bold text-[12px] text-left hover:text-white transition-colors">My Profile</button>
+                 <button className="text-slate-400 font-bold text-[12px] text-left hover:text-white transition-colors">Track Order</button>
+              </div>
+           </div>
+
+           <div className="flex justify-center gap-3 mb-6">
+              <div className="w-8 h-8 bg-slate-800/40 rounded-lg flex items-center justify-center active:scale-90 transition-transform border border-white/5">
+                 <Instagram size={14} className="text-slate-500" />
+              </div>
+              <div className="w-8 h-8 bg-slate-800/40 rounded-lg flex items-center justify-center active:scale-90 transition-transform border border-white/5">
+                 <Twitter size={14} className="text-slate-500" />
+              </div>
+              <div className="w-8 h-8 bg-slate-800/40 rounded-lg flex items-center justify-center active:scale-90 transition-transform border border-white/5">
+                 <Facebook size={14} className="text-slate-500" />
+              </div>
+           </div>
+           
+           <div className="border-t border-white/5 pt-4 flex flex-col items-center gap-2">
+              <p className="text-slate-700 font-black text-[8px] tracking-[0.2em] uppercase">© 2026 CLIQGARAGE PVT LTD</p>
+              <div className="flex gap-4">
+                 <span className="text-slate-800 text-[8px] font-black uppercase tracking-widest">Privacy Policy</span>
+                 <span className="text-slate-800 text-[8px] font-black uppercase tracking-widest">Terms of use</span>
+              </div>
+           </div>
+        </footer>
+      <BottomNav />
       <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 

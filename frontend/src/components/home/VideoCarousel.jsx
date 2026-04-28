@@ -3,7 +3,7 @@ import heroVideo from '../../assets/Smooth_video_transitioning_202604061148.mp4'
 
 const VideoCarousel = () => {
   return (
-    <div className="relative w-full h-80 overflow-hidden rounded-none mt-0 shadow-xl border-y border-white/5 transition-all">
+    <div className="relative w-full h-60 overflow-hidden rounded-none mt-0 shadow-xl border-y border-white/5 transition-all">
       <video
         src={heroVideo}
         autoPlay
