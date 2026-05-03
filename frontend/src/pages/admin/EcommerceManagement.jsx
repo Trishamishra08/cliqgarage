@@ -41,6 +41,26 @@ const EcommerceManagement = () => {
     { id: 'RET-102', customer: 'Anjali P.', product: 'Brake Pads', reason: 'Wrong Size', status: 'Refunded', date: 'Oct 21' },
   ];
 
+  const [banners, setBanners] = useState([
+    { id: 1, title: 'Summer Bike Rental Special', image: 'https://images.unsplash.com/photo-1558981403-c5f91cbba527?w=800&h=400&fit=crop', target: 'Rental', status: 'Active' },
+    { id: 2, title: 'Expert Bike Engine Tuning', image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&h=400&fit=crop', target: 'Mechanic', status: 'Active' },
+  ]);
+
+  const [showBannerModal, setShowBannerModal] = useState(false);
+  const [editBanner, setEditBanner] = useState(null);
+
+  const handleAddBanner = (data) => {
+    setBanners([...banners, { ...data, id: Date.now() }]);
+  };
+
+  const handleUpdateBanner = (data) => {
+    setBanners(banners.map(b => b.id === data.id ? data : b));
+  };
+
+  const handleDeleteBanner = (id) => {
+    setBanners(banners.filter(b => b.id !== id));
+  };
+
   return (
     <AdminLayout>
       <div className="flex flex-col gap-6">
@@ -82,8 +102,9 @@ const EcommerceManagement = () => {
             {[
               { id: 'inventory', label: 'Inventory', icon: Package },
               { id: 'orders', label: 'Orders', icon: Truck },
+              { id: 'banners', label: 'Banners', icon: Tag },
               { id: 'returns', label: 'Returns', icon: RotateCcw },
-              { id: 'discounts', label: 'Discounts', icon: Tag },
+              { id: 'discounts', label: 'Discounts', icon: Layers },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -104,7 +125,7 @@ const EcommerceManagement = () => {
           <div className="p-5">
             <AnimatePresence mode="wait">
               {activeTab === 'inventory' && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="inventory" className="space-y-4">
                   <div className="flex justify-between items-center px-1">
                     <div className="flex items-center bg-gray-50 border border-gray-100 rounded-lg px-3 py-1.5 w-64 shadow-sm focus-within:ring-1 focus-within:ring-black/5 transition-all">
                       <Search size={14} className="text-gray-300" />
@@ -161,7 +182,7 @@ const EcommerceManagement = () => {
               )}
 
               {activeTab === 'orders' && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="overflow-x-auto">
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="orders" className="overflow-x-auto">
                   <table className="w-full text-left">
                     <thead>
                       <tr className="text-[9px] font-bold text-gray-300 uppercase tracking-widest border-b border-gray-50">
@@ -196,7 +217,7 @@ const EcommerceManagement = () => {
               )}
 
               {activeTab === 'returns' && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="returns" className="space-y-4">
                   {returns.map((ret) => (
                     <div key={ret.id} className="p-4 bg-gray-50/50 rounded-xl border border-transparent hover:bg-white hover:border-gray-100 transition-all group flex items-center justify-between shadow-sm">
                       <div className="flex items-center gap-4">
@@ -228,7 +249,7 @@ const EcommerceManagement = () => {
               )}
 
               {activeTab === 'discounts' && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="discounts" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-6 border-2 border-dashed border-gray-100 rounded-2xl flex flex-col items-center justify-center text-center group hover:border-black transition-all cursor-pointer bg-gray-50/30">
                     <div className="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                       <Tag size={20} className="text-gray-300 group-hover:text-black transition-colors" />
@@ -255,11 +276,203 @@ const EcommerceManagement = () => {
                   </div>
                 </motion.div>
               )}
+
+              {activeTab === 'banners' && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="banners" className="space-y-6">
+                  <div className="flex justify-between items-center px-1">
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Live Platform Banners</p>
+                    <button 
+                      onClick={() => {
+                        setEditBanner(null);
+                        setShowBannerModal(true);
+                      }}
+                      className="bg-black text-white px-4 py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest flex items-center gap-2 hover:scale-[1.02] transition-all"
+                    >
+                      <Plus size={14} /> Add Platform Banner
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {banners.map((banner) => (
+                      <div key={banner.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden group shadow-sm hover:shadow-md transition-all">
+                        <div className="h-32 relative overflow-hidden">
+                          <img src={banner.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="banner" />
+                          <div className="absolute top-3 right-3">
+                             <span className={`px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest ${
+                               banner.target === 'Rental' ? 'bg-blue-600 text-white' : 'bg-[#D4E70D] text-black'
+                             }`}>
+                               Target: {banner.target}
+                             </span>
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <div className="flex justify-between items-start mb-4">
+                            <h4 className="text-xs font-black text-black uppercase tracking-tight line-clamp-2 leading-tight flex-1 mr-4">{banner.title}</h4>
+                            <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" title="Active" />
+                          </div>
+                          <div className="flex gap-2">
+                            <button 
+                              onClick={() => {
+                                setEditBanner(banner);
+                                setShowBannerModal(true);
+                              }}
+                              className="flex-1 py-2 bg-gray-50 rounded-lg text-[9px] font-bold uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all"
+                            >
+                              Edit
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteBanner(banner.id)}
+                              className="px-3 py-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"
+                            >
+                              <XCircle size={14} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <div 
+                      onClick={() => {
+                        setEditBanner(null);
+                        setShowBannerModal(true);
+                      }}
+                      className="border-2 border-dashed border-gray-100 rounded-2xl flex flex-col items-center justify-center p-8 text-center group hover:border-black transition-all cursor-pointer bg-gray-50/20"
+                    >
+                       <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm group-hover:scale-110 transition-transform">
+                          <Plus size={20} className="text-gray-300" />
+                       </div>
+                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Add New Spot</p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
             </AnimatePresence>
           </div>
         </div>
       </div>
+
+      {/* Banner Management Modal */}
+      <AnimatePresence>
+        {showBannerModal && (
+          <BannerModal 
+            banner={editBanner}
+            onSave={(data) => {
+              if (editBanner) handleUpdateBanner({ ...editBanner, ...data });
+              else handleAddBanner(data);
+              setShowBannerModal(false);
+            }}
+            onClose={() => setShowBannerModal(false)}
+          />
+        )}
+      </AnimatePresence>
     </AdminLayout>
+  );
+};
+
+const BannerModal = ({ banner, onSave, onClose }) => {
+  const [formData, setFormData] = useState(banner || { title: '', image: '', target: 'Rental', status: 'Active' });
+  const fileInputRef = React.useRef(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setFormData({ ...formData, image: url });
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+      <motion.div 
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+        onClick={onClose} 
+      />
+      <motion.div 
+        initial={{ scale: 0.9, opacity: 0, y: 20 }} 
+        animate={{ scale: 1, opacity: 1, y: 0 }} 
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        className="relative w-full max-w-md bg-white rounded-2xl p-8 shadow-2xl"
+      >
+        <h3 className="text-xl font-bold text-black tracking-tight mb-6">
+          {banner ? 'Update Platform Banner' : 'New Platform Banner'}
+        </h3>
+        
+        <div className="space-y-4">
+          <div>
+            <label className="text-[9px] font-bold text-gray-300 uppercase tracking-widest block mb-2 px-1">Campaign Title</label>
+            <input 
+              type="text" 
+              value={formData.title}
+              onChange={e => setFormData({ ...formData, title: e.target.value })}
+              placeholder="e.g. Festive Discount 20%"
+              className="w-full bg-gray-50 border-none rounded-xl py-3 px-4 text-xs font-bold text-black focus:ring-2 focus:ring-black/5 transition-all outline-none"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+             <div>
+                <label className="text-[9px] font-bold text-gray-300 uppercase tracking-widest block mb-2 px-1">Target Portal</label>
+                <select 
+                  value={formData.target}
+                  onChange={e => setFormData({ ...formData, target: e.target.value })}
+                  className="w-full bg-gray-50 border-none rounded-xl py-3 px-4 text-xs font-bold text-black focus:ring-2 focus:ring-black/5 transition-all outline-none appearance-none"
+                >
+                  <option value="Rental">Rental Portal</option>
+                  <option value="Mechanic">Mechanic Portal</option>
+                  <option value="Ecommerce">Ecommerce Shop</option>
+                </select>
+             </div>
+             <div>
+                <label className="text-[9px] font-bold text-gray-300 uppercase tracking-widest block mb-2 px-1">Initial Status</label>
+                <div className="bg-gray-50 rounded-xl py-3 px-4 flex items-center justify-between">
+                   <span className="text-[10px] font-bold text-green-500 uppercase">Active</span>
+                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                </div>
+             </div>
+          </div>
+
+          <div>
+            <label className="text-[9px] font-bold text-gray-300 uppercase tracking-widest block mb-2 px-1">Advertisement Creative</label>
+            <input 
+              type="file" 
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              accept="image/*"
+              className="hidden"
+            />
+            <div 
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full aspect-video bg-gray-50 border-2 border-dashed border-gray-100 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-all group overflow-hidden"
+            >
+              {formData.image ? (
+                <img src={formData.image} alt="preview" className="w-full h-full object-cover" />
+              ) : (
+                <>
+                   <Plus size={20} className="text-gray-300 group-hover:scale-110 transition-transform mb-2" />
+                   <p className="text-[9px] font-bold text-gray-300 uppercase tracking-widest">Upload Banner Image</p>
+                </>
+              )}
+            </div>
+          </div>
+          
+          <div className="pt-4 flex gap-3">
+            <button 
+              onClick={onClose}
+              className="flex-1 py-3 bg-gray-50 text-gray-400 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-gray-100 transition-all"
+            >
+              Cancel
+            </button>
+            <button 
+              onClick={() => onSave(formData)}
+              disabled={!formData.title || !formData.image}
+              className="flex-1 py-3 bg-black text-white rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-black/10 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              {banner ? 'Save Changes' : 'Launch Banner'}
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 };
 

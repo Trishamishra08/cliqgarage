@@ -8,16 +8,11 @@ import {
   ToggleLeft, ToggleRight, ChevronRight, ChevronLeft, Package, Shield, LogOut,
   Clock, User, CheckCircle2, XCircle, TrendingUp, Activity,
   ArrowUpRight, Banknote, FileText, MessageSquare, ThumbsUp, ThumbsDown,
-  Bike, AlertCircle, Calendar, Wallet, LayoutGrid, Mail, Phone, Image, Gift, Store, Briefcase, RotateCcw,
-  Trash, Search, Copy, CreditCard
+  Bike, AlertCircle, Calendar, Wallet, LayoutGrid, Mail, Phone, Image as ImageIcon, Gift, Store, Briefcase, RotateCcw,
+  Trash, Search, Copy, CreditCard, Map as MapIcon
 } from 'lucide-react';
 
-/* ─── DATA ─── */
-const bannerSlides = [
-  { id: 1, title: 'Summer Bike Festival', desc: 'Get your ride ready for the heat. Special rates on oil changes.', btn: 'VIEW DEALS', bg: 'https://images.unsplash.com/photo-1558981403-c5f91cbcf523?auto=format&fit=crop&q=80', action: () => console.log('Banner 1') },
-  { id: 2, title: 'Monsoon Care Pack', desc: 'Expert chain lubrication and water-resistant coating.', btn: 'EXPLORE', bg: 'https://images.unsplash.com/photo-1614165939020-f71f0648425a?auto=format&fit=crop&q=80', action: () => console.log('Banner 2') },
-  { id: 3, title: 'Refer & Earn Rs. 500', desc: 'Invite fellow mechanics to join the CliqGarage network.', btn: 'REFER NOW', bg: 'https://images.unsplash.com/photo-1590674852885-ce82b52888b9?auto=format&fit=crop&q=80', action: () => console.log('Banner 3') }
-];
+import bikeImage from '../../assets/bike.png';
 
 const initRequests = [
   { id:'REQ-1092', customer:'Suraj Chouhan', service:'Periodic Maintenance', vehicle:'Royal Enfield 650', time:'10:30 AM', location:'HSR Layout · 2.4 km', amount:'₹3,450', status:'pending' },
@@ -90,6 +85,25 @@ const Sheet = ({ children, onClose }) => (
   </motion.div>
 );
 
+/* ─── PAGE WRAPPER (For sub-pages) ─── */
+const PageWrapper = ({ title, subtitle, onBack, children, action }) => (
+  <div className="h-full flex flex-col pb-6">
+    <div className="flex items-center gap-4 mb-6 pt-2 px-1">
+      <button onClick={onBack} className="w-10 h-10 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center text-[#1A1A1A] active:scale-90 transition-all">
+        <ChevronLeft size={20} />
+      </button>
+      <div className="flex-1">
+        <p className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em]">{subtitle || 'Mechanic Portal'}</p>
+        <h2 className="text-xl font-bold text-[#1A1A1A] font-['Space_Grotesk'] leading-tight">{title}</h2>
+      </div>
+      {action}
+    </div>
+    <div className="flex-1 overflow-y-auto pr-1">
+      {children}
+    </div>
+  </div>
+);
+
 /* ─── SERVICE MODAL ─── */
 const ServiceModal = ({ service, onSave, onClose }) => {
   const [f,setF] = useState(service?{...service}:{name:'',price:'',duration:'',active:true});
@@ -137,7 +151,69 @@ const ServiceModal = ({ service, onSave, onClose }) => {
 
 
 
-/* ─── PROOF MODAL ─── */
+/* ─── BANNER MODAL ─── */
+const BannerModal = ({ banner, onSave, onClose }) => {
+  const [f, setF] = useState(banner ? { ...banner } : { title: '', desc: '', status: 'Active', image: '', bg: '', btn: 'VIEW DEALS' });
+  const fileRef = useRef();
+
+  const handleFile = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setF(p => ({ ...p, image: url, bg: url }));
+    }
+  };
+
+  return (
+    <Sheet onClose={onClose}>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-sm font-black text-[#1A1A1A] font-['Space_Grotesk'] uppercase tracking-tight">{banner ? 'Edit Banner' : 'New Banner'}</h3>
+        <button onClick={onClose}><X size={16} className="text-slate-400"/></button>
+      </div>
+      <div className="space-y-4">
+        <input type="file" ref={fileRef} className="hidden" onChange={handleFile} accept="image/*" />
+        <button onClick={() => fileRef.current?.click()} className="w-full h-32 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl overflow-hidden flex flex-col items-center justify-center gap-2">
+          {f.image || f.bg ? (
+            <img src={f.image || f.bg} className="w-full h-full object-cover" alt="banner" />
+          ) : (
+            <>
+              <Camera size={20} className="text-slate-300" />
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Banner Image</p>
+            </>
+          )}
+        </button>
+
+        <div>
+          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Banner Title</label>
+          <input value={f.title} onChange={e => setF(p => ({ ...p, title: e.target.value }))} placeholder="e.g. Summer Bike Festival"
+            className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-[11px] font-bold text-[#1A1A1A] outline-none" />
+        </div>
+
+        <div>
+          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Description</label>
+          <textarea value={f.desc} onChange={e => setF(p => ({ ...p, desc: e.target.value }))} placeholder="Brief details about the campaign..." rows={2}
+            className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-[11px] font-bold text-[#1A1A1A] outline-none resize-none" />
+        </div>
+      </div>
+      <button 
+        onClick={() => {
+          // Temporary check for "Create Account First"
+          const isTempUser = true; // Simulating a temporary session
+          if (isTempUser) {
+            alert("Please create an account first to publish banners permanently.");
+            return;
+          }
+          onSave(f); 
+          onClose(); 
+        }} 
+        disabled={!f.title || !(f.image || f.bg)}
+        className={`w-full mt-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all ${f.title && (f.image || f.bg) ? 'bg-[#1A1A1A] text-white' : 'bg-slate-100 text-slate-300'}`}
+      >
+        {banner ? 'Update Banner' : 'Publish Banner'}
+      </button>
+    </Sheet>
+  );
+};
 const ProofModal = ({ onSave, onClose, onShowToast }) => {
   const ref=useRef();
   const [file,setFile]=useState(null);
@@ -257,66 +333,119 @@ const HoursModal = ({ slot, onSave, onClose }) => {
 
 /* ─── SIDEBAR CONTENT PAGES ─── */
 
-const DashboardHome = ({ name, onNavigate, banners, currentBanner, onBannerAction }) => {
+const BannerCarousel = ({ banners }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (banners.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % banners.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [banners.length]);
+
+  if (!banners || banners.length === 0) return null;
+
   return (
-    <div className="space-y-6">
-      {/* MECHANIC TACTICAL BANNER */}
-      <div className="relative h-44 rounded-[2.5rem] overflow-hidden shadow-2xl group mx-1">
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={currentBanner}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="absolute inset-0"
-          >
-            <img src={banners[currentBanner].bg} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="banner" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A] via-[#1A1A1A]/40 to-transparent" />
-            <div className="absolute inset-0 p-6 flex flex-col justify-center max-w-[70%]">
-              <motion.div initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }}>
-                <span className="bg-[#D4E70D] text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full text-black mb-2 inline-block">Pro Insight</span>
-                <h3 className="text-xl font-black text-white leading-tight mb-2 font-['Space_Grotesk'] uppercase">{banners[currentBanner].title}</h3>
-                <p className="text-[9px] text-white/70 font-medium leading-relaxed mb-4 line-clamp-2 uppercase tracking-tighter">{banners[currentBanner].desc}</p>
-                <button onClick={banners[currentBanner].action} className="bg-white text-black text-[9px] font-black px-5 py-2.5 rounded-xl uppercase tracking-widest active:scale-95 transition-all shadow-lg w-fit">
-                  {banners[currentBanner].btn}
-                </button>
-              </motion.div>
+    <div className="relative h-44 rounded-none overflow-hidden mb-6 shadow-2xl group -mx-4 w-[calc(100%+2rem)]">
+      <AnimatePresence initial={false} mode="popLayout">
+        <motion.div
+          key={currentIndex}
+          initial={{ x: '100%', opacity: 1 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: '-100%', opacity: 1 }}
+          transition={{ 
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.5 }
+          }}
+          className="absolute inset-0"
+        >
+          <img 
+            src={banners[currentIndex].image} 
+            className="w-full h-full object-cover" 
+            alt={banners[currentIndex].title} 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          <div className="absolute bottom-6 left-7 right-7">
+            <div className="flex items-center gap-2 mb-2">
+               <span className="px-2 py-0.5 bg-[#D4E70D] text-[7px] font-black text-[#1A1A1A] uppercase tracking-[0.2em] rounded-md shadow-lg">Featured</span>
+               <div className="h-px w-8 bg-white/20" />
             </div>
-          </motion.div>
-        </AnimatePresence>
-        <div className="absolute bottom-4 right-6 flex gap-1.5">
-          {banners.map((_,i)=>(
-            <div key={i} className={`h-1 rounded-full transition-all duration-300 ${i===currentBanner?'w-6 bg-[#D4E70D]':'w-1.5 bg-white/30'}`}/>
-          ))}
-        </div>
+            <h3 className="text-lg font-black text-white uppercase tracking-tight leading-none mb-1 font-['Space_Grotesk']">
+              {banners[currentIndex].title}
+            </h3>
+            <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest">Sponsored by CliqGarage</p>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      
+      {/* Indicators */}
+      <div className="absolute bottom-6 right-7 flex gap-1.5">
+        {banners.map((_, i) => (
+          <button 
+            key={i} 
+            onClick={() => setCurrentIndex(i)}
+            className={`h-1 rounded-full transition-all duration-500 ${i === currentIndex ? 'w-6 bg-[#D4E70D]' : 'w-1.5 bg-white/30'}`}
+          />
+        ))}
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        {[
-          {key:'services',icon:Wrench,label:'My Services'},
-          {key:'jobs',icon:Package,label:'Job Requests'},
-          {key:'earnings',icon:BarChart2,label:'Earnings'},
-          {key:'hours',icon:Clock,label:'Working Hours'},
-          {key:'ratings',icon:Star,label:'Ratings'},
-          {key:'documents',icon:Shield,label:'Documents'},
-        ].map((item,i)=>(
-          <button key={i} onClick={()=>onNavigate(item.key)}
-            className="bg-white rounded-[2rem] p-4 flex flex-col items-center gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-md active:scale-95 transition-all text-center group">
-            <div className="w-14 h-14 rounded-full bg-[#F5F7E8] flex items-center justify-center transition-colors group-hover:bg-[#D4E70D]/20">
-              <item.icon size={22} className="text-[#1A1A1A]"/>
-            </div>
-            <p className="text-[10px] font-black text-[#1A1A1A] leading-tight px-1 uppercase tracking-tighter">{item.label}</p>
-          </button>
-        ))}
+      <div className="absolute top-4 left-7">
+         <div className="bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full flex items-center gap-2">
+            <Activity size={10} className="text-[#D4E70D]" />
+            <span className="text-[7px] font-black text-white uppercase tracking-[0.2em]">Live Banners</span>
+         </div>
       </div>
     </div>
   );
 };
 
-const JobsContent = ({ requests, onAction, onStatusChange, onUploadProof, onShowToast }) => {
+const DashboardHome = ({ name, onNavigate, banners }) => {
+  return (
+    <div className="space-y-6 pt-4">
+      <div className="px-1">
+        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4 font-['Space_Grotesk']">Promotional Banner</p>
+      </div>
+      <BannerCarousel banners={banners} />
+
+      {/* RECENT ACTIVITY SECTION */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between px-1">
+          <h3 className="text-sm font-black text-[#1A1A1A] uppercase tracking-tighter">Recent Activity</h3>
+          <button onClick={() => onNavigate('earnings')} className="text-[10px] font-bold text-[#1677FF] uppercase tracking-wider active:scale-95 transition-all">History</button>
+        </div>
+        <div className="space-y-3">
+          {[
+            { title: 'Job Completed', sub: 'REQ-1092 • Suraj Chouhan', time: '2h ago', icon: CheckCircle2, color: '#F6FFED', iconCol: '#52C41A', tab: 'jobs' },
+            { title: 'New Review', sub: '5 Stars • Great service!', time: '5h ago', icon: Star, color: '#FFFBE6', iconCol: '#FADB14', tab: 'ratings' },
+            { title: 'Payment Received', sub: '₹3,450 • UPI Verified', time: '1d ago', icon: BarChart2, color: '#E6F7FF', iconCol: '#1890FF', tab: 'earnings' },
+          ].map((act, i) => (
+            <div 
+              key={i} 
+              onClick={() => onNavigate(act.tab)}
+              className="bg-white rounded-[1.8rem] p-4 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-white cursor-pointer active:scale-[0.98] transition-all group hover:border-[#1677FF]/20"
+            >
+              <div style={{ backgroundColor: act.color }} className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110">
+                <act.icon size={18} style={{ color: act.iconCol }} />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-[11px] font-bold text-[#1A1A1A] leading-tight font-['Space_Grotesk']">{act.title}</h4>
+                <p className="text-[9px] text-slate-400 mt-0.5 uppercase tracking-tighter font-medium">{act.sub}</p>
+              </div>
+              <span className="text-[8px] font-bold text-slate-300 uppercase">{act.time}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const JobsContent = ({ requests, onAction, onStatusChange, onUploadProof, onShowToast, onBack }) => {
   const [proofId,setProofId]=useState(null);
   const [statusId,setStatusId]=useState(null);
-  return (
+  
+  const content = (
     <div className="space-y-3">
       <AnimatePresence>
         {proofId&&<ProofModal onSave={img=>onUploadProof(proofId,img)} onClose={()=>setProofId(null)} onShowToast={onShowToast}/>}
@@ -401,216 +530,298 @@ const JobsContent = ({ requests, onAction, onStatusChange, onUploadProof, onShow
       })}
     </div>
   );
+
+  if (onBack) {
+    return (
+      <PageWrapper title="Job Requests" subtitle="Activity" onBack={onBack}>
+        {content}
+      </PageWrapper>
+    );
+  }
+  return content;
 };
 
-const ServicesContent = ({ services, onAdd, onEdit, onToggle, onDelete }) => (
-  <div className="space-y-3">
-    <button onClick={onAdd} className="w-full py-4 bg-white/40 border-2 border-dashed border-[#4D5D26]/20 rounded-[1.8rem] flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#4D5D26] active:scale-95 transition-all">
-      <Plus size={14}/> Add New Service
-    </button>
-    {services.map((sv,i)=>(
-      <motion.div key={sv.id} initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} transition={{delay:i*0.05}}
-        className={`bg-white rounded-[1.8rem] shadow-[0_4px_20px_rgba(0,0,0,0.02)] p-4 flex items-center justify-between transition-all ${!sv.active?'opacity-50 grayscale':''}`}>
-        <div className="flex items-center gap-4">
-          <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-sm ${sv.active ? 'bg-[#F5F7E8] text-[#4D5D26]' : 'bg-slate-50 text-slate-300'}`}>
-            <Wrench size={18}/>
-          </div>
-          <div>
-            <h4 className="text-sm font-black text-[#1A1A1A] leading-tight mb-1 font-['Space_Grotesk']">{sv.name}</h4>
-            <div className="flex items-center gap-3">
-              <span className="text-[11px] font-black text-[#4D5D26]">₹{sv.price}</span>
-              {sv.duration&&<span className="text-[9px] font-bold text-slate-400 uppercase">· {sv.duration} MIN</span>}
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <button onClick={()=>onToggle(sv.id)} className="p-1">
-            {sv.active?<ToggleRight size={26} className="text-[#D4E70D]"/>:<ToggleLeft size={26} className="text-slate-200"/>}
-          </button>
-          <div className="flex flex-col gap-1">
-            <button onClick={()=>onEdit(sv)} className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center active:scale-90 transition-all">
-              <Edit3 size={12} className="text-slate-400"/>
-            </button>
-            <button onClick={()=>onDelete(sv.id)} className="w-8 h-8 rounded-xl bg-red-50/50 flex items-center justify-center active:scale-90 transition-all">
-              <Trash2 size={12} className="text-red-300"/>
-            </button>
-          </div>
-        </div>
-      </motion.div>
-    ))}
-  </div>
-);
-
-const HoursContent = ({ hours, onEdit }) => (
-  <div className="space-y-2.5">
-    {hours.map((h,i)=>(
-      <div key={i} className="bg-white rounded-[1.6rem] shadow-[0_4px_20px_rgba(0,0,0,0.02)] p-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-sm ${h.active ? 'bg-[#F5F7E8] text-[#4D5D26]' : 'bg-slate-50 text-slate-300'}`}>
-            <Clock size={18}/>
-          </div>
-          <div>
-            <h4 className="text-sm font-black text-[#1A1A1A] leading-none mb-1 font-['Space_Grotesk'] uppercase tracking-tight">{h.day}</h4>
-            <p className="text-[10px] font-black text-[#4D5D26] uppercase tracking-widest">{h.active?`${h.open} – ${h.close}`:'CLOSED'}</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className={`text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${h.active?'bg-emerald-50 text-emerald-600':'bg-slate-50 text-slate-300'}`}>
-            {h.active?'Open':'Closed'}
-          </span>
-          <button onClick={()=>onEdit(h)} className="w-9 h-9 rounded-xl bg-slate-50 flex items-center justify-center active:scale-90 transition-all">
-            <Edit3 size={14} className="text-[#4D5D26]"/>
-          </button>
-        </div>
-      </div>
-    ))}
-  </div>
-);
-
-const EarningsContent = () => (
-  <div className="space-y-3">
-    <div className="bg-[#0B1F3A] rounded-xl p-3 relative overflow-hidden">
-      <div className="absolute -top-3 -right-3 w-14 h-14 bg-[#FF6B00]/20 rounded-full blur-xl"/>
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-white/50 text-[8px] uppercase tracking-widest mb-0.5">Available for Payout</p>
-          <h2 className="text-xl font-bold text-white leading-none">₹52,480</h2>
-          <div className="flex items-center gap-1 mt-0.5">
-            <ArrowUpRight size={9} className="text-emerald-400"/>
-            <span className="text-emerald-400 text-[9px] font-semibold">+18% this month</span>
-          </div>
-        </div>
-        <button className="px-3 py-2 bg-[#FF6B00] text-white rounded-xl text-[10px] font-bold flex items-center gap-1.5 active:scale-95 shrink-0">
-          <Banknote size={11}/> Withdraw
-        </button>
-      </div>
-    </div>
-    <div className="grid grid-cols-3 gap-1.5">
-      {earningsData.map((e,i)=>(
-        <div key={i} className="bg-white rounded-xl border border-slate-100 shadow-sm p-2 text-center">
-          <p className="text-[7px] text-slate-400 font-medium">{e.label}</p>
-          <p className="text-[10px] font-bold text-[#0B1F3A] mt-0.5">{e.value}</p>
-          <p className="text-[7px] font-semibold mt-0.5" style={{color:e.color}}>{e.trend}</p>
-        </div>
-      ))}
-    </div>
-    <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-2.5">
-      <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Payment History</p>
-      {[
-        {date:'Apr 22',desc:'Periodic Maintenance',amount:'₹3,450'},
-        {date:'Apr 20',desc:'Engine Oil Change',amount:'₹850'},
-        {date:'Apr 18',desc:'Brake Pad Replacement',amount:'₹1,200'},
-      ].map((t,i)=>(
-        <div key={i} className="flex items-center justify-between py-1.5 border-b border-slate-50 last:border-0">
-          <div>
-            <p className="text-[10px] font-semibold text-[#0B1F3A] leading-none">{t.desc}</p>
-            <p className="text-[7px] text-slate-400 mt-0.5">{t.date}</p>
-          </div>
-          <p className="text-[10px] font-bold text-emerald-600">{t.amount}</p>
-        </div>
-      ))}
-    </div>
-    <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-2.5">
-      <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Commission Breakdown</p>
-      {[
-        {label:'Gross Earnings',value:'₹1,84,000',color:'text-[#0B1F3A]'},
-        {label:'Platform Fee (12.5%)',value:'-₹23,000',color:'text-red-500'},
-        {label:'Net Earnings',value:'₹1,61,000',color:'text-emerald-600'},
-      ].map((r,i)=>(
-        <div key={i} className="flex items-center justify-between py-1.5 border-b border-slate-50 last:border-0">
-          <p className="text-[9px] text-slate-500 font-medium">{r.label}</p>
-          <p className={`text-[10px] font-bold ${r.color}`}>{r.value}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const RatingsContent = () => {
-  const avg = (mockRatings.reduce((a,r)=>a+r.rating,0)/mockRatings.length).toFixed(1);
-  return (
+const ServicesContent = ({ services, onAdd, onEdit, onToggle, onDelete, onBack }) => {
+  const content = (
     <div className="space-y-3">
-      <div className="bg-[#0B1F3A] rounded-2xl p-4 flex items-center gap-4">
-        <div className="text-center">
-          <p className="text-4xl font-bold text-white">{avg}</p>
-          <div className="flex gap-0.5 mt-1 justify-center">
-            {[1,2,3,4,5].map(s=>(
-              <Star key={s} size={10} className={s<=Math.round(avg)?'text-amber-400 fill-amber-400':'text-white/20'}/>
-            ))}
-          </div>
-          <p className="text-white/40 text-[8px] mt-1">{mockRatings.length} reviews</p>
-        </div>
-        <div className="flex-1 space-y-1">
-          {[5,4,3,2,1].map(star=>{
-            const count=mockRatings.filter(r=>r.rating===star).length;
-            const pct=Math.round((count/mockRatings.length)*100);
-            return (
-              <div key={star} className="flex items-center gap-2">
-                <span className="text-[8px] text-white/50 w-3">{star}</span>
-                <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-amber-400 rounded-full" style={{width:`${pct}%`}}/>
-                </div>
-                <span className="text-[8px] text-white/40 w-5">{pct}%</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <div className="space-y-2">
-        {mockRatings.map((r,i)=>(
-          <div key={i} className="bg-white rounded-xl border border-slate-100 shadow-sm p-3">
-            <div className="flex items-start justify-between mb-1.5">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center">
-                  <User size={12} className="text-slate-400"/>
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-[#0B1F3A] leading-none">{r.customer}</p>
-                  <p className="text-[8px] text-slate-400">{r.service}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-1">
-                {[1,2,3,4,5].map(s=>(
-                  <Star key={s} size={9} className={s<=r.rating?'text-amber-400 fill-amber-400':'text-slate-200'}/>
-                ))}
+      {!onBack && (
+        <button onClick={onAdd} className="w-full py-4 bg-white/40 border-2 border-dashed border-[#4D5D26]/20 rounded-[1.8rem] flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#4D5D26] active:scale-95 transition-all">
+          <Plus size={14}/> Add New Service
+        </button>
+      )}
+      {services.map((sv,i)=>(
+        <motion.div key={sv.id} initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} transition={{delay:i*0.05}}
+          className={`bg-white rounded-[1.8rem] shadow-[0_4px_20px_rgba(0,0,0,0.02)] p-4 flex items-center justify-between transition-all ${!sv.active?'opacity-50 grayscale':''}`}>
+          <div className="flex items-center gap-4">
+            <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-sm ${sv.active ? 'bg-[#F5F7E8] text-[#4D5D26]' : 'bg-slate-50 text-slate-300'}`}>
+              <Wrench size={18}/>
+            </div>
+            <div>
+              <h4 className="text-sm font-black text-[#1A1A1A] leading-tight mb-1 font-['Space_Grotesk']">{sv.name}</h4>
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] font-black text-[#4D5D26]">₹{sv.price}</span>
+                {sv.duration&&<span className="text-[9px] font-bold text-slate-400 uppercase">· {sv.duration} MIN</span>}
               </div>
             </div>
-            <p className="text-[10px] text-slate-600 leading-relaxed">{r.comment}</p>
-            <p className="text-[8px] text-slate-400 mt-1">{r.date}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button onClick={()=>onToggle(sv.id)} className="p-1">
+              {sv.active?<ToggleRight size={26} className="text-[#D4E70D]"/>:<ToggleLeft size={26} className="text-slate-200"/>}
+            </button>
+            <div className="flex flex-col gap-1">
+              <button onClick={()=>onEdit(sv)} className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center active:scale-90 transition-all">
+                <Edit3 size={12} className="text-slate-400"/>
+              </button>
+              <button onClick={()=>onDelete(sv.id)} className="w-8 h-8 rounded-xl bg-red-50/50 flex items-center justify-center active:scale-90 transition-all">
+                <Trash2 size={12} className="text-red-300"/>
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+
+  if (onBack) {
+    return (
+      <PageWrapper 
+        title="My Services" 
+        subtitle="Management" 
+        onBack={onBack}
+        action={
+          <button 
+            onClick={onAdd}
+            className="w-10 h-10 bg-[#1677FF] text-white rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition-all"
+          >
+            <Plus size={20} />
+          </button>
+        }
+      >
+        {content}
+      </PageWrapper>
+    );
+  }
+  return content;
+};
+
+const HoursContent = ({ hours, onEdit, onBack }) => {
+  const content = (
+    <div className="space-y-2.5">
+      {hours.map((h,i)=>(
+        <div key={i} className="bg-white rounded-[1.6rem] shadow-[0_4px_20px_rgba(0,0,0,0.02)] p-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-sm ${h.active ? 'bg-[#F5F7E8] text-[#4D5D26]' : 'bg-slate-50 text-slate-300'}`}>
+              <Clock size={18}/>
+            </div>
+            <div>
+              <h4 className="text-sm font-black text-[#1A1A1A] leading-none mb-1 font-['Space_Grotesk'] uppercase tracking-tight">{h.day}</h4>
+              <p className="text-[10px] font-black text-[#4D5D26] uppercase tracking-widest">{h.active?`${h.open} – ${h.close}`:'CLOSED'}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className={`text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${h.active?'bg-emerald-50 text-emerald-600':'bg-slate-50 text-slate-300'}`}>
+              {h.active?'Open':'Closed'}
+            </span>
+            <button onClick={()=>onEdit(h)} className="w-9 h-9 rounded-xl bg-slate-50 flex items-center justify-center active:scale-90 transition-all">
+              <Edit3 size={14} className="text-[#4D5D26]"/>
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  if (onBack) {
+    return (
+      <PageWrapper 
+        title="Working Hours" 
+        subtitle="Schedule" 
+        onBack={onBack}
+        action={
+          <button className="w-10 h-10 bg-[#1677FF] text-white rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition-all">
+            <Plus size={20} />
+          </button>
+        }
+      >
+        {content}
+      </PageWrapper>
+    );
+  }
+  return content;
+};
+
+const EarningsContent = ({ onBack }) => {
+  const content = (
+    <div className="space-y-3">
+      <div className="bg-[#0B1F3A] rounded-[2rem] p-6 relative overflow-hidden shadow-2xl">
+        <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#D4E70D]/10 rounded-full blur-3xl"/>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-white/50 text-[9px] uppercase tracking-[0.2em] mb-1 font-black">Available for Payout</p>
+            <h2 className="text-3xl font-black text-white leading-none font-['Space_Grotesk'] tracking-tighter">₹52,480</h2>
+            <div className="flex items-center gap-1.5 mt-2 bg-emerald-500/10 w-fit px-2 py-0.5 rounded-full border border-emerald-500/20">
+              <ArrowUpRight size={10} className="text-emerald-400"/>
+              <span className="text-emerald-400 text-[8px] font-black uppercase tracking-widest">+18% this month</span>
+            </div>
+          </div>
+          <button className="p-4 bg-[#D4E70D] text-black rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 active:scale-95 shadow-[0_8px_20px_rgba(212,231,13,0.3)] shrink-0">
+            <Banknote size={14}/> Withdraw
+          </button>
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-3">
+        {earningsData.map((e,i)=>(
+          <div key={i} className="bg-white rounded-2xl border border-white shadow-sm p-3 text-center">
+            <p className="text-[8px] text-slate-400 font-black uppercase tracking-tighter">{e.label}</p>
+            <p className="text-[12px] font-black text-[#1A1A1A] mt-1 font-['Space_Grotesk']">{e.value}</p>
+            <p className="text-[8px] font-black mt-1 uppercase tracking-widest" style={{color:e.color}}>{e.trend}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-white rounded-2xl border border-white shadow-sm p-5">
+        <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Payment History</p>
+        {[
+          {date:'Apr 22',desc:'Periodic Maintenance',amount:'₹3,450'},
+          {date:'Apr 20',desc:'Engine Oil Change',amount:'₹850'},
+          {date:'Apr 18',desc:'Brake Pad Replacement',amount:'₹1,200'},
+        ].map((t,i)=>(
+          <div key={i} className="flex items-center justify-between py-3 border-b border-slate-50 last:border-0">
+            <div>
+              <p className="text-[11px] font-bold text-[#1A1A1A] leading-none uppercase tracking-tight">{t.desc}</p>
+              <p className="text-[8px] text-slate-400 mt-1 uppercase font-bold">{t.date}</p>
+            </div>
+            <p className="text-[11px] font-black text-emerald-600">{t.amount}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-white rounded-2xl border border-white shadow-sm p-5">
+        <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Commission Breakdown</p>
+        {[
+          {label:'Gross Earnings',value:'₹1,84,000',color:'text-[#1A1A1A]'},
+          {label:'Platform Fee (12.5%)',value:'-₹23,000',color:'text-red-500'},
+          {label:'Net Earnings',value:'₹1,61,000',color:'text-emerald-600'},
+        ].map((r,i)=>(
+          <div key={i} className="flex items-center justify-between py-3 border-b border-slate-50 last:border-0">
+            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">{r.label}</p>
+            <p className={`text-[11px] font-black ${r.color}`}>{r.value}</p>
           </div>
         ))}
       </div>
     </div>
   );
+
+  if (onBack) {
+    return (
+      <PageWrapper title="Earnings & Reports" subtitle="Finance" onBack={onBack}>
+        {content}
+      </PageWrapper>
+    );
+  }
+  return content;
+};
+
+const RatingsContent = ({ onBack }) => {
+  const avg = (mockRatings.reduce((a,r)=>a+r.rating,0)/mockRatings.length).toFixed(1);
+  const content = (
+    <div className="space-y-4">
+      <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-50 flex items-center justify-between">
+        <div>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Average Rating</p>
+          <div className="flex items-center gap-3">
+            <h2 className="text-4xl font-black text-[#1A1A1A] font-['Space_Grotesk']">{avg}</h2>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-0.5">
+                {[1,2,3,4,5].map(v=>(
+                  <Star key={v} size={14} className={v<=Math.round(avg)?'text-[#FADB14] fill-[#FADB14]':'text-slate-100'}/>
+                ))}
+              </div>
+              <p className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-tighter">Based on {mockRatings.length} reviews</p>
+            </div>
+          </div>
+        </div>
+        <div className="w-16 h-16 rounded-full border-[6px] border-[#F6FFED] flex items-center justify-center">
+          <div className="text-[11px] font-black text-emerald-600">98%</div>
+        </div>
+      </div>
+      <div className="space-y-3">
+        {mockRatings.map((r,i)=>(
+          <motion.div key={i} initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} transition={{delay:i*0.05}}
+            className="bg-white rounded-2xl p-5 shadow-sm border border-slate-50">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-slate-100 border border-white overflow-hidden shadow-sm">
+                  <img src={`https://i.pravatar.cc/100?u=${r.customer || r.user}`} alt="user" className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 className="text-[11px] font-bold text-[#1A1A1A] uppercase tracking-tight">{r.customer || r.user}</h4>
+                  <p className="text-[8px] text-slate-400 font-bold uppercase">{r.date}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-0.5 bg-[#FFFBE6] px-2 py-1 rounded-lg border border-[#FFE58F]">
+                <Star size={10} className="text-[#FADB14] fill-[#FADB14]"/>
+                <span className="text-[#1A1A1A] text-[10px] font-black">{r.rating}</span>
+              </div>
+            </div>
+            <p className="text-[11px] text-slate-600 leading-relaxed font-medium">"{r.comment}"</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+
+  if (onBack) {
+    return (
+      <PageWrapper title="Ratings & Feedback" subtitle="Reviews" onBack={onBack}>
+        {content}
+      </PageWrapper>
+    );
+  }
+  return content;
 };
 
 const DocumentsContent = ({ onBack }) => {
-  const ref=useRef(); const [file,setFile]=useState(null);
+  const fileInputRef = useRef(null);
+  const [selectedDoc, setSelectedDoc] = useState(null);
   const [docs, setDocs] = useState([
-    { label: 'Government ID (Aadhar)', status: 'Verified', color: 'text-emerald-600 bg-emerald-50', icon: Shield },
-    { label: 'PAN Card', status: 'Pending', color: 'text-amber-600 bg-amber-50', icon: CreditCard },
-    { label: 'Shop Act License', status: 'Verified', color: 'text-emerald-600 bg-emerald-50', icon: Store },
-    { label: 'GST Certificate', status: 'Not Uploaded', color: 'text-slate-400 bg-slate-50', icon: FileText },
+    { id: 'aadhar', label: 'Government ID (Aadhar)', status: 'Verified', color: 'text-emerald-600 bg-emerald-50', icon: Shield },
+    { id: 'pan', label: 'PAN Card', status: 'Pending', color: 'text-amber-600 bg-amber-50', icon: CreditCard },
+    { id: 'license', label: 'Shop Act License', status: 'Verified', color: 'text-emerald-600 bg-emerald-50', icon: Store },
+    { id: 'gst', label: 'GST Certificate', status: 'Not Uploaded', color: 'text-slate-400 bg-slate-50', icon: FileText },
   ]);
 
-  return (
-    <div className="h-full flex flex-col pb-6">
-      <div className="flex items-center gap-4 mb-6 pt-2 px-1">
-        <button onClick={onBack} className="w-10 h-10 bg-white rounded-xl shadow-sm border border-white flex items-center justify-center text-[#1A1A1A]">
-          <ChevronLeft size={20} />
-        </button>
-        <div className="flex-1">
-          <p className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em]">Profile</p>
-          <h2 className="text-xl font-bold text-[#1A1A1A] font-['Space_Grotesk'] leading-tight">My Documents</h2>
-        </div>
-        <button className="w-10 h-10 bg-[#1677FF] text-white rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition-all">
-          <Plus size={20} />
-        </button>
-      </div>
+  const handleDocClick = (doc) => {
+    setSelectedDoc(doc);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && selectedDoc) {
+      setDocs(prev => prev.map(d => 
+        d.id === selectedDoc.id ? { ...d, status: 'Pending' } : d
+      ));
+      // In a real app, upload logic here
+      console.log(`Uploading ${file.name} for ${selectedDoc.label}`);
+    }
+  };
+
+  const content = (
+    <div className="flex flex-col h-full">
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleFileChange} 
+        className="hidden" 
+        accept="image/*,application/pdf"
+      />
 
       <div className="space-y-3 mb-8">
         {docs.map((doc, i) => (
-          <div key={i} className="bg-white p-4 rounded-2xl border border-slate-50 shadow-sm flex items-center justify-between group hover:border-[#1677FF]/30 transition-all">
+          <div 
+            key={i} 
+            onClick={() => handleDocClick(doc)}
+            className="bg-white p-4 rounded-2xl border border-slate-50 shadow-sm flex items-center justify-between group hover:border-[#1677FF]/30 transition-all cursor-pointer active:scale-[0.98]"
+          >
             <div className="flex items-center gap-4">
               <div className="w-11 h-11 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#E6F4FF] group-hover:text-[#1677FF] transition-all">
                 {doc.icon ? <doc.icon size={18} /> : <FileText size={18} />}
@@ -623,14 +834,24 @@ const DocumentsContent = ({ onBack }) => {
                 </div>
               </div>
             </div>
-            <button className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300 group-hover:text-[#1A1A1A] transition-all">
-              <ChevronRight size={14} />
-            </button>
+            <div className="flex items-center gap-2">
+              {doc.status === 'Not Uploaded' && (
+                <div className="w-6 h-6 rounded-full bg-[#E6F4FF] flex items-center justify-center text-[#1677FF]">
+                  <Plus size={12} strokeWidth={3} />
+                </div>
+              )}
+              <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300 group-hover:text-[#1A1A1A] transition-all">
+                <ChevronRight size={14} />
+              </div>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="flex-1 bg-white rounded-[2.5rem] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center p-8 text-center shadow-[inset_0_2px_10px_rgba(0,0,0,0.01)]">
+      <div 
+        onClick={() => fileInputRef.current?.click()}
+        className="flex-1 bg-white rounded-[2.5rem] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center p-8 text-center shadow-[inset_0_2px_10px_rgba(0,0,0,0.01)] cursor-pointer hover:border-[#1677FF]/20 transition-all active:scale-[0.99]"
+      >
         <div className="w-16 h-16 bg-[#E6F4FF] rounded-full flex items-center justify-center mb-6 border-4 border-white shadow-sm">
           <Upload size={24} className="text-[#1677FF]" />
         </div>
@@ -644,6 +865,200 @@ const DocumentsContent = ({ onBack }) => {
       </div>
     </div>
   );
+
+  if (onBack) {
+    return (
+      <PageWrapper 
+        title="My Documents" 
+        subtitle="Profile" 
+        onBack={onBack}
+        action={
+          <button 
+            onClick={() => fileInputRef.current?.click()}
+            className="w-10 h-10 bg-[#1677FF] text-white rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition-all"
+          >
+            <Plus size={20} />
+          </button>
+        }
+      >
+        {content}
+      </PageWrapper>
+    );
+  }
+  return content;
+};
+
+const LiveMapContent = ({ onBack }) => {
+  const [zoom, setZoom] = useState(1);
+  
+  const content = (
+    <div className="fixed inset-0 z-[60] bg-white flex flex-col overflow-hidden">
+      {/* ── Interactive Map Area ── */}
+      <div className="flex-1 relative bg-[#F4F6F2] overflow-hidden">
+        {/* The Draggable Map Layer */}
+        <motion.div 
+          drag
+          dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
+          style={{ scale: zoom }}
+          className="absolute inset-0 cursor-grab active:cursor-grabbing"
+        >
+          {/* Mock Map Background */}
+          <div className="absolute inset-[-100%]">
+            <div className="absolute inset-0" style={{ 
+              backgroundImage: 'linear-gradient(#E5E7EB 1px, transparent 1px), linear-gradient(90deg, #E5E7EB 1px, transparent 1px)', 
+              backgroundSize: '40px 40px' 
+            }} />
+            {/* Mock Streets */}
+            <div className="absolute top-[35%] left-0 w-full h-12 bg-white rotate-1 shadow-sm" />
+            <div className="absolute top-0 left-[50%] w-14 h-full bg-white -rotate-2 shadow-sm" />
+            <div className="absolute top-[75%] left-0 w-full h-16 bg-white -rotate-1 shadow-sm" />
+            <div className="absolute top-[15%] left-[20%] w-32 h-32 bg-[#E9EFE9] rounded-3xl" />
+          </div>
+
+          {/* ── Route Line ── */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+            <motion.path 
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 2 }}
+              d="M 150 250 L 150 350 L 300 350 L 300 450" 
+              fill="none" 
+              stroke="#4D5D26" 
+              strokeWidth="4" 
+              strokeDasharray="8 8"
+              strokeLinecap="round"
+            />
+          </svg>
+
+          {/* ── Map Pins ── */}
+          {/* Workshop */}
+          <div className="absolute top-[230px] left-[130px] z-10">
+            <div className="w-10 h-10 bg-white rounded-full shadow-2xl border-4 border-[#4D5D26] flex items-center justify-center">
+              <div className="w-4 h-4 bg-[#4D5D26] rounded-sm" />
+            </div>
+          </div>
+
+          {/* Real Bike Image Moving (Royal Enfield) */}
+          <motion.div 
+            animate={{ 
+              x: [130, 230, 280],
+              y: [325, 325, 400],
+              rotate: [180, 90, 180]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="absolute z-20"
+          >
+            <div className="relative">
+              <div className="absolute inset-0 bg-[#D4E70D]/40 blur-2xl rounded-full scale-150" />
+              <div className="w-16 h-16 bg-white rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.15)] border-4 border-[#D4E70D] flex items-center justify-center overflow-hidden">
+                <img 
+                  src={bikeImage} 
+                  alt="bike" 
+                  className="w-full h-full object-contain scale-125"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* User Location */}
+          <div className="absolute top-[430px] left-[280px] z-10">
+            <div className="w-10 h-10 bg-white rounded-full shadow-2xl border-4 border-[#D4E70D] flex items-center justify-center">
+              <div className="w-4 h-4 bg-[#D4E70D] rounded-full" />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── Zoom Controls ── */}
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-30">
+          <button onClick={() => setZoom(z => Math.min(z + 0.2, 2))} className="w-12 h-12 bg-white rounded-2xl shadow-xl flex items-center justify-center text-[#4D5D26] active:scale-90 transition-all border border-slate-50 font-black text-xl">+</button>
+          <button onClick={() => setZoom(z => Math.max(z - 0.2, 0.5))} className="w-12 h-12 bg-white rounded-2xl shadow-xl flex items-center justify-center text-[#4D5D26] active:scale-90 transition-all border border-slate-50 font-black text-xl">−</button>
+        </div>
+
+        {/* ── Header Overlay ── */}
+        <div className="absolute top-4 left-6 right-6 z-40 flex items-center gap-4">
+          <button onClick={onBack} className="w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center text-[#1A1A1A] active:scale-90 transition-all border border-slate-100">
+            <ChevronLeft size={20} />
+          </button>
+          <div className="bg-[#001F3D] h-9 rounded-full px-5 flex items-center shadow-xl border border-white/10">
+            <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse mr-2.5" />
+            <p className="text-[9px] font-black uppercase tracking-widest text-white font-['Space_Grotesk']">Live tracking</p>
+          </div>
+        </div>
+
+        {/* ── Bottom Sheet (Ultra Compact & Mustard) ── */}
+        <motion.div 
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          className="absolute bottom-0 left-0 right-0 z-50 bg-white rounded-t-[2.5rem] shadow-[0_-15px_40px_rgba(0,0,0,0.08)] flex flex-col max-h-[38%]"
+        >
+          {/* Handle */}
+          <div className="w-10 h-1 bg-slate-200 rounded-full mx-auto my-3 shrink-0" />
+          
+          <div className="flex-1 overflow-y-auto px-6 pb-8 custom-scrollbar">
+            {/* Ultra-Compact Navy Blue ETA Banner */}
+            <div className="bg-[#001F3D] rounded-2xl py-2 px-4 text-center mb-5 shadow-lg border border-white/5">
+              <p className="text-[7px] font-black text-blue-300 uppercase tracking-[0.3em] mb-0.5 opacity-50">Estimated Arrival</p>
+              <h3 className="text-[13px] font-black text-white font-['Space_Grotesk'] tracking-tighter leading-none">05:30 PM - 06:00 PM</h3>
+            </div>
+
+            <div className="flex items-center justify-between mb-5 p-3.5 bg-slate-50/50 rounded-2xl border border-slate-50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-md">
+                  <img src="https://i.pravatar.cc/150?u=suraj" alt="mechanic" className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 className="text-[11px] font-black text-[#1A1A1A] leading-tight mb-0.5 uppercase tracking-tighter">Suraj Chouhan</h4>
+                  <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest">Expert Mechanic</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button className="w-9 h-9 bg-white shadow-sm text-[#4D5D26] rounded-full flex items-center justify-center active:scale-90 transition-all border border-slate-50">
+                  <Activity size={14} />
+                </button>
+                <button className="w-9 h-9 bg-[#4D5D26] text-white shadow-md rounded-full flex items-center justify-center active:scale-90 transition-all">
+                  <Phone size={14} />
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-4 px-1 mb-5">
+              <div className="flex items-start gap-3">
+                <div className="flex flex-col items-center">
+                  <div className="w-3.5 h-3.5 rounded-full border-[2.5px] border-[#4D5D26] bg-white flex-shrink-0" />
+                  <div className="w-0.5 h-6 bg-slate-100" />
+                  <div className="w-3.5 h-3.5 rounded-full border-[2.5px] border-[#D4E70D] bg-white flex-shrink-0" />
+                </div>
+                <div className="flex-1 space-y-4">
+                  <div>
+                    <p className="text-[8px] font-black text-[#1A1A1A] uppercase tracking-tighter mb-0.5">Workshop</p>
+                    <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest">HSR Layout, Sector 7</p>
+                  </div>
+                  <div>
+                    <p className="text-[8px] font-black text-[#1A1A1A] uppercase tracking-tighter mb-0.5">Job Location</p>
+                    <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest">1901 Thornridge Cir. Shiloh</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-5 border-t border-slate-50">
+              <div className="flex items-center gap-3 bg-[#4D5D26]/5 p-3 rounded-2xl border border-[#4D5D26]/10">
+                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-50">
+                  <Wrench size={20} className="text-[#4D5D26]" />
+                </div>
+                <div>
+                  <h4 className="text-[11px] font-black text-[#1A1A1A] uppercase tracking-tighter leading-tight">Periodic Maintenance</h4>
+                  <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Honda CB350 • Req-1092</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+
+  return content;
 };
 
 /* ─── WALLET PAGE ─── */
@@ -1275,58 +1690,118 @@ const SupportContent = ({ onBack }) => {
 
 
 /* ─── ADVERTISEMENT PAGE ─── */
-const AdvertisementContent = ({ onBack }) => {
-  const [ads, setAds] = useState([
-    { id: 1, title: 'Summer Service Camp', desc: 'Get 20% off on all engine works this summer!', status: 'Active', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=400&fit=crop' },
-    { id: 2, title: 'Brake Safety Week', desc: 'Free brake inspection for all premium members.', status: 'Pending', image: 'https://images.unsplash.com/photo-1487754180451-c456f719c141?w=800&h=400&fit=crop' }
-  ]);
+const AdvertisementContent = ({ onBack, banners, onAddBanner, onDeleteBanner, onUpdateBanner }) => {
+  const [showAdd, setShowAdd] = useState(false);
+  const [editBanner, setEditBanner] = useState(null);
 
-  return (
-    <div className="h-full flex flex-col pb-6">
-      <div className="flex items-center gap-4 mb-6 pt-2 px-1">
-        <button onClick={onBack} className="w-10 h-10 bg-white rounded-lg shadow-sm border border-slate-100 flex items-center justify-center text-[#1A1A1A]">
-          <ChevronLeft size={20} />
-        </button>
-        <div className="flex-1">
-          <p className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em]">Growth</p>
-          <h2 className="text-xl font-bold text-[#1A1A1A] font-['Space_Grotesk'] leading-tight">Ad Banners</h2>
-        </div>
-        <button className="w-10 h-10 bg-[#1677FF] text-white rounded-lg flex items-center justify-center shadow-lg active:scale-90 transition-all">
-          <Plus size={20} />
-        </button>
-      </div>
+  const content = (
+    <div className="space-y-4">
+      <AnimatePresence>
+        {(showAdd || editBanner) && (
+          <BannerModal 
+            banner={editBanner}
+            onSave={(f) => {
+              if (editBanner) onUpdateBanner(editBanner.id, f);
+              else onAddBanner(f);
+              setShowAdd(false);
+              setEditBanner(null);
+            }}
+            onClose={() => {
+              setShowAdd(false);
+              setEditBanner(null);
+            }}
+          />
+        )}
+      </AnimatePresence>
 
-      <div className="flex-1 overflow-y-auto pr-1 space-y-4">
-        <div className="grid grid-cols-2 gap-3">
-          {/* Compact Add Banner Button */}
-          <button className="h-40 border-2 border-dashed border-slate-200 rounded-lg flex flex-col items-center justify-center gap-2 bg-slate-50/50 hover:bg-slate-100 transition-all">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-              <Plus size={20} className="text-slate-400" />
+      <div className="pt-4 grid grid-cols-2 gap-3 px-1">
+        {/* Compact Add Banner Button */}
+        {!onBack && (
+          <button 
+            onClick={() => setShowAdd(true)}
+            className="h-full min-h-[10rem] border-2 border-dashed border-slate-200 rounded-none flex flex-col items-center justify-center gap-2 bg-slate-50/50 hover:bg-slate-100 hover:border-blue-200 transition-all group"
+          >
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+              <Plus size={20} className="text-blue-500" />
             </div>
-            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">New Banner</p>
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">New Ad</p>
           </button>
+        )}
 
-          {ads.map(ad => (
-            <div key={ad.id} className="bg-white rounded-lg overflow-hidden border border-slate-100 shadow-sm group relative">
-              <div className="h-24 relative">
-                <img src={ad.image} className="w-full h-full object-cover" alt="ad" />
-                <div className="absolute top-2 right-2 bg-black/40 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20">
-                  <span className={`text-[7px] font-black uppercase tracking-widest ${ad.status === 'Active' ? 'text-[#D4E70D]' : 'text-orange-400'}`}>{ad.status}</span>
-                </div>
-              </div>
-              <div className="p-3">
-                <h4 className="text-[10px] font-black text-[#1A1A1A] uppercase tracking-tight mb-1 truncate">{ad.title}</h4>
-                <div className="flex items-center justify-between pt-2 border-t border-slate-50 mt-1">
-                  <button className="text-[8px] font-black text-slate-400 uppercase hover:text-red-500">Del</button>
-                  <button className="text-[8px] font-black text-[#1677FF] uppercase">Edit</button>
-                </div>
+        {banners.map((ad, i) => (
+          <motion.div 
+            key={ad.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="bg-white rounded-none overflow-hidden border border-slate-100 shadow-xl shadow-blue-500/5 group relative flex flex-col"
+          >
+            <div className="h-20 relative overflow-hidden">
+              <img src={ad.image || ad.bg} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="ad" />
+              <div className="absolute top-2 right-2 bg-black/40 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20 flex items-center gap-1 shadow-lg">
+                <div className="w-1 h-1 rounded-full bg-[#D4E70D] animate-pulse" />
+                <span className="text-[6px] font-black text-white uppercase tracking-widest">
+                  {ad.status || 'Active'}
+                </span>
               </div>
             </div>
-          ))}
-        </div>
+            
+            <div className="p-2 flex-1 flex flex-col">
+              <h4 className="text-[9px] font-black text-[#1A1A1A] uppercase tracking-tight mb-2 line-clamp-1 leading-tight min-h-[1.2rem]">
+                {ad.title}
+              </h4>
+              
+              <div className="mt-auto flex items-center justify-between gap-1.5 pt-2 border-t border-slate-50">
+                <div className="flex gap-1">
+                  <button 
+                    onClick={() => onDeleteBanner(ad.id)} 
+                    className="p-1.5 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all active:scale-90 border border-red-100/50"
+                  >
+                    <Trash2 size={10} />
+                  </button>
+                  <button 
+                    onClick={() => {
+                      onBack && onBack(); 
+                    }} 
+                    className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white transition-all active:scale-90 border border-emerald-100/50"
+                  >
+                    <MapPin size={10} />
+                  </button>
+                </div>
+                <button 
+                  onClick={() => setEditBanner(ad)} 
+                  className="flex-1 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-[8px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all active:scale-95 border border-blue-100/50 flex items-center justify-center gap-1"
+                >
+                  <Edit3 size={10} /> Edit
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
+
+  if (onBack) {
+    return (
+      <PageWrapper 
+        title="Ad Banners" 
+        subtitle="Growth" 
+        onBack={onBack}
+        action={
+          <button 
+            onClick={() => setShowAdd(true)}
+            className="w-10 h-10 bg-[#1677FF] text-white rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition-all"
+          >
+            <Plus size={20} />
+          </button>
+        }
+      >
+        {content}
+      </PageWrapper>
+    );
+  }
+  return content;
 };
 
 /* ─── PROFILE PAGE ─── */
@@ -1453,12 +1928,12 @@ const NAV_ITEMS = [
   { key:'dashboard', icon:Home,         label:'Dashboard' },
   { key:'services',  icon:Wrench,       label:'My Services' },
   { key:'jobs',      icon:Package,      label:'Job Requests' },
+  { key:'banners',   icon:ImageIcon,    label:'Ad Banners' },
   { key:'earnings',  icon:BarChart2,    label:'Earnings & Reports' },
   { key:'hours',     icon:Clock,        label:'Working Hours' },
   { key:'ratings',   icon:Star,         label:'Ratings & Feedback' },
   { key:'documents', icon:Shield,       label:'Documents' },
   { key:'settings',  icon:Settings,     label:'Settings' },
-  { key:'advertisement', icon:Image,     label:'Banners/Ads' },
 ];
 
 /* ─── SIDEBAR ─── */
@@ -1467,26 +1942,13 @@ const Sidebar = ({ name, activePage, onNavigate, onClose, onSignOut,
   onJobAction, onStatusChange,
   onSaveService, onToggleService, onDeleteService,
   onSaveHour,
-  activeSubView, setActiveSubView, notifications, onClearNotifs, onRefreshNotifs, currentBanner
+  activeSubView, setActiveSubView, notifications, onClearNotifs, onRefreshNotifs
 }) => {
 
   const [editSv,setEditSv]=useState(null);
   const [addSv,setAddSv]=useState(false);
   const [editHr,setEditHr]=useState(null);
 
-  const renderContent = () => {
-    switch(activePage) {
-      case 'jobs':      return <JobsContent requests={requests} onAction={onJobAction} onStatusChange={onStatusChange}/>;
-      case 'services':  return <ServicesContent services={services} onAdd={()=>setAddSv(true)} onEdit={setEditSv} onToggle={onToggleService} onDelete={onDeleteService}/>;
-      case 'hours':     return <HoursContent hours={hours} onEdit={setEditHr}/>;
-      case 'earnings':  return <EarningsContent/>;
-      case 'ratings':   return <RatingsContent/>;
-      case 'documents': return <DocumentsContent/>;
-      case 'profile':   return <ProfileContent name={name} onSignOut={onSignOut} activeSubView={activeSubView} setActiveSubView={setActiveSubView} notifications={notifications} onClearNotifs={onClearNotifs} onRefreshNotifs={onRefreshNotifs} />;
-      case 'settings':  return <ProfileContent name={name} onSignOut={onSignOut} activeSubView={activeSubView} setActiveSubView={setActiveSubView} notifications={notifications} onClearNotifs={onClearNotifs} onRefreshNotifs={onRefreshNotifs} />;
-      default:          return <DashboardHome name={name} onNavigate={onNavigate} banners={bannerSlides} currentBanner={currentBanner}/>;
-    }
-  };
 
 
   return (
@@ -1600,37 +2062,11 @@ const MechanicDashboard = () => {
   const navigate = useNavigate();
   const mechanicName = "Suraj Chouhan";
 
-  const [activeTab,setActiveTab]=useState('jobs');
+  const [activeTab,setActiveTab]=useState('dashboard');
   const [activeSubView, setActiveSubView] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarPage, setSidebarPage] = useState('dashboard');
-  const [currentBanner, setCurrentBanner] = useState(0);
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentBanner(prev => (prev + 1) % bannerSlides.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // BANNER AUTO-SCROLL LOGIC (Horizontal Scroll)
-  React.useEffect(() => {
-    if (activeTab === 'profile' || activeTab === 'settings') return;
-    
-    const container = document.getElementById('banner-scroll-container');
-    if (!container) return;
-
-    const scrollInterval = setInterval(() => {
-      const maxScroll = container.scrollWidth - container.clientWidth;
-      if (container.scrollLeft >= maxScroll - 10) {
-        container.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        container.scrollBy({ left: 300, behavior: 'smooth' });
-      }
-    }, 3500);
-
-    return () => clearInterval(scrollInterval);
-  }, [activeTab]);
 
   // Login Success Toast on Mount
   useEffect(() => {
@@ -1659,6 +2095,24 @@ const MechanicDashboard = () => {
 
   const handleClearNotifs = () => {
     setNotifications([]);
+  };
+
+  const [banners, setBanners] = useState([
+    { id: 1, title: 'Expert Bike Engine Tuning', image: 'https://images.unsplash.com/photo-1558981403-c5f91cbba527?w=800&h=400&fit=crop' },
+    { id: 2, title: 'Periodic Maintenance Package', image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&h=400&fit=crop' },
+  ]);
+
+  const handleAddBanner = (data) => {
+    const newBanner = { ...data, id: Date.now() };
+    setBanners([newBanner, ...banners]);
+  };
+
+  const handleDeleteBanner = (id) => {
+    setBanners(banners.filter(b => b.id !== id));
+  };
+
+  const handleUpdateBanner = (id, data) => {
+    setBanners(banners.map(b => b.id === id ? { ...b, ...data } : b));
   };
 
   const openNotifications = () => {
@@ -1716,11 +2170,12 @@ const MechanicDashboard = () => {
             name={mechanicName} 
             activePage={activeTab} 
             onNavigate={p=>{
-              if (p === 'documents') {
+              if (p === 'banners') {
                 setActiveTab('profile');
-                setActiveSubView('documents');
+                setActiveSubView('banners');
               } else {
                 setActiveTab(p);
+                setActiveSubView(null);
               }
               setSidebarOpen(false);
             }} 
@@ -1735,7 +2190,6 @@ const MechanicDashboard = () => {
             notifications={notifications}
             onClearNotifs={handleClearNotifs}
             onRefreshNotifs={handleRefreshNotifs}
-            currentBanner={currentBanner}
           />
         )}
         {(showAddService||editService)&&(
@@ -1746,8 +2200,8 @@ const MechanicDashboard = () => {
         {editHour&&<HoursModal slot={editHour} onSave={handleSaveHour} onClose={()=>setEditHour(null)}/>}
       </AnimatePresence>
 
-      {/* HEADER SECTION (Persistent for all except Profile) */}
-      {(activeTab !== 'profile' && activeTab !== 'settings') && (
+      {/* HEADER SECTION (Now only for main Dashboard) */}
+      {activeTab === 'dashboard' && (
         <div className="shrink-0">
           {/* TOP HEADER */}
           <div className="px-5 pt-6 pb-2 flex items-center justify-between">
@@ -1824,7 +2278,7 @@ const MechanicDashboard = () => {
                 <h3 className="text-xs font-black uppercase tracking-widest text-[#1A1A1A] font-['Space_Grotesk']">Live Service Tracking</h3>
                 <span className="flex h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
               </div>
-              <button className="text-[9px] font-bold text-[#4D5D26] uppercase tracking-tighter">View Full Map</button>
+              <button onClick={() => setActiveTab('live_map')} className="text-[9px] font-bold text-[#4D5D26] uppercase tracking-tighter">View Full Map</button>
             </div>
             <div className="relative h-40 bg-white rounded-[2rem] overflow-hidden shadow-sm border border-white p-1">
               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&h=400&fit=crop')] bg-cover bg-center opacity-40 grayscale-[30%]" />
@@ -1864,68 +2318,28 @@ const MechanicDashboard = () => {
             </div>
           </div>
 
-          {/* ADVERTISEMENT HORIZONTAL SCROLL (New) */}
-          <div className="pb-5 shrink-0 pt-2 overflow-hidden">
-            <div className="flex items-center justify-between mb-3 px-5">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-[#1A1A1A] font-['Space_Grotesk']">Add Promotional Banner</h3>
-              <button onClick={() => setActiveTab('advertisement')} className="text-[8px] font-bold text-[#1677FF] uppercase tracking-tighter hover:underline">View All</button>
-            </div>
-            
-            <div 
-              id="banner-scroll-container"
-              className="flex overflow-x-auto gap-0 pb-2 no-scrollbar snap-x snap-mandatory scroll-smooth -mx-1"
-            >
-              {/* Existing Banners - Full Screen Fit Feel */}
-              {[
-                { title: 'Summer Bike Festival', img: 'https://images.unsplash.com/photo-1558981403-c5f91cbcf523?w=800&q=80' },
-                { title: 'Monsoon Care Pack', img: 'https://images.unsplash.com/photo-1614165939020-f71f0648425a?w=800&q=80' },
-                { title: 'Refer & Earn Rs. 500', img: 'https://images.unsplash.com/photo-1590674852885-ce82b52888b9?w=800&q=80' }
-              ].map((ad, i) => (
-                <div 
-                  key={i}
-                  onClick={() => setActiveTab('advertisement')}
-                  className="min-w-full h-44 bg-white rounded-none overflow-hidden shrink-0 relative group cursor-pointer snap-start"
-                >
-                  <img 
-                    src={ad.img} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                    alt={ad.title}
-                    loading="lazy"
-                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80'; }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-4 flex flex-col justify-end">
-                    <p className="text-white text-[12px] font-black uppercase tracking-tight leading-tight">{ad.title}</p>
-                    <p className="text-white/60 text-[8px] font-bold uppercase tracking-widest mt-1">Live Ad Campaign</p>
-                  </div>
-                </div>
-              ))}
-
-              {/* Add Banner Card at the end */}
-              <button 
-                onClick={() => setActiveTab('advertisement')}
-                className="min-w-[140px] h-40 bg-[#E6F4FF] border border-[#91CAFF] rounded-none flex flex-col items-center justify-center gap-2 shrink-0 active:scale-95 transition-all snap-start"
-              >
-                <div className="w-12 h-12 bg-white rounded-none flex items-center justify-center shadow-sm border border-[#91CAFF]/30">
-                  <Plus size={24} className="text-[#1677FF]" />
-                </div>
-                <p className="text-[10px] font-black text-[#1677FF] uppercase tracking-widest">Add Banner</p>
-              </button>
-            </div>
-          </div>
         </div>
       )}
 
-      {/* BODY (Now part of overall scroll) */}
       <div className="px-4 py-2.5 space-y-2 pb-32">
-        {activeTab==='dashboard'&&<DashboardHome name={mechanicName} onNavigate={tab=>{setActiveTab(tab);}} banners={bannerSlides} currentBanner={currentBanner} />}
-        {activeTab==='jobs'&&<JobsContent requests={requests} onAction={handleJobAction} onStatusChange={handleStatusChange} onUploadProof={handleUploadProof} onShowToast={showToast} />}
-        {activeTab==='services'&&<ServicesContent services={services} onAdd={()=>setShowAddService(true)} onEdit={setEditService} onToggle={toggleService} onDelete={deleteService}/>}
-        {activeTab==='hours'&&<HoursContent hours={hours} onEdit={setEditHour}/>}
-        {activeTab==='earnings'&&<EarningsContent/>}
-        {activeTab==='ratings'&&<RatingsContent/>}
-        {activeTab==='documents'&&<DocumentsContent/>}
-        {activeTab==='advertisement'&&<AdvertisementContent onBack={()=>setActiveTab('dashboard')}/>}
-        {(activeTab==='profile'||activeTab==='settings')&& (
+        {activeTab==='dashboard'&&<DashboardHome name={mechanicName} onNavigate={tab=>{setActiveTab(tab);}} banners={banners} />}
+        {activeTab==='jobs'&&<JobsContent onBack={()=>setActiveTab('dashboard')} requests={requests} onAction={handleJobAction} onStatusChange={handleStatusChange} onUploadProof={handleUploadProof} onShowToast={showToast} />}
+        {activeTab==='services'&&<ServicesContent onBack={()=>setActiveTab('dashboard')} services={services} onAdd={()=>setShowAddService(true)} onEdit={setEditService} onToggle={toggleService} onDelete={deleteService}/>}
+        {activeTab==='hours'&&<HoursContent onBack={()=>setActiveTab('dashboard')} hours={hours} onEdit={setEditHour}/>}
+        {activeTab==='earnings'&&<EarningsContent onBack={()=>setActiveTab('dashboard')} />}
+        {activeTab==='ratings'&&<RatingsContent onBack={()=>setActiveTab('dashboard')} />}
+        {activeTab==='documents'&&<DocumentsContent onBack={()=>setActiveTab('dashboard')} />}
+        {activeTab==='live_map'&&<LiveMapContent onBack={()=>setActiveTab('dashboard')} />}
+        {activeTab==='profile' && activeSubView==='banners' && (
+          <AdvertisementContent 
+            onBack={()=>setActiveSubView(null)} 
+            banners={banners} 
+            onAddBanner={handleAddBanner} 
+            onDeleteBanner={handleDeleteBanner} 
+            onUpdateBanner={handleUpdateBanner} 
+          />
+        )}
+        {(activeTab==='profile'||activeTab==='settings') && !activeSubView && (
           <ProfileContent 
             name={mechanicName} 
             activeSubView={activeSubView}

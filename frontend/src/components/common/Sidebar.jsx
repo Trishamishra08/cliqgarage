@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, User, Settings, Package, Heart, CreditCard, 
@@ -9,6 +9,17 @@ import Logo from './Logo';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const menuItems = [
     { icon: User, label: 'Profile Settings', desc: 'Account & Identity', path: '/profile' },
@@ -43,7 +54,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           >
             <div className="flex flex-col h-full bg-[var(--bg-color)] shadow-2xl border-l border-white/5">
               {/* Profile Header */}
-              <div className="bg-gradient-to-br from-[#001F3D] via-[#003B71] to-[#001F3D] p-5 rounded-br-[2.5rem] relative overflow-hidden shadow-2xl border-b border-white/10">
+              <div className="bg-gradient-to-br from-[#500724] via-[#831843] to-[#500724] p-5 rounded-br-[2.5rem] relative overflow-hidden shadow-2xl border-b border-white/10">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl" />
                 
                 <div className="flex items-center gap-3 relative">
@@ -68,8 +79,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                 </button>
               </div>
 
-              <div className="px-4 py-8 overflow-y-auto no-scrollbar">
-                <div className="grid gap-1">
+              <div className="px-4 py-5 overflow-y-auto no-scrollbar">
+                <div className="grid gap-0.5">
                   {menuItems.map((item, index) => (
                     <button
                       key={index}
@@ -77,41 +88,41 @@ const Sidebar = ({ isOpen, onClose }) => {
                         navigate(item.path);
                         onClose();
                       }}
-                      className="flex items-center gap-3.5 p-3 rounded-xl text-[var(--text-dim)] hover:text-[var(--secondary-color)] hover:bg-[var(--secondary-color)]/5 transition-all group active:scale-[0.98]"
+                      className="flex items-center gap-3 p-2.5 rounded-lg text-[var(--text-dim)] hover:text-[#9D174D] hover:bg-[#9D174D]/5 transition-all group active:scale-[0.98]"
                     >
-                      <div className="w-9 h-9 rounded-lg bg-zinc-100/50 dark:bg-white/5 flex items-center justify-center group-hover:bg-[var(--secondary-color)] text-[var(--secondary-color)] group-hover:text-white transition-all border border-black/5 dark:border-white/5 shadow-sm">
-                        <item.icon size={16} />
+                      <div className="w-8 h-8 rounded-lg bg-zinc-100/50 dark:bg-white/5 flex items-center justify-center group-hover:bg-[#9D174D] text-[#9D174D] group-hover:text-white transition-all border border-black/5 dark:border-white/5 shadow-sm">
+                        <item.icon size={15} />
                       </div>
                       <div className="flex flex-col items-start leading-none">
                         <span className="text-[10px] font-black uppercase tracking-[0.15em]">{item.label}</span>
-                        <span className="text-[7.5px] font-bold uppercase text-zinc-400 dark:text-zinc-500 mt-1">{item.desc}</span>
+                        <span className="text-[7.5px] font-bold uppercase text-zinc-400 dark:text-zinc-500 mt-0.5">{item.desc}</span>
                       </div>
                       <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ChevronRight size={13} className="text-[var(--secondary-color)]" />
+                        <ChevronRight size={13} className="text-[#9D174D]" />
                       </div>
                     </button>
                   ))}
                 </div>
                 
-                <div className="mt-4 p-4 bg-gradient-to-br from-zinc-900 to-black rounded-2xl relative overflow-hidden shadow-xl border border-white/5">
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-[var(--primary-color)]/10 rounded-full -mr-10 -mt-10 blur-2xl" />
+                <div className="mt-3 p-3 bg-gradient-to-br from-zinc-900 to-black rounded-2xl relative overflow-hidden shadow-xl border border-white/5">
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-[#9D174D]/10 rounded-full -mr-10 -mt-10 blur-2xl" />
                   
                   <div className="relative z-10 flex items-center justify-between gap-4">
                     <div className="flex flex-col">
-                      <div className="flex items-center gap-2 mb-1">
-                         <HelpCircle className="text-[var(--primary-color)]" size={12} />
+                      <div className="flex items-center gap-2 mb-0.5">
+                         <HelpCircle className="text-[#9D174D]" size={12} />
                          <h4 className="text-white font-black text-[9px] uppercase tracking-widest">Elite Support</h4>
                       </div>
                       <p className="text-white/30 text-[6px] font-bold uppercase tracking-widest leading-none">Emergency Roadside Assistance</p>
                     </div>
                     
-                    <button className="px-5 h-9 bg-gradient-to-r from-[var(--secondary-color)] to-[#B45309] rounded-xl text-white text-[8px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all border border-white/10 shrink-0">
+                    <button className="px-5 h-9 bg-gradient-to-r from-[#9D174D] to-[#500724] rounded-xl text-white text-[8px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all border border-white/10 shrink-0">
                       Connect
                     </button>
                   </div>
                 </div>
 
-                <div className="mt-4 border-t border-white/5 pt-4">
+                <div className="mt-3 border-t border-white/5 pt-3">
                   <button 
                     onClick={() => {
                       localStorage.removeItem('hasOnboarded');

@@ -1,14 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Wrench, LayoutGrid, MessageSquare, User, Home } from 'lucide-react';
+import { Wrench, LayoutGrid, User, Home, Package, BarChart2 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 const MechanicBottomNav = ({ activeTab, onNavigate }) => {
   const navItems = [
-    { id: 'jobs',     label: 'Jobs',     icon: Wrench },
-    { id: 'services', label: 'Services', icon: Home },
-    { id: 'earnings', label: 'Earnings', icon: MessageSquare },
-    { id: 'profile',  label: 'Profile',  icon: User },
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutGrid },
+    { id: 'jobs',      label: 'Jobs',      icon: Package },
+    { id: 'services',  label: 'Services',  icon: Wrench },
+    { id: 'earnings',  label: 'Earnings',  icon: BarChart2 },
+    { id: 'profile',   label: 'Profile',   icon: User },
   ];
 
   const getActiveIndex = () => {
@@ -32,7 +33,7 @@ const MechanicBottomNav = ({ activeTab, onNavigate }) => {
           <motion.div
             animate={{ x: `${activeIndex * 100}%` }}
             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-            className="w-1/4 h-full flex items-center justify-center"
+            className="w-1/5 h-full flex items-center justify-center"
           >
             <motion.div
               key={activeIndex}
@@ -49,7 +50,7 @@ const MechanicBottomNav = ({ activeTab, onNavigate }) => {
               }}
               className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-400 via-indigo-400 to-purple-500 flex items-center justify-center shadow-[0_8px_20px_rgba(59,130,246,0.3)] border-[6px] border-[#FFFEF7] -mt-16"
             >
-              <ActiveIcon size={28} className="text-white" strokeWidth={2.5} />
+              <ActiveIcon size={28} className="text-white" strokeWidth={2} />
             </motion.div>
           </motion.div>
         </div>
@@ -69,7 +70,7 @@ const MechanicBottomNav = ({ activeTab, onNavigate }) => {
                   "mb-1 transition-opacity duration-300",
                   isActive ? "opacity-0" : "opacity-100 text-black"
                 )} 
-                strokeWidth={2.5} 
+                strokeWidth={2} 
               />
               <span className="text-[10px] font-bold uppercase tracking-wider text-black">
                 {item.label}

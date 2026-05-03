@@ -271,47 +271,47 @@ const MechanicSetup = () => {
 
           {/* STEP 3: PENDING APPROVAL */}
           {step === 3 && (
-            <motion.div key="s3" variants={fade} initial="hidden" animate="visible" className="flex flex-col items-center text-center pt-6 space-y-8">
+            <motion.div key="s3" variants={fade} initial="hidden" animate="visible" className="flex flex-col items-center text-center pt-2 space-y-5">
               <div className="relative">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="w-32 h-32 rounded-[2.5rem] bg-white flex items-center justify-center shadow-2xl relative z-10 ring-12 ring-white/20"
+                  className="w-24 h-24 rounded-[2rem] bg-white flex items-center justify-center shadow-xl relative z-10 ring-8 ring-white/20"
                 >
-                  <div className="w-20 h-20 rounded-[1.8rem] bg-gradient-to-br from-[#D4E70D] to-[#A8B80A] flex items-center justify-center shadow-lg">
-                    <Clock size={40} className="text-[#1A1A1A]" />
+                  <div className="w-14 h-14 rounded-[1.2rem] bg-gradient-to-br from-[#D4E70D] to-[#A8B80A] flex items-center justify-center shadow-md">
+                    <Clock size={28} className="text-[#1A1A1A]" />
                   </div>
                 </motion.div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-black text-[#1A1A1A] mb-2 uppercase tracking-tight">Review In Progress</h2>
-                <p className="text-[11px] text-slate-400 font-bold leading-relaxed max-w-[80%] mx-auto uppercase tracking-tighter">
+                <h2 className="text-xl font-black text-[#1A1A1A] mb-1 uppercase tracking-tight">Review In Progress</h2>
+                <p className="text-[10px] text-slate-400 font-bold leading-relaxed max-w-[85%] mx-auto uppercase tracking-tighter">
                   Hey <span className="text-[#1A1A1A] font-black">{mechanicName}</span>, we are verifying your workshop profile.
                 </p>
               </div>
 
-              <div className="w-full bg-white rounded-3xl p-8 border border-white shadow-xl text-left space-y-6">
+              <div className="w-full bg-white rounded-2xl p-5 border border-white shadow-lg text-left space-y-4">
                 {[
                   { label: 'Documents Submitted', status: 'COMPLETED', color: 'text-[#10B981] bg-[#F6FFED]' },
                   { label: 'Admin Verification', status: 'PROCESSING', color: 'text-[#1677FF] bg-[#E6F4FF]' },
                   { label: 'Account Activation', status: 'PENDING', color: 'text-slate-300 bg-slate-50' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center justify-between">
-                    <p className="text-[11px] font-black text-[#1A1A1A] uppercase tracking-tight">{item.label}</p>
-                    <span className={`text-[9px] font-black px-3 py-1 rounded-lg uppercase tracking-widest ${item.color}`}>{item.status}</span>
+                    <p className="text-[10px] font-black text-[#1A1A1A] uppercase tracking-tight">{item.label}</p>
+                    <span className={`text-[8px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest ${item.color}`}>{item.status}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="bg-[#1A1A1A] rounded-2xl p-4 w-full flex items-center gap-4 shadow-xl">
-                <Bell size={18} className="text-[#D4E70D]" />
-                <p className="text-white/80 text-[10px] font-bold uppercase tracking-tight">SMS Alert active. We'll ping you in 24h.</p>
+              <div className="bg-[#1A1A1A] rounded-xl p-3.5 w-full flex items-center gap-3 shadow-md">
+                <Bell size={16} className="text-[#D4E70D]" />
+                <p className="text-white/80 text-[9px] font-bold uppercase tracking-tight">SMS Alert active. We'll ping you in 24h.</p>
               </div>
 
               <button
                 onClick={() => navigate('/mechanic/dashboard', { state: { name: mechanicName } })}
-                className="w-full py-5 bg-white text-[#1A1A1A] border border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-[0.25em] active:scale-95 transition-all shadow-md"
+                className="w-full py-3.5 bg-white text-[#1A1A1A] border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-[0.25em] active:scale-95 transition-all shadow-sm"
               >
                 Dashboard Preview
               </button>

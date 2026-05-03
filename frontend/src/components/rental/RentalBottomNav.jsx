@@ -1,155 +1,89 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Bike, DollarSign, TrendingUp, Calendar, User } from 'lucide-react';
+import { Bike, DollarSign, Calendar, User, LayoutGrid, BarChart2, Car } from 'lucide-react';
+import { twMerge } from 'tailwind-merge';
 
 const RentalBottomNav = ({ activeTab, onNavigate }) => {
   const navItems = [
-    { id: 'bikes', label: 'Bikes', icon: Bike },
-    { id: 'pricing', label: 'Pricing', icon: DollarSign },
-    { id: 'bookings', label: 'Bookings', icon: Calendar },
-    { id: 'earnings', label: 'Earnings', icon: User },
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutGrid },
+    { id: 'bikes',     label: 'Fleet',     icon: Car },
+    { id: 'bookings',  label: 'Bookings',  icon: Calendar },
+    { id: 'earnings',  label: 'Earnings',  icon: BarChart2 },
+    { id: 'profile',   label: 'Profile',   icon: User },
   ];
 
-  const getActiveIcon = () => {
-    if (activeTab === 'dashboard') return TrendingUp;
-    const activeItem = navItems.find(item => item.id === activeTab);
-    return activeItem ? activeItem.icon : TrendingUp;
+  const getActiveIndex = () => {
+    const index = navItems.findIndex(item => item.id === activeTab);
+    if (index !== -1) return index;
+    // Fallbacks
+    if (activeTab === 'pricing' || activeTab === 'availability') return 0;
+    if (activeTab === 'history') return 4;
+    return 0;
   };
 
-  const ActiveIcon = getActiveIcon();
-
-  const handleNavClick = (itemId) => {
-    onNavigate(itemId);
-  };
+  const activeIndex = getActiveIndex();
+  const ActiveIcon = navItems[activeIndex].icon;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-2 py-2 z-40">
-      <div className="flex items-center justify-center gap-16 relative h-20 max-w-full">
-        {/* Left items */}
-        <div className="flex gap-10 flex-1 justify-center">
-          {navItems.slice(0, 2).map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <motion.button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className="flex flex-col items-center gap-1 cursor-pointer flex-shrink-0 relative"
-              >
-                {/* Always visible icon in background */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Icon
-                    size={24}
-                    className="text-slate-400"
-                  />
-                </div>
-
-                {/* Animated icon on top */}
-                <motion.div
-                  animate={isActive ? { 
-                    x: `calc(50vw - 120px)`,
-                    y: -80,
-                    scale: 0,
-                    opacity: 0
-                  } : { 
-                    x: 0, 
-                    y: 0,
-                    scale: 1,
-                    opacity: 1
-                  }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  className="origin-center relative z-10"
-                >
-                  <Icon
-                    size={24}
-                    className={`transition-all ${
-                      isActive ? 'text-slate-800' : 'text-slate-400'
-                    }`}
-                  />
-                </motion.div>
-
-                {!isActive && (
-                  <span className="text-[7px] font-bold uppercase tracking-tight text-slate-300 whitespace-nowrap relative z-20">
-                    {item.label}
-                  </span>
-                )}
-              </motion.button>
-            );
-          })}
-        </div>
-
-        {/* Center item - Dynamic Icon */}
-        <motion.div
-          className="absolute left-1/2 -translate-x-1/2 -top-8 z-50"
-        >
-          <motion.button
-            onClick={() => handleNavClick('dashboard')}
-            className="w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg transition-shadow cursor-pointer flex-shrink-0"
-            whileHover={{ boxShadow: '0 12px 24px rgba(34, 197, 94, 0.4)' }}
-            whileTap={{ scale: 0.9 }}
+    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4">
+      {/* The Ultra-Light Blue Bar Container - Floating Design */}
+      <div className="relative bg-white/95 backdrop-blur-xl border border-blue-50 h-20 flex items-center px-2 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+        
+        {/* ── The Jumping Blue Bubble (Projectile Motion) ── */}
+        <div className="absolute inset-0 flex px-2 pointer-events-none">
+          <motion.div
+            animate={{ x: `${activeIndex * 100}%` }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            className="w-1/5 h-full flex items-center justify-center"
           >
             <motion.div
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              key={activeTab}
+              key={activeIndex}
+              initial={{ y: 0 }}
+              animate={{ 
+                y: [0, -42, 0],
+                scaleX: [1, 0.8, 1.1, 1],
+                scaleY: [1, 1.2, 0.9, 1]
+              }}
+              transition={{ 
+                duration: 0.5, 
+                times: [0, 0.5, 1],
+                ease: ["easeOut", "easeIn"]
+              }}
+              className="w-14 h-14 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center shadow-[0_10px_25px_rgba(37,99,235,0.4)] border-[5px] border-white -mt-20"
             >
-              <ActiveIcon size={28} className="text-white" />
+              <ActiveIcon size={24} className="text-white" strokeWidth={2.5} />
             </motion.div>
-          </motion.button>
-        </motion.div>
-
-        {/* Right items */}
-        <div className="flex gap-10 flex-1 justify-center">
-          {navItems.slice(2).map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <motion.button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className="flex flex-col items-center gap-1 cursor-pointer flex-shrink-0 relative"
-              >
-                {/* Always visible icon in background */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Icon
-                    size={24}
-                    className="text-slate-400"
-                  />
-                </div>
-
-                {/* Animated icon on top */}
-                <motion.div
-                  animate={isActive ? { 
-                    x: `calc(-50vw + 120px)`,
-                    y: -80,
-                    scale: 0,
-                    opacity: 0
-                  } : { 
-                    x: 0, 
-                    y: 0,
-                    scale: 1,
-                    opacity: 1
-                  }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  className="origin-center relative z-10"
-                >
-                  <Icon
-                    size={24}
-                    className={`transition-all ${
-                      isActive ? 'text-slate-800' : 'text-slate-400'
-                    }`}
-                  />
-                </motion.div>
-
-                {!isActive && (
-                  <span className="text-[7px] font-bold uppercase tracking-tight text-slate-300 whitespace-nowrap relative z-20">
-                    {item.label}
-                  </span>
-                )}
-              </motion.button>
-            );
-          })}
+          </motion.div>
         </div>
+
+        {/* ── Static Navigation Buttons ── */}
+        {navItems.map((item, idx) => {
+          const isActive = activeIndex === idx;
+          return (
+            <button
+              key={item.id}
+              onClick={() => onNavigate(item.id)}
+              className="flex-1 h-full flex flex-col items-center justify-center relative z-10 pt-1"
+            >
+              <div className="h-7 mb-1 flex items-center justify-center">
+                <item.icon 
+                  size={22} 
+                  className={twMerge(
+                    "transition-all duration-300",
+                    isActive ? "opacity-0 scale-50" : "opacity-100 text-slate-400 group-hover:text-blue-500"
+                  )} 
+                  strokeWidth={2} 
+                />
+              </div>
+              <span className={twMerge(
+                "text-[8px] font-black uppercase tracking-[0.05em] transition-all duration-300",
+                isActive ? "text-blue-600 translate-y-1 opacity-0" : "text-slate-400"
+              )}>
+                {item.label}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

@@ -38,6 +38,7 @@ import ServiceManagement from '../pages/mechanic/ServiceManagement';
 import RentalLogin from '../pages/rental/RentalLogin';
 import RentalOTP from '../pages/rental/RentalOTP';
 import RentalDashboard from '../pages/rental/RentalDashboard';
+import RentalSetup from '../pages/rental/RentalSetup';
 
 // Admin Module
 import AdminDashboard from '../pages/admin/AdminDashboard';
@@ -56,8 +57,11 @@ const AppRoutes = () => {
   const isAuthPage = ['/', '/login', '/register', '/otp', '/setup-profile'].includes(pathname) || 
                      pathname.startsWith('/mechanic/login') || 
                      pathname.startsWith('/mechanic/otp') ||
+                     pathname.startsWith('/mechanic/setup') ||
+                     pathname.startsWith('/mechanic/setup') ||
                      pathname.startsWith('/rental/login') ||
-                     pathname.startsWith('/rental/otp');
+                     pathname.startsWith('/rental/otp') ||
+                     pathname.startsWith('/rental/setup');
 
   const isDashboardPage = ['/home', '/mechanic/dashboard', '/rental/dashboard'].includes(pathname) || pathname.startsWith('/admin');
   
@@ -136,6 +140,7 @@ const AppRoutes = () => {
             <Route path="/rental" element={<Navigate to="/rental/login" replace />} />
             <Route path="/rental/login" element={<RentalLogin />} />
             <Route path="/rental/otp" element={<RentalOTP />} />
+            <Route path="/rental/setup" element={<RentalSetup />} />
             <Route path="/rental/dashboard" element={<RentalDashboard />} />
 
             {/* Admin Module */}
