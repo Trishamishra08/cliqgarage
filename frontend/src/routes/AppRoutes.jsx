@@ -71,7 +71,7 @@ const AppRoutes = () => {
   const isProfilePage = pathname.startsWith('/profile') || pathname === '/payments' || pathname === '/wishlist' || pathname === '/support';
   const isAdminPage = pathname.startsWith('/admin');
 
-  const shouldHideHeader = isAuthPage || isDashboardPage || isAdminPage || pathname.startsWith('/services/') || pathname.startsWith('/ecommerce/product/') || pathname.startsWith('/order-tracking/');
+  const shouldHideHeader = isAuthPage || isDashboardPage || isAdminPage || pathname === '/services' || pathname.startsWith('/services/') || pathname === '/ecommerce' || pathname.startsWith('/ecommerce/product/') || pathname.startsWith('/order-tracking/') || pathname === '/tracking';
   const shouldHideBottomNav = isAuthPage || isDashboardPage || isAdminPage || pathname.startsWith('/services/');
 
   return (

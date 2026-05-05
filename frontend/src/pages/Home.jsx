@@ -104,7 +104,7 @@ const Home = () => {
     { label: 'Accessories', img: deliveryImg, color: 'bg-yellow-50', iconColor: 'bg-yellow-100', path: '/ecommerce' },
     { label: 'Service', img: repairsImg, color: 'bg-emerald-50', iconColor: 'bg-emerald-100', path: '/services' },
     { label: 'Tracking', img: outstationImg, color: 'bg-purple-50', iconColor: 'bg-purple-100', path: '/tracking' },
-    { label: 'Road Assist', img: bikeImg, color: 'bg-orange-50', iconColor: 'bg-orange-100', path: '/assist' },
+    { label: 'Road Assist', img: bikeImg, color: 'bg-orange-50', iconColor: 'bg-orange-100', path: '/support' },
   ];
 
 
@@ -250,7 +250,7 @@ const Home = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.05 }}
                   onClick={() => navigate(cat.path)}
-                  className="bg-white rounded-[0.9rem] p-1.5 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.05)] border border-slate-50 flex flex-col items-center justify-start gap-1 active:scale-95 transition-all cursor-pointer group overflow-hidden"
+                  className="bg-white rounded-xl p-1.5 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.05)] border border-slate-50 flex flex-col items-center justify-start gap-1 active:scale-95 transition-all cursor-pointer group overflow-hidden"
                 >
                   <div className={twMerge("w-11 h-11 rounded-xl overflow-hidden flex items-center justify-center transition-transform group-hover:scale-105 duration-500 shrink-0", cat.color)}>
                     <img 
@@ -310,7 +310,7 @@ const Home = () => {
                     btnText: "Claim Now",
                     iconColor: "text-[#D4A017]"
                   }].map((deal, idx) => (
-                    <div key={`${loop}-${idx}`} className={`relative w-[80vw] h-[120px] ${deal.bg} rounded-[1rem] overflow-hidden shrink-0 shadow-lg flex group transition-all border border-white/5`}>
+                    <div key={`${loop}-${idx}`} className={`relative w-[80vw] h-[120px] ${deal.bg} rounded-xl overflow-hidden shrink-0 shadow-lg flex group transition-all border border-white/5`}>
                        {/* Left Content */}
                        <div className="w-[60%] px-4 py-3 flex flex-col justify-center z-10 relative">
                          {/* Badge */}
@@ -380,7 +380,7 @@ const Home = () => {
             <div 
               key={i}
               onClick={() => navigate(card.path)}
-              className={`relative w-full h-[90px] rounded-[1.1rem] bg-gradient-to-br ${card.bg} overflow-hidden shadow-[0_8px_20px_-6px_rgba(0,0,0,0.15)] active:scale-95 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.3)] hover:brightness-105 flex cursor-pointer group`}
+              className={`relative w-full h-[90px] rounded-xl bg-gradient-to-br ${card.bg} overflow-hidden shadow-[0_8px_20px_-6px_rgba(0,0,0,0.15)] active:scale-95 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.3)] hover:brightness-105 flex cursor-pointer group`}
             >
               {/* Concentric Circles Effect */}
               <div className="absolute -bottom-6 -right-6 w-[80px] h-[80px] rounded-full bg-white/15 mix-blend-overlay pointer-events-none transition-transform duration-700 group-hover:scale-[1.15]" />
@@ -540,7 +540,7 @@ const Home = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               onClick={() => navigate('/services')}
-              className="bg-white dark:bg-slate-900/40 rounded-[1.25rem] p-4 shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 flex flex-col relative overflow-hidden h-[115px] min-w-[155px] flex-shrink-0 cursor-pointer active:scale-[0.98] transition-all group"
+              className="bg-white dark:bg-slate-900/40 rounded-xl p-4 shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 flex flex-col relative overflow-hidden h-[115px] min-w-[155px] flex-shrink-0 cursor-pointer active:scale-[0.98] transition-all group"
             >
               <div className="absolute inset-0 z-0">
                 <img 
@@ -569,7 +569,7 @@ const Home = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               onClick={() => navigate('/rentals')}
-              className="bg-white dark:bg-slate-900/40 rounded-[1.25rem] p-4 shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 flex flex-col relative overflow-hidden h-[115px] min-w-[155px] flex-shrink-0 cursor-pointer active:scale-[0.98] transition-all group"
+              className="bg-white dark:bg-slate-900/40 rounded-xl p-4 shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 flex flex-col relative overflow-hidden h-[115px] min-w-[155px] flex-shrink-0 cursor-pointer active:scale-[0.98] transition-all group"
             >
               <div className="absolute inset-0 z-0">
                 <img 
@@ -598,7 +598,7 @@ const Home = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
               onClick={() => navigate('/ecommerce')}
-              className="bg-white dark:bg-slate-900/40 rounded-[1.25rem] p-4 shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 flex flex-col relative overflow-hidden h-[115px] min-w-[155px] flex-shrink-0 cursor-pointer active:scale-[0.98] transition-all group"
+              className="bg-white dark:bg-slate-900/40 rounded-xl p-4 shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] border border-slate-50 dark:border-white/5 flex flex-col relative overflow-hidden h-[115px] min-w-[155px] flex-shrink-0 cursor-pointer active:scale-[0.98] transition-all group"
             >
               <div className="absolute inset-0 z-0">
                 <img 
@@ -645,7 +645,7 @@ const Home = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                className="group w-full bg-[#282828] p-1.5 rounded-[1.25rem] shadow-[0_8px_20px_-6px_rgba(0,0,0,0.3)] flex flex-col active:scale-[0.98] transition-all"
+                className="group w-full bg-[#282828] p-1.5 rounded-xl shadow-[0_8px_20px_-6px_rgba(0,0,0,0.3)] flex flex-col active:scale-[0.98] transition-all"
               >
                 <div className="relative w-full h-[105px] flex items-center justify-center bg-[#EBEBEB] rounded-[1rem] overflow-hidden">
                    <img 
