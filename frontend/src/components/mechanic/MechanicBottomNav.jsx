@@ -25,10 +25,10 @@ const MechanicBottomNav = ({ activeTab, onNavigate }) => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50">
-      {/* The Ultra-Light Mustard Bar Container */}
-      <div className="relative bg-[#FFFEF7] border-t border-black/5 h-20 flex items-center px-4 shadow-[0_-10px_30px_rgba(0,0,0,0.06)]">
+      {/* White Bar Container with Rounded Top Corners */}
+      <div className="relative bg-white border-t border-black/5 h-16 flex items-center px-4 rounded-t-[2.5rem] shadow-[0_-15px_40px_rgba(0,0,0,0.08)]">
         
-        {/* ── The Jumping Blue Bubble (Projectile Motion) ── */}
+        {/* ── The Jumping Gradient Bubble ── */}
         <div className="absolute inset-0 flex px-4 pointer-events-none">
           <motion.div
             animate={{ x: `${activeIndex * 100}%` }}
@@ -48,9 +48,9 @@ const MechanicBottomNav = ({ activeTab, onNavigate }) => {
                 times: [0, 0.5, 1],
                 ease: ["easeOut", "easeIn"]
               }}
-              className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-400 via-indigo-400 to-purple-500 flex items-center justify-center shadow-[0_8px_20px_rgba(59,130,246,0.3)] border-[6px] border-[#FFFEF7] -mt-16"
+              className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#6366f1] via-[#8b5cf6] to-[#a855f7] flex items-center justify-center shadow-[0_15px_30px_rgba(99,102,241,0.4)] border-[6px] border-white -mt-12"
             >
-              <ActiveIcon size={28} className="text-white" strokeWidth={2} />
+              <ActiveIcon size={28} className="text-white" strokeWidth={2.5} />
             </motion.div>
           </motion.div>
         </div>
@@ -62,17 +62,20 @@ const MechanicBottomNav = ({ activeTab, onNavigate }) => {
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
-              className="flex-1 h-full flex flex-col items-center justify-center relative z-10"
+              className="flex-1 h-full flex flex-col items-center justify-center relative z-10 pt-1"
             >
               <item.icon 
-                size={26} 
+                size={24} 
                 className={twMerge(
-                  "mb-1 transition-opacity duration-300",
-                  isActive ? "opacity-0" : "opacity-100 text-black"
+                  "mb-1 transition-all duration-300",
+                  isActive ? "opacity-0 scale-50" : "opacity-100 text-[#111827]"
                 )} 
                 strokeWidth={2} 
               />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-black">
+              <span className={twMerge(
+                "text-[9px] font-black uppercase tracking-wider transition-colors duration-300",
+                isActive ? "text-[#6366f1]" : "text-[#111827]"
+              )}>
                 {item.label}
               </span>
             </button>
