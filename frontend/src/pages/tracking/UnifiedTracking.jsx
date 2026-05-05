@@ -4,7 +4,7 @@ import {
   Bike, Package, MapPin, Clock, 
   CheckCircle2, ArrowRight, ChevronRight, 
   ShieldCheck, Truck, Store, Map as MapIcon,
-  Phone, MessageSquare, AlertCircle
+  Phone, MessageSquare, AlertCircle, ArrowLeft
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
@@ -55,11 +55,23 @@ const UnifiedTracking = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 font-sans">
       {/* 🚀 INDUSTRIAL HEADER */}
-      <div className="bg-[#001F3D] pt-14 pb-8 px-6 relative overflow-hidden">
+      <div className="bg-[#001F3D] pt-8 pb-8 px-6 relative overflow-hidden">
          <div className="absolute top-0 right-0 w-64 h-64 bg-[#D4A017]/10 rounded-full blur-3xl" />
+         
+         <div className="relative z-20 flex items-center justify-between text-white mb-6">
+            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/10 active:scale-95 transition-all" onClick={() => navigate(-1)}>
+               <ArrowLeft size={20} />
+            </div>
+            <div className="text-center">
+               <h1 className="text-[14px] font-black uppercase tracking-widest italic">Logistics<span className="text-[#D4A017] not-italic ml-1">Tracker</span></h1>
+            </div>
+            <div className="w-10 h-10 bg-[#D4A017] rounded-xl flex items-center justify-center text-[#001F3D]">
+               <MapIcon size={20} />
+            </div>
+         </div>
+
          <div className="relative z-10 flex flex-col items-center">
-            <h1 className="text-2xl font-black text-white uppercase tracking-tighter italic">Logistics<span className="text-[#D4A017] not-italic ml-1">Tracker</span></h1>
-            <p className="text-[8px] font-bold text-white/40 uppercase tracking-[0.4em] mt-2">Real-Time Asset Synchronization Active</p>
+            <p className="text-[7px] font-black text-white/40 uppercase tracking-[0.4em] leading-none">Real-Time Asset Synchronization Active</p>
          </div>
 
          {/* 🚀 SEGMENTED TAB SELECTOR */}
@@ -79,7 +91,7 @@ const UnifiedTracking = () => {
          </div>
       </div>
 
-      <div className="px-5 -mt-6 relative z-20 space-y-4">
+      <div className="px-3 -mt-6 relative z-20 space-y-4">
          <AnimatePresence mode="wait">
             <motion.div 
                key={activeTab}
@@ -89,11 +101,11 @@ const UnifiedTracking = () => {
                className="space-y-4"
             >
                {activeData.map((item) => (
-                  <div key={item.id} className="bg-white rounded-[2px] shadow-xl border border-slate-100 overflow-hidden">
+                  <div key={item.id} className="bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden">
                      {/* Asset ID Header */}
-                     <div className="bg-slate-50 px-4 py-3 flex justify-between items-center border-b border-slate-100">
+                     <div className="bg-slate-50 px-4 py-2 flex justify-between items-center border-b border-slate-100">
                         <div className="flex items-center gap-2">
-                           <span className="text-[7px] font-black text-slate-300 uppercase tracking-widest leading-none">Protocol ID</span>
+                           <span className="text-[7px] font-black text-slate-300 uppercase tracking-widest leading-none">ID</span>
                            <span className="text-[10px] font-black text-[#001F3D] uppercase tracking-tighter leading-none">{item.id}</span>
                         </div>
                         <span className="text-[7px] font-bold text-slate-400 uppercase tracking-widest">{item.timestamp}</span>
@@ -101,7 +113,7 @@ const UnifiedTracking = () => {
 
                      {/* Main Content */}
                      <div className="p-4 flex gap-4">
-                        <div className="w-16 h-16 bg-slate-50 rounded-[2px] flex items-center justify-center border border-slate-100 relative group overflow-hidden">
+                        <div className="w-16 h-16 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100 relative group overflow-hidden">
                            {activeTab === 'rentals' ? <Bike size={32} className="text-[#001F3D]/20" /> : <Package size={32} className="text-[#D4A017]/20" />}
                            <div className="absolute inset-0 bg-[#001F3D]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
@@ -129,7 +141,7 @@ const UnifiedTracking = () => {
                            className="border-t border-slate-50 px-4 pt-2 pb-6"
                         >
                            {/* MAP INTERFACE BRIDGE */}
-                           <div className="w-full h-32 bg-[#EBF1F7] rounded-[2px] border border-slate-100 relative overflow-hidden mb-6 mt-2">
+                           <div className="w-full h-32 bg-[#EBF1F7] rounded-xl border border-slate-100 relative overflow-hidden mb-6 mt-2">
                               <iframe
                                  src={`https://maps.google.com/maps?q=${encodeURIComponent(item.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
                                  width="100%"
@@ -139,9 +151,6 @@ const UnifiedTracking = () => {
                                  loading="lazy"
                                  title="Asset Map"
                               ></iframe>
-                              <div className="absolute top-2 right-2 bg-[#001F3D] text-[#D4A017] px-2 py-0.5 rounded-full text-[6px] font-black uppercase tracking-widest animate-pulse shadow-xl">
-                                 Asset Geo-Sync: Online
-                              </div>
                            </div>
 
                            {/* LOGISTICS TIMELINE */}
@@ -168,7 +177,7 @@ const UnifiedTracking = () => {
                                              {step.desc}
                                           </p>
                                           {isCurrent && (
-                                             <div className="mt-4 p-3 bg-[#F4F7FA] border-l-2 border-[#D4A017] rounded-[2px] flex items-center justify-between">
+                                             <div className="mt-4 p-3 bg-[#F4F7FA] border-l-2 border-[#D4A017] rounded-xl flex items-center justify-between">
                                                 <div className="flex items-center gap-3">
                                                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 shadow-sm"><Phone size={14} /></div>
                                                    <div>
@@ -187,7 +196,7 @@ const UnifiedTracking = () => {
                               })}
                            </div>
 
-                           <button className="w-full h-12 mt-6 bg-[#001F3D] text-[#D4A017] rounded-full font-black text-[9px] uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all">
+                           <button className="w-full h-12 mt-6 bg-[#001F3D] text-[#D4A017] rounded-xl font-black text-[9px] uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all">
                               Download Digital Invoice
                            </button>
                         </motion.div>
@@ -199,15 +208,15 @@ const UnifiedTracking = () => {
 
          {/* 🚀 QUICK TOOLS SECTION */}
          <div className="pt-4 grid grid-cols-2 gap-3">
-            <button className="h-16 bg-white border border-slate-100 rounded-[2px] shadow-sm p-4 flex items-center gap-3 active:scale-95 transition-all">
-               <div className="w-8 h-8 rounded-[2px] bg-emerald-50 text-emerald-600 flex items-center justify-center"><AlertCircle size={14} /></div>
+            <button className="h-16 bg-white border border-slate-100 rounded-xl shadow-sm p-4 flex items-center gap-3 active:scale-95 transition-all">
+               <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><AlertCircle size={14} /></div>
                <div className="text-left">
                   <p className="text-[8px] font-black text-[#001F3D] uppercase tracking-tight">Need Help?</p>
                   <p className="text-[7px] font-bold text-slate-400 uppercase">Support Hub</p>
                </div>
             </button>
-            <button className="h-16 bg-white border border-slate-100 rounded-[2px] shadow-sm p-4 flex items-center gap-3 active:scale-95 transition-all">
-               <div className="w-8 h-8 rounded-[2px] bg-slate-50 text-slate-400 flex items-center justify-center"><MapIcon size={14} /></div>
+            <button className="h-16 bg-white border border-slate-100 rounded-xl shadow-sm p-4 flex items-center gap-3 active:scale-95 transition-all">
+               <div className="w-8 h-8 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center"><MapIcon size={14} /></div>
                <div className="text-left">
                   <p className="text-[8px] font-black text-[#001F3D] uppercase tracking-tight">Policies</p>
                   <p className="text-[7px] font-bold text-slate-400 uppercase">Audit Guide</p>

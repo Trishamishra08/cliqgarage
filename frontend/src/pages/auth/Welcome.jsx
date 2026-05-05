@@ -59,7 +59,7 @@ const Welcome = () => {
           </motion.div>
 
           {/* Bottom CTA Section */}
-          <div className="mt-auto pb-24 px-8 w-full max-w-sm mx-auto">
+          <div className="mt-auto pb-12 px-8 w-full max-w-sm mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

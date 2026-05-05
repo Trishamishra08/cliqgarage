@@ -67,7 +67,7 @@ const ServiceList = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-40 font-['Outfit']">
       {/* 🏗️ Branded Top Bar */}
-      <div className="bg-[#001F3D] pt-8 pb-12 px-6 rounded-b-[2.5rem] shadow-lg relative z-10">
+      <div className="bg-[#001F3D] pt-8 pb-8 px-6 rounded-b-[2.5rem] shadow-lg relative z-10">
          <div className="flex items-center justify-between text-white">
             <div className="w-10 h-10 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10" onClick={() => navigate(-1)}>
                <ArrowLeft size={20} />
@@ -83,7 +83,7 @@ const ServiceList = () => {
       </div>
 
       {/* 🏷️ Minimalist Horizontal Category Pills (As per image) */}
-      <div className="px-5 -mt-6 relative z-20">
+      <div className="px-3 -mt-6 relative z-20">
          <div className="flex gap-2 overflow-x-auto no-scrollbar py-2">
             <motion.button
                onClick={() => setActiveCategory('all')}
@@ -110,7 +110,7 @@ const ServiceList = () => {
       </div>
 
       {/* 🛠️ Specialist Listing Hub */}
-      <div className="px-5 mt-10 space-y-4">
+      <div className="px-3 mt-10 space-y-4">
          <div className="flex items-center justify-between mb-2">
             <h2 className="text-[10px] font-black uppercase tracking-[0.3rem] text-slate-300">Local Experts</h2>
             <Filter size={14} className="text-[#D4A017]" />
@@ -122,10 +122,10 @@ const ServiceList = () => {
                initial={{ opacity: 0, y: 10 }}
                animate={{ opacity: 1, y: 0 }}
                onClick={() => navigate(`/services/${mech.id}`)}
-               className="bg-white rounded-[2rem] p-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-50 flex items-center gap-4 group active:scale-[0.98] transition-all relative"
+               className="bg-white rounded-xl p-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-50 flex items-center gap-4 group active:scale-[0.98] transition-all relative"
             >
                {/* 📸 Compact Shop Image */}
-               <div className="w-20 h-20 rounded-[1.5rem] overflow-hidden bg-slate-50 shrink-0 shadow-inner">
+               <div className="w-20 h-20 rounded-xl overflow-hidden bg-slate-50 shrink-0 shadow-inner">
                   <img src={mech.image} className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 transition-all duration-700" alt={mech.name} />
                </div>
                
