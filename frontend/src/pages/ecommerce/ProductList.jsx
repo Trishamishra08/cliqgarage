@@ -147,7 +147,7 @@ const AccessoriesStore = () => {
   return (
     <div className="flex flex-col pb-24 bg-[var(--bg-color)] min-h-screen transition-colors duration-300">
       {/* Ultra-Compact Premium Header Section */}
-      <div className="bg-[var(--header-color)] pt-3 pb-8 px-5 rounded-b-[2rem] shadow-2xl relative z-10 border-b border-white/5">
+      <div className="bg-[var(--header-color)] pt-8 pb-8 px-4 rounded-b-[2.5rem] shadow-2xl relative z-10 border-b border-white/5">
         <div className="flex items-center justify-between mb-4">
           <button 
             onClick={() => navigate('/')}
@@ -188,7 +188,7 @@ const AccessoriesStore = () => {
       </div>
 
       {/* Floating Categories - Minimalist */}
-      <div className="px-5 mt-3 relative z-20">
+      <div className="px-3 mt-3 relative z-20">
          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
             {categories.filter(c => c.vehicles.includes(selectedVehicle)).map((cat, i) => (
               <button 
@@ -209,7 +209,7 @@ const AccessoriesStore = () => {
       </div>
 
       {/* Product Feed & Action Header */}
-      <div className="px-5 mt-5">
+      <div className="px-3 mt-5">
         <div className="flex items-center justify-between mb-4">
            <div className="flex flex-col">
               <h2 className="text-[12px] font-black text-[#001F3D] uppercase tracking-[0.3em] leading-none">The Collection</h2>
@@ -255,7 +255,7 @@ const AccessoriesStore = () => {
                whileInView={{ opacity: 1, y: 0 }}
                viewport={{ once: true }}
                onClick={() => navigate(`/ecommerce/product/${p.id}`)}
-               className="group bg-white rounded-[1.5rem] overflow-hidden relative shadow-sm border border-slate-50 active:scale-[0.98] transition-all"
+              className="group bg-white rounded-xl overflow-hidden relative shadow-sm border border-slate-50 active:scale-[0.98] transition-all"
              >
                 <div className="aspect-[4/5] overflow-hidden relative">
                    <img src={p.image} className="w-full h-full object-cover grayscale-[0.2] transition-all duration-1000 group-hover:scale-110 group-hover:grayscale-0" alt={p.name} />

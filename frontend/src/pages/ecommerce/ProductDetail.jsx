@@ -5,7 +5,7 @@ import {
   ChevronLeft, ShoppingCart, Heart, Star, 
   ShieldCheck, Truck, RotateCcw, 
   ChevronRight, ArrowRight, Check,
-  Share2, Shield, Info, Zap
+  Share2, Shield, Info, Zap, Loader2
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
@@ -55,7 +55,7 @@ const ProductDetail = () => {
   return (
     <div className="bg-[#F8FAFC] min-h-screen pb-24 font-['Outfit'] relative overflow-x-hidden">
       {/* 🚀 Slick Compact Overlays */}
-      <div className="fixed top-0 inset-x-0 z-50 px-5 pt-8 flex items-center justify-between pointer-events-none">
+      <div className="fixed top-0 inset-x-0 z-50 px-4 pt-12 flex items-center justify-between pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="w-9 h-9 bg-[#001F3D]/90 backdrop-blur-xl rounded-xl shadow-lg border border-white/10 flex items-center justify-center text-[#D4A017] active:scale-90 transition-all pointer-events-auto"
@@ -98,8 +98,8 @@ const ProductDetail = () => {
       </div>
 
       {/* 📝 Info Hub - Extreme Density */}
-      <div className="px-5 -mt-6 relative z-10">
-         <div className="bg-white rounded-[1.8rem] p-4 shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-slate-50">
+      <div className="px-3 -mt-6 relative z-10">
+         <div className="bg-white rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-slate-50">
             <div className="flex justify-between items-start mb-2.5 border-b border-slate-50 pb-2.5">
                <div>
                   <h1 className="text-[17px] font-black text-[#001F3D] uppercase tracking-tighter leading-none mb-1">{product.name}</h1>
@@ -176,6 +176,29 @@ const ProductDetail = () => {
                <>Initiate Selection <ArrowRight size={10} strokeWidth={4} /></>
              )}
            </button>
+         </div>
+
+         {/* 📦 Recommended Items Block */}
+         <div className="mt-8 mb-6">
+            <div className="flex items-center justify-between mb-4 px-1">
+               <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#001F3D]">Top Recommendations</h3>
+               <button className="text-[8px] font-black text-[#D4A017] uppercase tracking-widest">See All</button>
+            </div>
+            <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+               {[
+                  { name: "Synthetic Oil", price: "899", img: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=400" },
+                  { name: "Pro Jacket", price: "8,999", img: "https://images.unsplash.com/photo-1558980335-8e0c25ad75de?q=80&w=400" },
+                  { name: "Brake Pads", price: "2,499", img: "https://images.unsplash.com/photo-1481398734200-e2defcc1a7c0?q=80&w=400" }
+               ].map((item, i) => (
+                  <div key={i} className="min-w-[140px] bg-white rounded-xl p-2 border border-slate-50 shadow-sm">
+                     <div className="h-24 rounded-lg overflow-hidden mb-2 bg-slate-50">
+                        <img src={item.img} className="w-full h-full object-cover" />
+                     </div>
+                     <h4 className="text-[8px] font-black text-[#001F3D] uppercase truncate leading-none mb-1">{item.name}</h4>
+                     <p className="text-[9px] font-black text-[#D4A017]">₹{item.price}</p>
+                  </div>
+               ))}
+            </div>
          </div>
       </div>
     </div>

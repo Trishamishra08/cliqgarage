@@ -128,7 +128,7 @@ const ServiceBooking = () => {
           </div>
        </div>
 
-       <div className="px-5 mt-6 pb-40 flex-1 flex flex-col relative z-20">
+       <div className="px-3 mt-6 pb-40 flex-1 flex flex-col relative z-20">
           <AnimatePresence mode="wait">
              {step === 1 && (
                 <motion.div key="step1" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="flex-1 flex flex-col gap-2.5 overflow-hidden font-['Roboto'] font-medium">
@@ -218,9 +218,9 @@ const ServiceBooking = () => {
                    </div>
                    <div className="grid gap-3">
                       {filteredVehicles.map((v) => (
-                         <div key={v.id} onClick={() => setSelectedVehicle(v)} className={twMerge("p-3 rounded-2xl border transition-all flex items-center justify-between group", selectedVehicle?.id === v.id ? "bg-white border-[#001F3D] shadow-lg" : "bg-white border-slate-50 shadow-sm")}>
+                         <div key={v.id} onClick={() => setSelectedVehicle(v)} className={twMerge("p-3 rounded-xl border transition-all flex items-center justify-between group", selectedVehicle?.id === v.id ? "bg-white border-[#001F3D] shadow-md" : "bg-white border-slate-50 shadow-sm")}>
                             <div className="flex items-center gap-4">
-                               <img src={v.image} className="w-14 h-14 rounded-xl object-cover" />
+                               <img src={v.image} className="w-14 h-14 rounded-lg object-cover" />
                                <div>
                                   <h4 className="text-[11px] font-bold text-[#001F3D] uppercase tracking-tight">{v.name}</h4>
                                   <p className="text-[8.5px] font-medium text-slate-400 uppercase tracking-widest leading-none mt-1">{v.reg}</p>
@@ -230,13 +230,13 @@ const ServiceBooking = () => {
                                   </div>
                                </div>
                             </div>
-                            <div className={twMerge("w-8 h-8 rounded-full flex items-center justify-center transition-all", selectedVehicle?.id === v.id ? "bg-[#001F3D] text-white" : "bg-slate-50 text-slate-100")}>
+                            <div className={twMerge("w-8 h-8 rounded-full flex items-center justify-center transition-all", selectedVehicle?.id === v.id ? "bg-[#001F3D] text-white shadow-md" : "bg-slate-50 text-slate-100")}>
                                <Check size={14} />
                             </div>
                          </div>
                       ))}
                    </div>
-                   <button disabled={!selectedVehicle} onClick={() => setStep(3)} className="w-full h-12 bg-[#001F3D] text-white rounded-2xl font-bold uppercase tracking-widest text-[9px] shadow-xl disabled:opacity-50 transition-all active:scale-95">
+                   <button disabled={!selectedVehicle} onClick={() => setStep(3)} className="w-full h-12 bg-[#001F3D] text-white rounded-xl font-bold uppercase tracking-widest text-[9px] shadow-xl disabled:opacity-50 transition-all active:scale-95">
                       Next: Choose Services <ChevronRight size={14} className="ml-1 inline" />
                    </button>
                 </motion.div>
@@ -244,7 +244,7 @@ const ServiceBooking = () => {
 
              {step === 3 && (
                 <motion.div key="step3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-4">
-                   <div className="bg-[#001F3D] p-3 rounded-2xl flex items-center justify-between">
+                   <div className="bg-[#001F3D] p-3 rounded-xl flex items-center justify-between">
                       <div className="flex items-center gap-3">
                          <img src={selectedVehicle?.image} className="w-8 h-8 rounded-lg object-cover" />
                          <h4 className="text-[8.5px] font-bold text-white uppercase tracking-widest">{selectedVehicle?.name}</h4>
@@ -255,29 +255,29 @@ const ServiceBooking = () => {
                       {mechanic.services.map((s) => {
                         const isSelected = selectedServices.find(item => item.id === s.id);
                         return (
-                          <div key={s.id} onClick={() => toggleService(s)} className={twMerge("p-3.5 rounded-2xl border transition-all flex items-center justify-between bg-white", isSelected ? "border-[#001F3D] shadow-md" : "border-slate-50")}>
+                          <div key={s.id} onClick={() => toggleService(s)} className={twMerge("p-3 rounded-xl border transition-all flex items-center justify-between bg-white", isSelected ? "border-[#001F3D] shadow-md" : "border-slate-50 shadow-sm")}>
                              <div>
                                 <h4 className="text-[10px] font-bold uppercase text-slate-900">{s.name}</h4>
-                                <p className="text-[8px] font-medium text-slate-400">{s.desc}</p>
+                                <p className="text-[8px] font-medium text-slate-400 line-clamp-1">{s.desc}</p>
                                 <p className="text-[11px] font-bold text-[#001F3D] mt-1.5 tracking-tight">₹{s.price}</p>
                              </div>
-                             <div className={twMerge("w-7 h-7 rounded-lg flex items-center justify-center transition-all", isSelected ? "bg-[#001F3D] text-white" : "bg-slate-50 text-slate-200")}>
+                             <div className={twMerge("w-7 h-7 rounded-lg flex items-center justify-center transition-all", isSelected ? "bg-[#001F3D] text-white shadow-md" : "bg-slate-50 text-slate-200")}>
                                 {isSelected ? <X size={14} /> : <Plus size={14} />}
                              </div>
                           </div>
                         );
                       })}
                    </div>
-                   <button disabled={selectedServices.length === 0} onClick={() => setStep(4)} className="w-full h-12 bg-[#001F3D] text-white rounded-2xl font-bold uppercase tracking-widest text-[9px] shadow-lg transition-all active:scale-95">
+                   <button disabled={selectedServices.length === 0} onClick={() => setStep(4)} className="w-full h-12 bg-[#001F3D] text-white rounded-xl font-bold uppercase tracking-widest text-[9px] shadow-lg transition-all active:scale-95">
                       Schedule Service <ChevronRight size={12} className="ml-1 inline" />
                    </button>
                 </motion.div>
              )}
 
              {step === 4 && (
-               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <div>
-                     <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-[#001F3D]/30 mb-6 px-1">Service Mode</h2>
+                     <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#001F3D]/40 mb-4 px-1">Service Mode</h2>
                      <div className="grid grid-cols-2 gap-4">
                         {[
                            { id: 'pickup', name: 'Doorstep Service', sub: 'Expert Arrival', icon: ShieldCheck },
@@ -288,17 +288,17 @@ const ServiceBooking = () => {
                               whileTap={{ scale: 0.98 }}
                               onClick={() => setBookingMode(mode.id)}
                               className={twMerge(
-                                 "relative p-3.5 rounded-none border transition-all duration-300 cursor-pointer overflow-hidden",
+                                 "relative p-3 rounded-xl border transition-all duration-300 cursor-pointer overflow-hidden",
                                  bookingMode === mode.id 
-                                    ? "bg-[#001F3D] border-[#001F3D] shadow-[0_10px_20px_-5px_rgba(0,31,61,0.2)]" 
-                                    : "bg-white border-slate-200"
+                                    ? "bg-[#001F3D] border-[#001F3D] shadow-lg" 
+                                    : "bg-white border-slate-100 shadow-sm"
                               )}
                            >
                               <div className={twMerge(
-                                 "w-9 h-9 rounded-none flex items-center justify-center mb-3 transition-colors",
+                                 "w-8 h-8 rounded-lg flex items-center justify-center mb-2 transition-colors",
                                  bookingMode === mode.id ? "bg-[#D4A017] text-[#001F3D]" : "bg-slate-50 text-slate-400"
                               )}>
-                                 <mode.icon size={18} />
+                                 <mode.icon size={16} />
                               </div>
                               
                               <h3 className={twMerge(
@@ -315,8 +315,8 @@ const ServiceBooking = () => {
                               </p>
 
                               {bookingMode === mode.id && (
-                                 <motion.div layoutId="modeCheck" className="absolute top-3 right-3">
-                                    <div className="w-4 h-4 bg-[#D4A017] rounded-none flex items-center justify-center border border-[#001F3D]">
+                                 <motion.div layoutId="modeCheck" className="absolute top-2.5 right-2.5">
+                                    <div className="w-4 h-4 bg-[#D4A017] rounded-md flex items-center justify-center border border-[#001F3D]">
                                        <Check size={8} strokeWidth={4} className="text-[#001F3D]" />
                                     </div>
                                  </motion.div>
@@ -325,15 +325,14 @@ const ServiceBooking = () => {
                         ))}
                      </div>
                   </div>
-
                   <div>
-                     <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-[#001F3D]/30 mb-6 px-1">Arrival Slot</h2>
-                       <div className="flex gap-4 mb-4">
-                          <input type="date" defaultValue={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="flex-1 h-11 bg-white border border-slate-100 rounded-none px-4 text-[10px] font-bold text-slate-900 shadow-sm" />
+                     <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#001F3D]/40 mb-4 px-1">Arrival Slot</h2>
+                       <div className="flex gap-4 mb-3">
+                          <input type="date" defaultValue={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="flex-1 h-10 bg-white border border-slate-100 rounded-xl px-4 text-[9px] font-bold text-slate-900 shadow-sm outline-none focus:border-[#D4A017]/50 transition-all" />
                        </div>
                        <div className="grid grid-cols-2 gap-2">
                           {slots.map((s, i) => (
-                             <button key={i} onClick={() => setSelectedSlot(s)} className={twMerge("h-11 rounded-none text-[9px] font-black uppercase transition-all tracking-wider", selectedSlot === s ? "bg-[#001F3D] text-[#D4A017] shadow-md border-b-2 border-black/20" : "bg-white text-slate-400 border border-slate-100")}>
+                             <button key={i} onClick={() => setSelectedSlot(s)} className={twMerge("h-10 rounded-xl text-[9px] font-black uppercase transition-all tracking-wider border", selectedSlot === s ? "bg-[#001F3D] text-[#D4A017] border-[#001F3D] shadow-md" : "bg-white text-slate-400 border-slate-100 shadow-sm")}>
                                 {s}
                              </button>
                           ))}
@@ -346,7 +345,7 @@ const ServiceBooking = () => {
 
              {step === 5 && (
                 <motion.div key="step5" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="space-y-5">
-                   <div className="bg-white p-6 rounded-[2rem] shadow-xl border border-slate-50 space-y-5">
+                   <div className="bg-white p-6 rounded-xl shadow-xl border border-slate-50 space-y-5">
                       <div className="flex justify-between items-center pb-4 border-b border-slate-100 font-bold">
                           <span className="text-[10px] text-slate-400 uppercase tracking-widest font-['Outfit']">Grand Total</span>
                           <span className="text-2xl text-[#001F3D] tracking-tighter font-['Outfit']">₹{totalAmount}</span>
@@ -380,7 +379,7 @@ const ServiceBooking = () => {
              {step === 6 && (
                  <motion.div key="step6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col gap-4 font-['Roboto'] pb-40 overflow-auto no-scrollbar">
                     {/* 🕒 Real-time Booking Status Timeline */}
-                    <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                    <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
                        <div className="flex justify-between items-center mb-5 px-1">
                           <h3 className="text-[10px] font-black uppercase text-[#001F3D] tracking-widest leading-none">Live Tracking</h3>
                           <span className={twMerge(
@@ -423,7 +422,7 @@ const ServiceBooking = () => {
                     </div>
 
                     {bookingStatus === 'Completed' && (
-                       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-[#001F3D] p-5 rounded-[2rem] border border-white/10 shadow-2xl relative overflow-hidden">
+                       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-[#001F3D] p-5 rounded-xl border border-white/10 shadow-2xl relative overflow-hidden">
                           <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4A017]/10 rounded-full -mr-16 -mt-16 blur-2xl" />
                           <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-4 text-center">Service Completed!</h4>
                           <div className="space-y-4">
@@ -453,7 +452,7 @@ const ServiceBooking = () => {
                              </div>
                           </div>
 
-                          <div className="bg-white rounded-2xl p-5 shadow-xl border border-slate-100 flex flex-col gap-5">
+                          <div className="bg-white rounded-xl p-5 shadow-xl border border-slate-100 flex flex-col gap-5">
                              <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                    <div className="w-12 h-12 rounded-xl bg-slate-50 overflow-hidden border border-slate-100">

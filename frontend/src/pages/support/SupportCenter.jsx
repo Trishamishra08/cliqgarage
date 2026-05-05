@@ -4,7 +4,7 @@ import {
   ChevronLeft, MessageSquare, Phone, Mail, 
   ChevronRight, HelpCircle, FileText, 
   ExternalLink, LifeBuoy, Zap, ShieldAlert,
-  Search, Clock, MapPin
+  Search, Clock, MapPin, Plus
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
